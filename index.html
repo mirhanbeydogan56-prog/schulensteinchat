@@ -1,172 +1,103 @@
-<!doctype html>
-<html lang="de">
+<!DOCTYPE html>
+<html>
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>SchulensteinChat</title>
-  <style>
-    :root{--bg:#0f1724;--card:#0b1220;--accent:#06b6d4;--muted:#9aa6b2;--bubble:#111827}
-    html,body{height:100%;margin:0;font-family:Inter,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:linear-gradient(180deg,#071029 0%, #082034 100%);color:#e6eef6}
-    .container{max-width:900px;margin:32px auto;padding:20px}
-    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));border-radius:12px;padding:18px;box-shadow:0 8px 30px rgba(2,6,23,0.7)}
-    header{display:flex;align-items:center;gap:12px}
-    header h1{margin:0;font-size:1.4rem}
-    .muted{color:var(--muted);font-size:0.9rem}
-
-    /* login modal */
-    #pwModal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(2,6,23,0.6);z-index:50}
-    .pwBox{background:#061024;padding:28px;border-radius:10px;width:360px;box-shadow:0 10px 40px rgba(2,6,23,0.8)}
-    .pwBox input{width:100%;padding:10px;margin-top:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
-    .pwBox button{margin-top:12px;width:100%;padding:10px;border-radius:8px;border:0;background:var(--accent);color:#042028;font-weight:600}
-
-    /* chat */
-    .chatWrap{display:flex;flex-direction:column;height:70vh}
-    .messages{flex:1;overflow:auto;padding:12px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.02))}
-    .msg{margin-bottom:10px;display:flex;gap:10px}
-    .bubble{background:var(--bubble);padding:10px;border-radius:10px;max-width:75%}
-    .controls{display:flex;gap:8px;margin-top:12px}
-    .controls input[type=text]{flex:1;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
-    .controls button{padding:10px 14px;border-radius:8px;border:0;background:var(--accent);color:#042028}
-
-    footer{margin-top:14px;font-size:0.85rem;color:var(--muted)}
-
-    .status{font-size:0.85rem;color:var(--muted);margin-top:8px}
-
-    @media (max-width:520px){.pwBox{width:92%}}
-  </style>
+<meta charset="UTF-8">
+<title>Chat</title>
+<style>
+  body { font-family: Arial; margin: 20px; }
+  #chat { display:none; }
+  #messages div { padding:6px; margin:5px 0; background:#eee; border-radius:6px; }
+</style>
 </head>
 <body>
-  <div id="pwModal">
-    <div class="pwBox card">
-      <h2>SchulensteinChat</h2>
-      <p class="muted">Bitte geben Sie den Zugangscode ein.</p>
-      <label for="pw">Zugangscode</label>
-      <input id="pw" type="password" placeholder="Passwort eingeben" autocomplete="off" />
-      <button id="pwBtn">Einloggen</button>
-    </div>
-  </div>
 
-  <div class="container card" id="app" style="display:none">
-    <header>
-      <div>
-        <h1>SchulensteinChat</h1>
-        <div class="muted">Einfacher Gruppenchat — Firebase Realtime Database</div>
-      </div>
-    </header>
+<!-- GİRİŞ EKRANI -->
+<div id="login">
+  <h2>Giriş</h2>
+  <label>İsim:</label><br>
+  <input id="username" type="text"><br><br>
 
-    <main class="chatWrap">
-      <div class="messages" id="messages"></div>
+  <label>Şifre:</label><br>
+  <input id="password" type="password"><br><br>
 
-      <div class="controls">
-        <input id="text" type="text" placeholder="Nachricht schreiben..." />
-        <button id="send">Senden</button>
-      </div>
+  <button onclick="login()">Giriş Yap</button>
+  <p id="err" style="color:red;"></p>
+</div>
 
-      <div class="status" id="status">Verbindung prüfen...</div>
+<!-- CHAT -->
+<div id="chat">
+  <h2>Chat</h2>
+  <div id="messages"></div>
 
-      <footer>
-        Nachrichten werden in der Realtime Database gespeichert.
-      </footer>
-    </main>
-  </div>
+  <input id="msg" placeholder="Mesaj yaz...">
+  <button onclick="sendMsg()">Gönder</button>
+</div>
 
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/9.6.11/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.11/firebase-database-compat.js"></script>
 
-  <script>
-    (function(){
+<script>
+// Firebase ayarlarını seninle konuştukça doldururum
+const firebaseConfig = {
+  apiKey: "XXX",
+  authDomain: "XXX",
+  databaseURL: "XXX",
+  projectId: "XXX",
+  storageBucket: "XXX",
+  messagingSenderId: "XXX",
+  appId: "XXX"
+};
 
-      const firebaseConfig = {
-        apiKey: "AIzaSyDxr-d1ZKp3wt3i289o6FKmevr3s8Uw3WA",
-        authDomain: "okuler.firebaseapp.com",
-        databaseURL: "https://okuler-default-rtdb.firebaseio.com",
-        projectId: "okuler",
-        storageBucket: "okuler.firebasestorage.app",
-        messagingSenderId: "853942864718",
-        appId: "1:853942864718:web:337671e3596467ae7e6c1f",
-        measurementId: "G-2VTELY91G3"
-      };
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
 
-      firebase.initializeApp(firebaseConfig);
-      const db = firebase.database();
+let USERNAME = "";
+const SECRET_PASSWORD = "1234"; // Buraya kendi şifreni koy
 
-      const SECRET = "Hogachat";
+// Giriş fonksiyonu
+function login() {
+  const name = document.getElementById("username").value.trim();
+  const pw = document.getElementById("password").value.trim();
+  
+  if (!name) { document.getElementById("err").innerText = "İsim gir."; return; }
+  if (pw !== SECRET_PASSWORD) { document.getElementById("err").innerText = "Şifre yanlış."; return; }
 
-      const pwModal = document.getElementById("pwModal");
-      const pwInput = document.getElementById("pw");
-      const app = document.getElementById("app");
+  USERNAME = name;
 
-      function checkPW(){
-        if(pwInput.value.trim() === SECRET){
-          pwModal.style.display = "none";
-          app.style.display = "";
-          startChat();
-        } else {
-          alert("Falsches Passwort.");
-        }
-      }
+  // giriş ekranını kapat chat'i aç
+  document.getElementById("login").style.display = "none";
+  document.getElementById("chat").style.display = "block";
 
-      document.getElementById("pwBtn").onclick = checkPW;
-      pwInput.addEventListener("keyup", e => { if(e.key === "Enter") checkPW(); });
+  loadMessages();
+}
 
-      function startChat(){
-        const messagesEl = document.getElementById("messages");
-        const textInput = document.getElementById("text");
+// MESAJ GÖNDER
+function sendMsg() {
+  const text = document.getElementById("msg").value.trim();
+  if (!text) return;
 
-        const ref = db.ref("messages").limitToLast(100);
+  db.ref("messages").push({
+    name: USERNAME,   // Firebase'de görürsün
+    text: text,       // Chatte görünür
+    time: Date.now()
+  });
 
-        ref.on("value", snap => {
-          messagesEl.innerHTML = "";
-          const data = snap.val();
+  document.getElementById("msg").value = "";
+}
 
-          if(!data){
-            messagesEl.innerHTML = '<div class="muted">Noch keine Nachrichten.</div>';
-            return;
-          }
+// MESAJLARI YÜKLE (isim gösterilmez)
+function loadMessages() {
+  db.ref("messages").on("child_added", snap => {
+    const m = snap.val();
 
-          Object.values(data)
-            .sort((a,b)=> (a.createdAt||0)-(b.createdAt||0))
-            .forEach(msg => {
-              const div = document.createElement("div");
-              div.className = "msg";
-              div.innerHTML = `
-                <div class="bubble">
-                  <div>${escapeHtml(msg.text || "")}</div>
-                  <div class="muted" style="margin-top:6px;font-size:0.75rem">
-                    ${new Date(msg.createdAt).toLocaleString("de-DE")}
-                  </div>
-                </div>`;
-              messagesEl.appendChild(div);
-            });
+    // Çette isim GÖSTERİLMİYOR
+    const div = document.createElement("div");
+    div.innerText = m.text;
+    document.getElementById("messages").appendChild(div);
+  });
+}
+</script>
 
-          messagesEl.scrollTop = messagesEl.scrollHeight;
-        });
-
-        document.getElementById("send").onclick = sendMessage;
-        textInput.addEventListener("keyup", e=>{ if(e.key==="Enter") sendMessage(); });
-
-        function sendMessage(){
-          const text = textInput.value.trim();
-          if(!text) return;
-
-          const msg = {
-            name: "Benutzer", // UNSICHTBAR
-            text,
-            createdAt: Date.now()
-          };
-
-          db.ref("messages").push(msg);
-          textInput.value = "";
-        }
-      }
-
-      function escapeHtml(s){
-        return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
-      }
-
-    })();
-  </script>
 </body>
 </html>
-
