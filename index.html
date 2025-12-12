@@ -1,101 +1,244 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="de">
 <head>
-<meta charset="UTF-8">
-<title>Chat</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SchulensteinChat</title>
+
 <style>
-  body { font-family: Arial; margin: 20px; }
-  #chat { display:none; }
-  #messages div { padding:6px; margin:5px 0; background:#eee; border-radius:6px; }
+/* ====== CANVA TARZI TASARIM ====== */
+body {
+    margin: 0;
+    font-family: "Inter", sans-serif;
+    background: linear-gradient(135deg, #0d1b2a, #1b263b);
+    color: white;
+}
+
+/* Login ekranı */
+#loginScreen {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.65);
+}
+
+.loginBox {
+    width: 340px;
+    padding: 28px;
+    border-radius: 16px;
+    background: #14213d;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+    animation: fadeIn 0.4s;
+}
+
+.loginBox h2 {
+    margin-top: 0;
+    text-align: center;
+}
+
+.input {
+    width: 100%;
+    padding: 12px;
+    margin-top: 12px;
+    border: 0;
+    border-radius: 10px;
+    background: #1f2b45;
+    color: white;
+}
+
+.button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 18px;
+    border: 0;
+    border-radius: 10px;
+    background: #00d1ff;
+    color: #041f2f;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Chat */
+#chatScreen {
+    display: none;
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 20px;
+}
+
+.messages {
+    height: 65vh;
+    overflow-y: auto;
+    background: rgba(255,255,255,0.05);
+    padding: 12px;
+    border-radius: 10px;
+}
+
+.msg {
+    margin-bottom: 12px;
+    padding: 12px;
+    background: #1b263b;
+    border-radius: 10px;
+}
+
+.controls {
+    margin-top: 12px;
+    display: flex;
+    gap: 10px;
+}
+.controls input {
+    flex: 1;
+    padding: 12px;
+    border-radius: 10px;
+    border: 0;
+    background: #1f2b45;
+    color: white;
+}
+.controls button {
+    padding: 12px 20px;
+    border-radius: 10px;
+    border: 0;
+    background: #00d1ff;
+    color: #041f2f;
+    font-weight: bold;
+}
+
+.status {
+    margin-top: 8px;
+    font-size: 0.85rem;
+    opacity: 0.7;
+}
 </style>
 </head>
+
 <body>
 
-<!-- GİRİŞ EKRANI -->
-<div id="login">
-  <h2>Giriş</h2>
-  <label>İsim:</label><br>
-  <input id="username" type="text"><br><br>
+<!-- ===== GİRİŞ EKRANI ===== -->
+<div id="loginScreen">
+    <div class="loginBox">
+        <h2>SchulensteinChat</h2>
 
-  <label>Şifre:</label><br>
-  <input id="password" type="password"><br><br>
+        <input id="username" class="input" type="text" placeholder="Name eingeben (sichtbar NUR für Admin)" />
+        <input id="password" class="input" type="password" placeholder="Passwort" />
+        <button class="button" onclick="login()">Einloggen</button>
 
-  <button onclick="login()">Giriş Yap</button>
-  <p id="err" style="color:red;"></p>
+        <p style="opacity:0.7;font-size:0.85rem;margin-top:12px;text-align:center">
+            Passwort erforderlich • Name ist im Chat unsichtbar
+        </p>
+    </div>
 </div>
 
-<!-- CHAT -->
-<div id="chat">
-  <h2>Chat</h2>
-  <div id="messages"></div>
+<!-- ===== CHAT EKRANI ===== -->
+<div id="chatScreen">
+    <h1>SchulensteinChat</h1>
 
-  <input id="msg" placeholder="Mesaj yaz...">
-  <button onclick="sendMsg()">Gönder</button>
+    <div class="messages" id="messages"></div>
+
+    <div class="controls">
+        <input id="text" type="text" placeholder="Nachricht eingeben..." />
+        <button onclick="sendMessage()">Senden</button>
+    </div>
+
+    <div class="status" id="status">Verbinde…</div>
 </div>
 
-<!-- FIREBASE -->
-<script src="https://www.gstatic.com/firebasejs/9.6.11/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.11/firebase-database-compat.js"></script>
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
 
 <script>
-// Firebase ayarlarını seninle konuştukça doldururum
+// ===== FİREBASE CONFIG =====
 const firebaseConfig = {
-  apiKey: "XXX",
-  authDomain: "XXX",
-  databaseURL: "XXX",
-  projectId: "XXX",
-  storageBucket: "XXX",
-  messagingSenderId: "XXX",
-  appId: "XXX"
+  apiKey: "AIzaSyDxr-d1ZKp3wt3i289o6FKmevr3s8Uw3WA",
+  authDomain: "okuler.firebaseapp.com",
+  databaseURL: "https://okuler-default-rtdb.firebaseio.com",
+  projectId: "okuler",
+  storageBucket: "okuler.firebasestorage.app",
+  messagingSenderId: "853942864718",
+  appId: "1:853942864718:web:337671e3596467ae7e6c1f"
 };
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-let USERNAME = "";
-const SECRET_PASSWORD = "1234"; // Buraya kendi şifreni koy
+let username = "";
+const PASSWORD = "Hogachat"; // ŞİFRE BURADA
 
-// Giriş fonksiyonu
+// ===== LOGIN =====
 function login() {
-  const name = document.getElementById("username").value.trim();
-  const pw = document.getElementById("password").value.trim();
-  
-  if (!name) { document.getElementById("err").innerText = "İsim gir."; return; }
-  if (pw !== SECRET_PASSWORD) { document.getElementById("err").innerText = "Şifre yanlış."; return; }
+    const name = document.getElementById("username").value.trim();
+    const pw = document.getElementById("password").value.trim();
 
-  USERNAME = name;
+    if (!name) return alert("Bitte Name eingeben.");
+    if (pw !== PASSWORD) return alert("Falsches Passwort!");
 
-  // giriş ekranını kapat chat'i aç
-  document.getElementById("login").style.display = "none";
-  document.getElementById("chat").style.display = "block";
+    username = name;
 
-  loadMessages();
+    document.getElementById("loginScreen").style.display = "none";
+    document.getElementById("chatScreen").style.display = "block";
+
+    startChat();
 }
 
-// MESAJ GÖNDER
-function sendMsg() {
-  const text = document.getElementById("msg").value.trim();
-  if (!text) return;
+// ===== CHAT BAŞLAT =====
+function startChat() {
+    const msgBox = document.getElementById("messages");
+    const statusEl = document.getElementById("status");
 
-  db.ref("messages").push({
-    name: USERNAME,   // Firebase'de görürsün
-    text: text,       // Chatte görünür
-    time: Date.now()
-  });
+    db.ref("messages").limitToLast(100).on("value", snap => {
+        msgBox.innerHTML = "";
 
-  document.getElementById("msg").value = "";
+        const data = snap.val();
+        if (!data) {
+            msgBox.innerHTML = "<p>Noch keine Nachrichten…</p>";
+            return;
+        }
+
+        Object.values(data).forEach(msg => {
+            const div = document.createElement("div");
+            div.className = "msg";
+            div.innerHTML = `
+                <div><strong>Nachricht</strong></div>
+                <div>${escape(msg.text)}</div>
+                <div style="opacity:0.6;font-size:0.8rem;margin-top:4px">
+                    ${new Date(msg.time).toLocaleString("de-DE")}
+                </div>
+            `;
+            msgBox.appendChild(div);
+        });
+
+        msgBox.scrollTop = msgBox.scrollHeight;
+        statusEl.innerText = "Bereit";
+    });
 }
 
-// MESAJLARI YÜKLE (isim gösterilmez)
-function loadMessages() {
-  db.ref("messages").on("child_added", snap => {
-    const m = snap.val();
+// ===== MESAJ GÖNDER =====
+function sendMessage() {
+    const txt = document.getElementById("text");
+    const text = txt.value.trim();
+    if (!text) return;
 
-    // Çette isim GÖSTERİLMİYOR
-    const div = document.createElement("div");
-    div.innerText = m.text;
-    document.getElementById("messages").appendChild(div);
-  });
+    db.ref("messages").push({
+        user: username,      // sadece admin görecek
+        text: text,
+        time: Date.now()
+    });
+
+    txt.value = "";
+}
+
+function escape(s) {
+    return String(s)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;");
 }
 </script>
 
