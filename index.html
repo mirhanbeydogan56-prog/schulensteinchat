@@ -7,6 +7,21 @@
 <meta name="theme-color" content="#0b1d2a">
 
 <script type="module">
+/* ========= FIREBASE ========= */
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+  getDatabase, ref, push, onChildAdded, onValue,
+  set, remove, get, onDisconnect
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+const app = initializeApp({
+  apiKey: "AIzaSyDxr-d1ZKp3wt3i289o6FKmevr3s8Uw3WA",
+  authDomain: "okuler.firebaseapp.com",
+  databaseURL: "https://okuler-default-rtdb.firebaseio.com",
+  projectId: "okuler"
+});
+const db = getDatabase(app);
+
 /* ========= DOM ========= */
 const loginBox   = document.getElementById("loginBox");
 const chatBox    = document.getElementById("chatBox");
@@ -24,54 +39,31 @@ const msgList     = document.getElementById("msgList");
 const msgCount    = document.getElementById("msgCount");
 const banName     = document.getElementById("banName");
 
-/* ========= FIREBASE ========= */
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import {
-  getDatabase, ref, push, onChildAdded, onValue,
-  set, remove, get, onDisconnect
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
-
-const app = initializeApp({
-  apiKey: "AIzaSyDxr-d1ZKp3wt3i289o6FKmevr3s8Uw3WA",
-  authDomain: "okuler.firebaseapp.com",
-  databaseURL: "https://okuler-default-rtdb.firebaseio.com",
-  projectId: "okuler"
-});
-const db = getDatabase(app);
-
 /* ========= STATE ========= */
 let isAdmin = false;
 let userName = "";
 let userKey = "";
-let lastMessageTime = 0;
-let spamCount = 0;
 
 /* ========= LOGIN ========= */
 window.login = async () => {
   userName = nameInput.value.trim();
   const pass = passwordInput.value.trim();
-
-  if (!userName || !pass) {
-    alert("Name und Passwort eingeben");
-    return;
-  }
+  if (!userName || !pass) return alert("Name und Passwort eingeben");
 
   if (pass === "mirhan5685") isAdmin = true;
   else if (pass === "Hogachat") isAdmin = false;
-  else {
-    alert("Falsches Passwort");
-    return;
-  }
+  else return alert("Falsches Passwort");
 
-  const banned = await get(ref(db, "banned/" + userName));
-  if (banned.exists()) {
-    alert("Du wurdest gebannt.");
-    return;
-  }
+  if ((await get(ref(db, "banned/" + userName))).exists())
+    return alert("Du wurdest gebannt.");
 
   loginBox.style.display = "none";
   chatBox.style.display = "flex";
-  if (isAdmin) adminBtn.style.display = "block";
+
+  if (isAdmin) {
+    adminBtn.style.display = "block";
+    adminBtn.style.zIndex = "9999";
+  }
 
   userKey = Date.now().toString();
   const uRef = ref(db, "onlineUsers/" + userKey);
@@ -87,33 +79,20 @@ window.login = async () => {
   if (isAdmin) loadAdminPanel();
 };
 
-/* ========= SEND MESSAGE ========= */
+/* ========= MESSAGES ========= */
 window.sendMessage = () => {
-  const now = Date.now();
-  if (now - lastMessageTime < 1200) spamCount++;
-  else spamCount = 0;
-
-  if (spamCount >= 3) {
-    set(ref(db, "banned/" + userName), true);
-    alert("Automatisch gebannt (Spam).");
-    location.reload();
-    return;
-  }
-
-  lastMessageTime = now;
   const msg = messageInput.value.trim();
   if (!msg) return;
 
   push(ref(db, "messages"), {
     text: msg,
     admin: isAdmin,
-    time: now
+    time: Date.now()
   });
 
   messageInput.value = "";
 };
 
-/* ========= LOAD MESSAGES ========= */
 function loadMessages() {
   onChildAdded(ref(db, "messages"), snap => {
     const m = snap.val();
@@ -134,10 +113,18 @@ function loadMessages() {
 }
 
 /* ========= ADMIN PANEL ========= */
-window.openAdmin = () => adminPanel.style.display = "flex";
-window.closeAdmin = () => adminPanel.style.display = "none";
+window.openAdmin = () => {
+  adminPanel.style.display = "flex";
+  adminPanel.style.zIndex = "10000";
+};
+
+window.closeAdmin = () => {
+  adminPanel.style.display = "none";
+};
 
 function loadAdminPanel() {
+
+  // ONLINE LIST (ADMIN)
   onValue(ref(db, "onlineUsers"), snap => {
     onlineList.innerHTML = "";
     if (!snap.exists()) return;
@@ -146,10 +133,12 @@ function loadAdminPanel() {
     });
   });
 
+  // MESSAGE STATS + DELETE
   onValue(ref(db, "messages"), snap => {
     msgList.innerHTML = "";
-    const count = snap.exists() ? Object.keys(snap.val()).length : 0;
-    msgCount.textContent = count;
+    msgCount.textContent = snap.exists()
+      ? Object.keys(snap.val()).length
+      : 0;
 
     if (!snap.exists()) return;
     Object.entries(snap.val()).forEach(([key, val]) => {
@@ -163,25 +152,14 @@ function loadAdminPanel() {
 }
 
 window.deleteMsg = id => {
-  if (confirm("Nachricht löschen?")) {
+  if (confirm("Nachricht löschen?"))
     remove(ref(db, "messages/" + id));
-  }
 };
 
 window.banUser = () => {
   const n = banName.value.trim();
-  if (n) {
-    set(ref(db, "banned/" + n), true);
-    banName.value = "";
-  }
+  if (n) set(ref(db, "banned/" + n), true);
 };
-
-/* ENTER */
-document.addEventListener("keydown", e => {
-  if (e.key === "Enter" && document.activeElement === messageInput) {
-    sendMessage();
-  }
-});
 </script>
 
 <style>
@@ -206,17 +184,19 @@ body{
 }
 .msg{margin-bottom:8px}
 .adminMsg{
-  background:rgba(255,215,0,.18);
+  background:rgba(255,215,0,.2);
   padding:6px;border-radius:8px
 }
 .time{font-size:11px;opacity:.7}
 button{
   padding:8px;border:none;border-radius:8px;
-  background:#1e90ff;color:#fff
+  background:#1e90ff;color:#fff;cursor:pointer
 }
 #adminBtn{
-  position:absolute;top:10px;right:10px;
-  display:none
+  position:fixed;
+  top:10px;
+  right:10px;
+  display:none;
 }
 .adminBox{width:90%;max-width:360px}
 ul{padding-left:16px}
@@ -251,11 +231,12 @@ ul{padding-left:16px}
   <div class="adminBox">
     <h3>👑 Admin Panel</h3>
 
-    📊 Nachrichten gesamt: <b id="msgCount">0</b>
-    <hr>
-
     📋 Online Nutzer:
     <ul id="onlineList"></ul>
+
+    <hr>
+
+    📊 Nachrichten gesamt: <b id="msgCount">0</b>
 
     <hr>
 
