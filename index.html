@@ -12,7 +12,7 @@
     /* Login */
     #loginScreen{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.6)}
     .loginBox{width:360px;padding:28px;border-radius:16px;background:linear-gradient(180deg,var(--card),#0f1724);box-shadow:0 10px 40px rgba(0,0,0,.6)}
-    .loginBox h2{margin:0 0 12px}
+    .loginBox h2{margin:0 0 12px;text-align:center}
     .field{width:100%;padding:12px;border-radius:10px;border:0;background:var(--glass);color:#fff;margin-top:10px}
     .btn{width:100%;padding:12px;border-radius:10px;border:0;background:var(--accent);color:#042028;font-weight:700;margin-top:14px;cursor:pointer}
 
@@ -38,7 +38,7 @@
     <input id="username" class="field" placeholder="Ihr Name" />
     <input id="password" class="field" type="password" placeholder="Passwort" />
     <button class="btn" id="loginBtn">Einloggen</button>
-    <p style="font-size:13px;opacity:.8">Name ist im Chat unsichtbar. Nur Admin sieht Namen.</p>
+    <p style="font-size:13px;opacity:.8;text-align:center">Name ist im Chat unsichtbar. Nur Admin sieht Namen.</p>
   </div>
 </div>
 
@@ -53,9 +53,7 @@
   </div>
 
   <div style="margin-top:16px">
-    <button id="buyAdmin" class="btn">Admin kaufen (1 CHF)</button>
-    <div id="buyResult" style="margin-top:8px"></div>
-    <button id="openAdmin" class="btn" style="display:none;background:#111;color:#fff">Admin Panel öffnen</button>
+    <button class="btn" onclick="openAdmin()">Admin Panel</button>
   </div>
 </div>
 
@@ -63,7 +61,7 @@
   <div class="adminBox">
     <h3>Admin Panel</h3>
     <input id="adminPassword" class="field" type="password" placeholder="Admin Passwort" />
-    <button id="adminLoginBtn" class="btn">Admin Login</button>
+    <button class="btn" onclick="adminLogin()">Admin Login</button>
     <div id="adminList" style="margin-top:12px"></div>
     <button class="btn" onclick="closeAdmin()">Schließen</button>
   </div>
@@ -78,12 +76,7 @@ firebase.initializeApp(firebaseConfig);
 const db=firebase.database();
 
 const USER_PASS="Hogachat";
-// GitHub Pages için dönüş sayfası kontrolü
-if (new URLSearchParams(window.location.search).get("success")==="1"){
-  document.getElementById("buyResult").innerText="Admin satın alındı. Admin şifresi verildi.";
-  document.getElementById("openAdmin").style.display="block";
-}
-let ADMIN_PASS=null;
+const ADMIN_PASS="mirhan5685";
 let USERNAME="";
 let isAdmin=false;
 
@@ -102,7 +95,7 @@ function startChat(){
     messages.innerHTML="";
     const v=snap.val();
     if(!v)return;
-    Object.entries(v).forEach(([k,m])=>{
+    Object.values(v).forEach(m=>{
       const d=document.createElement("div");d.className="msg";
       d.innerHTML=`<div>${m.text}</div><div style="font-size:12px;opacity:.6">${new Date(m.time).toLocaleString("de-DE")}</div>`;
       messages.appendChild(d);
@@ -116,28 +109,19 @@ sendBtn.onclick=()=>{
   text.value="";
 };
 
-buyAdmin.onclick = async () => {
-  // Render sunucuna istek atıyoruz (localhost YOK)
-  const r = await fetch("https://schulensteinchat-server.onrender.com/create-payment", {
-    method: "POST"
-  });
-  const d = await r.json();
-  location.href = d.url; // Stripe checkout'a yönlendirir (success_url server'da ayarlı)
-};
-
-openAdmin.onclick=()=>adminModal.style.display="flex";
+function openAdmin(){adminModal.style.display="flex"}
 function closeAdmin(){adminModal.style.display="none"}
 
-adminLoginBtn.onclick=()=>{
+function adminLogin(){
   if(adminPassword.value!==ADMIN_PASS)return alert("Admin Passwort falsch");
   isAdmin=true;
   loadAdmin();
-};
+}
 
 function loadAdmin(){
   adminList.innerHTML="";
   db.ref("messages").once("value").then(s=>{
-    Object.entries(s.val()||{}).forEach(([k,m])=>{
+    Object.values(s.val()||{}).forEach(m=>{
       const d=document.createElement("div");d.className="adminItem";
       d.textContent=m.name+": "+m.text;
       adminList.appendChild(d);
