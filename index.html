@@ -6,13 +6,12 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#0b1d2a">
-<link rel="manifest" href="manifest.json">
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
   getDatabase, ref, push, onChildAdded, onValue,
-  set, remove, get
+  set, remove, get, onDisconnect
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 /* FIREBASE */
@@ -26,6 +25,7 @@ const db = getDatabase(app);
 
 let isAdmin = false;
 let userName = "";
+let userKey = "";
 let lastMessageTime = 0;
 let spamCount = 0;
 
@@ -46,12 +46,15 @@ window.login = async () => {
   chatBox.style.display = "flex";
   if (isAdmin) adminBtn.style.display = "block";
 
-  set(ref(db, "onlineUsers/" + userName), true);
+  userKey = Date.now().toString();
+  const uRef = ref(db, "onlineUsers/" + userKey);
+  set(uRef, userName);
+  onDisconnect(uRef).remove();
 
   // ONLINE SAYISI (HERKES)
   onValue(ref(db, "onlineUsers"), snap => {
-    onlineCount.textContent =
-      "Online: " + (snap.exists() ? snap.size : 0);
+    const count = snap.exists() ? Object.keys(snap.val()).length : 0;
+    onlineCount.textContent = "Online: " + count;
   });
 
   loadMessages();
@@ -108,36 +111,38 @@ window.openAdmin = () => adminPanel.style.display = "flex";
 window.closeAdmin = () => adminPanel.style.display = "none";
 
 function loadAdminPanel() {
-  /* ONLINE USER LIST (ADMIN) */
+
+  // ONLINE LIST (ADMIN)
   onValue(ref(db, "onlineUsers"), snap => {
     onlineList.innerHTML = "";
-    snap.forEach(u => {
-      onlineList.innerHTML += `<li>${u.key}</li>`;
+    if (!snap.exists()) return;
+    Object.values(snap.val()).forEach(name => {
+      onlineList.innerHTML += `<li>${name}</li>`;
     });
   });
 
-  /* MESSAGE STATS + DELETE */
+  // MESSAGE STATS + DELETE
   onValue(ref(db, "messages"), snap => {
     msgList.innerHTML = "";
-    msgCount.textContent = snap.size;
+    const count = snap.exists() ? Object.keys(snap.val()).length : 0;
+    msgCount.textContent = count;
 
-    snap.forEach(m => {
+    if (!snap.exists()) return;
+    Object.entries(snap.val()).forEach(([key, val]) => {
       msgList.innerHTML += `
         <li>
-          ${m.val().text}
-          <button onclick="deleteMsg('${m.key}')">❌</button>
+          ${val.text}
+          <button onclick="deleteMsg('${key}')">❌</button>
         </li>`;
     });
   });
 }
 
-/* DELETE MESSAGE */
 window.deleteMsg = id => {
   if (confirm("Nachricht löschen?"))
     remove(ref(db, "messages/" + id));
 };
 
-/* BAN USER */
 window.banUser = () => {
   const n = banName.value.trim();
   if (n) set(ref(db, "banned/" + n), true);
@@ -176,11 +181,7 @@ button{padding:8px;border:none;border-radius:8px;background:#1e90ff;color:#fff}
 #adminBtn{position:absolute;top:10px;right:10px;display:none}
 .adminBox{width:90%;max-width:360px}
 ul{padding-left:16px}
-li{margin-bottom:4px}
-#statusBar{
-  display:flex;justify-content:space-between;
-  font-size:13px;margin-bottom:6px;
-}
+#statusBar{font-size:13px;margin-bottom:6px}
 </style>
 </head>
 
@@ -198,39 +199,32 @@ li{margin-bottom:4px}
 
 <div id="chatBox">
   <div class="box">
-
-    <!-- SADECE SAYI -->
     <div id="statusBar">
       <span id="onlineCount">Online: 0</span>
     </div>
-
     <div id="messages"></div>
     <input id="message" placeholder="Nachricht">
     <button onclick="sendMessage()">Senden</button>
   </div>
 </div>
 
-<!-- ADMIN PANEL -->
 <div id="adminPanel">
   <div class="adminBox">
     <h3>👑 Admin Panel</h3>
 
-    <b>📊 Statistik</b><br>
-    Nachrichten gesamt: <b id="msgCount">0</b>
-
+    📊 Nachrichten gesamt: <b id="msgCount">0</b>
     <hr>
 
-    <b>📋 Online Nutzer</b>
+    📋 Online Nutzer:
     <ul id="onlineList"></ul>
 
     <hr>
 
-    <b>❌ Nachrichten löschen</b>
+    ❌ Nachrichten löschen:
     <ul id="msgList"></ul>
 
     <input id="banName" placeholder="Name bannen">
     <button onclick="banUser()">Bannen</button>
-
     <button onclick="closeAdmin()">Schließen</button>
   </div>
 </div>
