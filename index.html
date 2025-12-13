@@ -15,10 +15,9 @@
   z-index:9999;
 }
 
-.loader {
+.loader{
   position:absolute;
-  top:50%;
-  left:50%;
+  top:50%;left:50%;
   margin-left:-50px;
   animation:speeder .4s linear infinite;
 }
@@ -52,21 +51,11 @@
   right:4px;top:7px;position:absolute;
   transform:rotate(40deg);border-radius:0 0 0 2px;
 }
-.loader > span > span{
-  width:30px;height:1px;background:#fff;
-  position:absolute;animation:fazer1 .2s linear infinite;
-}
-@keyframes fazer1{to{left:-80px;opacity:0}}
 @keyframes speeder{
   0%{transform:translate(2px,1px)}
   50%{transform:translate(-1px,3px)}
   100%{transform:translate(1px,-2px)}
 }
-.longfazers span{
-  position:absolute;height:2px;width:20%;background:#fff;
-  animation:lf .6s linear infinite;
-}
-@keyframes lf{to{left:-200%;opacity:0}}
 </style>
 
 <!-- ================= APP CSS ================= -->
@@ -78,30 +67,59 @@ body{
   font-family:Segoe UI,sans-serif;
   color:#fff;overflow:hidden;
 }
+
+/* BOX */
 .box,.adminBox{
   background:rgba(0,0,0,.6);
   padding:25px;border-radius:20px;
   box-shadow:0 0 25px rgba(255,255,255,.2);
 }
+
 #login,#chat,#adminPanel{
   position:absolute;inset:0;
   display:flex;align-items:center;justify-content:center;
 }
 #chat,#adminPanel{display:none}
+
+/* INPUT */
 input,button{
   width:100%;padding:12px;margin:6px 0;
   border-radius:10px;border:none;font-size:16px;
 }
 button{background:#1e90ff;color:#fff;cursor:pointer}
+
+/* CHAT */
 #messages{
   height:45vh;overflow:auto;
   background:rgba(0,0,0,.4);
   padding:10px;border-radius:10px;
 }
 .msg{margin-bottom:8px}
-.adminMsg{background:rgba(255,215,0,.25);padding:6px;border-radius:8px}
+.adminMsg{
+  background:rgba(255,215,0,.25);
+  padding:6px;border-radius:8px
+}
+
+/* ADMIN BTN */
 #adminBtn{
-  position:fixed;top:10px;right:10px;display:none;
+  position:fixed;
+  top:10px;right:10px;
+  z-index:9000;
+  display:none;
+}
+
+/* ❄️ SNOW */
+.snow{
+  position:fixed;
+  top:-10px;
+  width:8px;height:8px;
+  background:white;
+  border-radius:50%;
+  opacity:.8;
+  animation:fall linear forwards;
+}
+@keyframes fall{
+  to{transform:translateY(110vh)}
 }
 </style>
 </head>
@@ -111,13 +129,14 @@ button{background:#1e90ff;color:#fff;cursor:pointer}
 <!-- ================= LOADER ================= -->
 <div id="loaderScreen">
   <div class="loader">
-    <span><span></span><span></span><span></span><span></span></span>
+    <span></span>
     <div class="base"><span></span><div class="face"></div></div>
   </div>
 </div>
 
 <button id="adminBtn" onclick="openAdmin()">⚙️</button>
 
+<!-- LOGIN -->
 <div id="login">
   <div class="box">
     <h2>❄️ Hogachat</h2>
@@ -127,6 +146,7 @@ button{background:#1e90ff;color:#fff;cursor:pointer}
   </div>
 </div>
 
+<!-- CHAT -->
 <div id="chat">
   <div class="box">
     <div id="onlineCount">Online: 0</div>
@@ -136,6 +156,7 @@ button{background:#1e90ff;color:#fff;cursor:pointer}
   </div>
 </div>
 
+<!-- ADMIN PANEL -->
 <div id="adminPanel">
   <div class="adminBox">
     <h3>👑 Admin Panel</h3>
@@ -161,8 +182,20 @@ const db=getDatabase(app);
 /* ===== LOADER FIX ===== */
 window.addEventListener("load",()=>{
   const loader=document.getElementById("loaderScreen");
-  setTimeout(()=>loader.style.display="none",1500);
+  setTimeout(()=>{
+    loader.remove();   // 👈 tamamen kaldır
+  },1200);
 });
+
+/* ❄️ SNOW EFFECT */
+setInterval(()=>{
+  const s=document.createElement("div");
+  s.className="snow";
+  s.style.left=Math.random()*window.innerWidth+"px";
+  s.style.animationDuration=3+Math.random()*5+"s";
+  document.body.appendChild(s);
+  setTimeout(()=>s.remove(),8000);
+},200);
 
 /* ===== STATE ===== */
 let isAdmin=false;
@@ -180,9 +213,9 @@ window.login=()=>{
   else return alert("Falsches Passwort");
 
   currentUser=name;
-  document.getElementById("login").style.display="none";
-  document.getElementById("chat").style.display="flex";
-  if(isAdmin) document.getElementById("adminBtn").style.display="block";
+  login.style.display="none";
+  chat.style.display="flex";
+  if(isAdmin) adminBtn.style.display="block";
 
   userKey=Date.now();
   const uRef=ref(db,"online/"+userKey);
@@ -190,14 +223,16 @@ window.login=()=>{
   onDisconnect(uRef).remove();
 
   onValue(ref(db,"online"),s=>{
-    document.getElementById("onlineCount").textContent=
+    onlineCount.textContent=
       "Online: "+(s.exists()?Object.keys(s.val()).length:0);
+
     if(isAdmin){
-      const ul=document.getElementById("userList");
-      ul.innerHTML="";
+      userList.innerHTML="";
       Object.entries(s.val()||{}).forEach(([k,v])=>{
-        ul.innerHTML+=`<li>${v} 
-        <button onclick="banUser('${v}')">BAN</button></li>`;
+        userList.innerHTML+=`
+        <li>${v}
+          <button onclick="banUser('${v}')">BAN</button>
+        </li>`;
       });
     }
   });
@@ -210,19 +245,19 @@ window.login=()=>{
     if(isAdmin){
       d.onclick=()=>remove(ref(db,"messages/"+snap.key));
     }
-    document.getElementById("messages").appendChild(d);
+    messages.appendChild(d);
   });
 };
 
 /* ===== SEND ===== */
 window.sendMessage=()=>{
-  const msg=document.getElementById("message").value.trim();
+  const msg=message.value.trim();
   if(!msg)return;
 
   onValue(ref(db,"bans/"+currentUser),s=>{
     if(s.exists()) return alert("Banlandın");
     push(ref(db,"messages"),{text:msg,admin:isAdmin});
-    document.getElementById("message").value="";
+    message.value="";
   },{onlyOnce:true});
 };
 
@@ -231,12 +266,12 @@ window.banUser=(name)=>{
   set(ref(db,"bans/"+name),true);
 };
 
-/* ===== ADMIN ===== */
+/* ===== ADMIN PANEL ===== */
 window.openAdmin=()=>{
-  document.getElementById("adminPanel").style.display="flex";
+  adminPanel.style.display="flex";
 };
 window.closeAdmin=()=>{
-  document.getElementById("adminPanel").style.display="none";
+  adminPanel.style.display="none";
 };
 </script>
 
