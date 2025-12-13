@@ -1,211 +1,239 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <title>Hogachat</title>
+<meta charset="UTF-8">
+<title>Hogachat</title>
 
-  <!-- PWA -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#0b1d2a" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="Hogachat" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b1d2a">
+<link rel="manifest" href="manifest.json">
 
-  <!-- Manifest -->
-  <link rel="manifest" href="manifest.json" />
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+  getDatabase, ref, push, onChildAdded, onValue,
+  set, remove, get
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
-  <!-- Firebase -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+/* FIREBASE */
+const app = initializeApp({
+  apiKey: "AIzaSyDxr-d1ZKp3wt3i289o6FKmevr3s8Uw3WA",
+  authDomain: "okuler.firebaseapp.com",
+  databaseURL: "https://okuler-default-rtdb.firebaseio.com",
+  projectId: "okuler"
+});
+const db = getDatabase(app);
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyDxr-d1ZKp3wt3i289o6FKmevr3s8Uw3WA",
-      authDomain: "okuler.firebaseapp.com",
-      databaseURL: "https://okuler-default-rtdb.firebaseio.com",
-      projectId: "okuler",
-      storageBucket: "okuler.firebasestorage.app",
-      messagingSenderId: "853942864718",
-      appId: "1:853942864718:web:337671e3596467ae7e6c1f"
-    };
+let isAdmin = false;
+let userName = "";
+let lastMessageTime = 0;
+let spamCount = 0;
 
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
+/* LOGIN */
+window.login = async () => {
+  userName = name.value.trim();
+  const pass = password.value.trim();
+  if (!userName || !pass) return alert("Name und Passwort eingeben");
 
-    let currentUser = null;
-    let isAdmin = false;
+  if (pass === "mirhan5685") isAdmin = true;
+  else if (pass === "Hogachat") isAdmin = false;
+  else return alert("Falsches Passwort");
 
-    window.login = () => {
-      const name = document.getElementById("name").value.trim();
-      const pass = document.getElementById("password").value.trim();
+  if ((await get(ref(db, "banned/" + userName))).exists())
+    return alert("Du wurdest gebannt.");
 
-      if (!name || !pass) return alert("Name ve şifre gir");
+  loginBox.style.display = "none";
+  chatBox.style.display = "flex";
+  if (isAdmin) adminBtn.style.display = "block";
 
-      if (pass === "mirhan5685") isAdmin = true;
-      else if (pass === "Hogachat") isAdmin = false;
-      else return alert("Yanlış şifre");
+  set(ref(db, "onlineUsers/" + userName), true);
 
-      currentUser = name;
-      document.getElementById("login").style.display = "none";
-      document.getElementById("chat").style.display = "flex";
-      loadMessages();
-    };
+  // ONLINE SAYISI (HERKES)
+  onValue(ref(db, "onlineUsers"), snap => {
+    onlineCount.textContent =
+      "Online: " + (snap.exists() ? snap.size : 0);
+  });
 
-    window.sendMessage = () => {
-      const msg = document.getElementById("message").value.trim();
-      if (!msg) return;
+  loadMessages();
+  if (isAdmin) loadAdminPanel();
+};
 
-      push(ref(db, "messages"), {
-        name: currentUser,
-        text: msg,
-        time: Date.now()
-      });
+/* SEND MESSAGE + AUTO SPAM BAN */
+window.sendMessage = async () => {
+  const now = Date.now();
+  if (now - lastMessageTime < 1200) spamCount++;
+  else spamCount = 0;
 
-      document.getElementById("message").value = "";
-    };
+  if (spamCount >= 3) {
+    set(ref(db, "banned/" + userName), true);
+    alert("Automatisch gebannt (Spam).");
+    location.reload();
+    return;
+  }
 
-    function loadMessages() {
-      const messagesRef = ref(db, "messages");
-      onChildAdded(messagesRef, (data) => {
-        const m = data.val();
-        const div = document.createElement("div");
-        div.className = "msg";
-        div.textContent = isAdmin
-          ? m.name + ": " + m.text
-          : "Anonym: " + m.text;
-        document.getElementById("messages").appendChild(div);
-        document.getElementById("messages").scrollTop =
-          document.getElementById("messages").scrollHeight;
-      });
-    }
+  lastMessageTime = now;
+  const msg = message.value.trim();
+  if (!msg) return;
 
-    // Snow effect
-    setInterval(() => {
-      const snow = document.createElement("div");
-      snow.className = "snow";
-      snow.style.left = Math.random() * window.innerWidth + "px";
-      snow.style.animationDuration = 3 + Math.random() * 5 + "s";
-      document.body.appendChild(snow);
-      setTimeout(() => snow.remove(), 8000);
-    }, 200);
-  </script>
+  push(ref(db, "messages"), {
+    text: msg,
+    admin: isAdmin,
+    time: now
+  });
+  message.value = "";
+};
 
-  <!-- Service Worker -->
-  <script>
-    if ("serviceWorker" in navigator) {
-      window.addEventListener("load", () => {
-        navigator.serviceWorker.register("sw.js");
-      });
-    }
-  </script>
+/* LOAD MESSAGES */
+function loadMessages() {
+  onChildAdded(ref(db, "messages"), snap => {
+    const m = snap.val();
+    const div = document.createElement("div");
+    div.className = m.admin ? "msg adminMsg" : "msg";
 
-  <style>
-    * { box-sizing: border-box; }
+    const t = new Date(m.time).toLocaleTimeString("de-DE", {
+      hour: "2-digit", minute: "2-digit"
+    });
 
-    body {
-      margin: 0;
-      height: 100vh;
-      background: linear-gradient(#0b1d2a, #123);
-      font-family: "Segoe UI", sans-serif;
-      color: #fff;
-      overflow: hidden;
-    }
+    div.innerHTML = m.admin
+      ? `<b>👑 Mirhan</b> <span class="time">${t}</span><br>${m.text}`
+      : `Anonym <span class="time">${t}</span><br>${m.text}`;
 
-    #login, #chat {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      backdrop-filter: blur(4px);
-    }
+    messages.appendChild(div);
+    messages.scrollTop = messages.scrollHeight;
+  });
+}
 
-    #chat { display: none; }
+/* ADMIN PANEL */
+window.openAdmin = () => adminPanel.style.display = "flex";
+window.closeAdmin = () => adminPanel.style.display = "none";
 
-    .box {
-      width: 90%;
-      max-width: 420px;
-      background: rgba(0,0,0,0.6);
-      padding: 25px;
-      border-radius: 20px;
-      box-shadow: 0 0 20px rgba(255,255,255,0.2);
-    }
+function loadAdminPanel() {
+  /* ONLINE USER LIST (ADMIN) */
+  onValue(ref(db, "onlineUsers"), snap => {
+    onlineList.innerHTML = "";
+    snap.forEach(u => {
+      onlineList.innerHTML += `<li>${u.key}</li>`;
+    });
+  });
 
-    h2 {
-      text-align: center;
-      margin-bottom: 15px;
-    }
+  /* MESSAGE STATS + DELETE */
+  onValue(ref(db, "messages"), snap => {
+    msgList.innerHTML = "";
+    msgCount.textContent = snap.size;
 
-    input, button {
-      width: 100%;
-      padding: 12px;
-      margin: 6px 0;
-      border-radius: 10px;
-      border: none;
-      font-size: 16px;
-    }
+    snap.forEach(m => {
+      msgList.innerHTML += `
+        <li>
+          ${m.val().text}
+          <button onclick="deleteMsg('${m.key}')">❌</button>
+        </li>`;
+    });
+  });
+}
 
-    button {
-      background: #1e90ff;
-      color: #fff;
-      cursor: pointer;
-    }
+/* DELETE MESSAGE */
+window.deleteMsg = id => {
+  if (confirm("Nachricht löschen?"))
+    remove(ref(db, "messages/" + id));
+};
 
-    #messages {
-      height: 45vh;
-      overflow-y: auto;
-      background: rgba(0,0,0,0.4);
-      padding: 10px;
-      border-radius: 10px;
-      margin-bottom: 8px;
-    }
+/* BAN USER */
+window.banUser = () => {
+  const n = banName.value.trim();
+  if (n) set(ref(db, "banned/" + n), true);
+};
 
-    .msg {
-      margin-bottom: 6px;
-    }
+/* ENTER */
+document.addEventListener("keydown", e => {
+  if (e.key === "Enter" && document.activeElement === message) sendMessage();
+});
+</script>
 
-    .snow {
-      position: fixed;
-      top: -10px;
-      width: 8px;
-      height: 8px;
-      background: white;
-      border-radius: 50%;
-      opacity: 0.8;
-      animation: fall linear forwards;
-    }
-
-    @keyframes fall {
-      to { transform: translateY(110vh); }
-    }
-  </style>
+<style>
+body{
+  margin:0;height:100vh;
+  background:#0b1d2a;color:#fff;
+  font-family:Segoe UI;
+}
+.box,.adminBox{
+  background:rgba(0,0,0,.6);
+  padding:20px;border-radius:16px;
+}
+#loginBox,#chatBox,#adminPanel{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+}
+#chatBox,#adminPanel{display:none}
+#messages{
+  height:45vh;overflow-y:auto;
+  background:rgba(0,0,0,.4);
+  padding:10px;border-radius:10px;
+}
+.msg{margin-bottom:8px}
+.adminMsg{background:rgba(255,215,0,.15);padding:6px;border-radius:8px}
+.time{font-size:11px;opacity:.7}
+button{padding:8px;border:none;border-radius:8px;background:#1e90ff;color:#fff}
+#adminBtn{position:absolute;top:10px;right:10px;display:none}
+.adminBox{width:90%;max-width:360px}
+ul{padding-left:16px}
+li{margin-bottom:4px}
+#statusBar{
+  display:flex;justify-content:space-between;
+  font-size:13px;margin-bottom:6px;
+}
+</style>
 </head>
 
 <body>
 
-  <div id="login">
-    <div class="box">
-      <h2>🎄 Hogachat ❄️</h2>
-      <input id="name" placeholder="Name" />
-      <input id="password" type="password" placeholder="Passwort" />
-      <button onclick="login()">Einloggen</button>
-      <p style="text-align:center;font-size:13px">
-        Ana ekrana ekle:<br>
-        iOS ➜ Paylaş ▸ Ana Ekrana Ekle<br>
-        Android ➜ Menü ▸ Uygulamayı yükle
-      </p>
-    </div>
-  </div>
+<button id="adminBtn" onclick="openAdmin()">⚙️</button>
 
-  <div id="chat">
-    <div class="box">
-      <h2>❄️ Winter Chat</h2>
-      <div id="messages"></div>
-      <input id="message" placeholder="Mesaj yaz" />
-      <button onclick="sendMessage()">Gönder</button>
-    </div>
+<div id="loginBox">
+  <div class="box">
+    <input id="name" placeholder="Name">
+    <input id="password" type="password" placeholder="Passwort">
+    <button onclick="login()">Einloggen</button>
   </div>
+</div>
+
+<div id="chatBox">
+  <div class="box">
+
+    <!-- SADECE SAYI -->
+    <div id="statusBar">
+      <span id="onlineCount">Online: 0</span>
+    </div>
+
+    <div id="messages"></div>
+    <input id="message" placeholder="Nachricht">
+    <button onclick="sendMessage()">Senden</button>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div id="adminPanel">
+  <div class="adminBox">
+    <h3>👑 Admin Panel</h3>
+
+    <b>📊 Statistik</b><br>
+    Nachrichten gesamt: <b id="msgCount">0</b>
+
+    <hr>
+
+    <b>📋 Online Nutzer</b>
+    <ul id="onlineList"></ul>
+
+    <hr>
+
+    <b>❌ Nachrichten löschen</b>
+    <ul id="msgList"></ul>
+
+    <input id="banName" placeholder="Name bannen">
+    <button onclick="banUser()">Bannen</button>
+
+    <button onclick="closeAdmin()">Schließen</button>
+  </div>
+</div>
 
 </body>
 </html>
