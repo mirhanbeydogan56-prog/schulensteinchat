@@ -6,210 +6,184 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#0b1d2a">
 
-<script type="module">
-/* ========= FIREBASE ========= */
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import {
-  getDatabase, ref, push, onChildAdded, onValue,
-  set, remove, get, onDisconnect
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
-
-const app = initializeApp({
-  apiKey: "AIzaSyDxr-d1ZKp3wt3i289o6FKmevr3s8Uw3WA",
-  authDomain: "okuler.firebaseapp.com",
-  databaseURL: "https://okuler-default-rtdb.firebaseio.com",
-  projectId: "okuler"
-});
-const db = getDatabase(app);
-
-/* ========= DOM ========= */
-const loginBox   = document.getElementById("loginBox");
-const chatBox    = document.getElementById("chatBox");
-const adminPanel = document.getElementById("adminPanel");
-const adminBtn   = document.getElementById("adminBtn");
-
-const nameInput     = document.getElementById("name");
-const passwordInput = document.getElementById("password");
-const messageInput  = document.getElementById("message");
-
-const messages    = document.getElementById("messages");
-const onlineCount = document.getElementById("onlineCount");
-const onlineList  = document.getElementById("onlineList");
-const msgList     = document.getElementById("msgList");
-const msgCount    = document.getElementById("msgCount");
-const banName     = document.getElementById("banName");
-
-/* ========= STATE ========= */
-let isAdmin = false;
-let userName = "";
-let userKey = "";
-
-/* ========= LOGIN ========= */
-window.login = async () => {
-  userName = nameInput.value.trim();
-  const pass = passwordInput.value.trim();
-  if (!userName || !pass) return alert("Name und Passwort eingeben");
-
-  if (pass === "mirhan5685") isAdmin = true;
-  else if (pass === "Hogachat") isAdmin = false;
-  else return alert("Falsches Passwort");
-
-  if ((await get(ref(db, "banned/" + userName))).exists())
-    return alert("Du wurdest gebannt.");
-
-  loginBox.style.display = "none";
-  chatBox.style.display = "flex";
-
-  if (isAdmin) {
-    adminBtn.style.display = "block";
-    adminBtn.style.zIndex = "9999";
-  }
-
-  userKey = Date.now().toString();
-  const uRef = ref(db, "onlineUsers/" + userKey);
-  set(uRef, userName);
-  onDisconnect(uRef).remove();
-
-  onValue(ref(db, "onlineUsers"), snap => {
-    const count = snap.exists() ? Object.keys(snap.val()).length : 0;
-    onlineCount.textContent = "Online: " + count;
-  });
-
-  loadMessages();
-  if (isAdmin) loadAdminPanel();
-};
-
-/* ========= MESSAGES ========= */
-window.sendMessage = () => {
-  const msg = messageInput.value.trim();
-  if (!msg) return;
-
-  push(ref(db, "messages"), {
-    text: msg,
-    admin: isAdmin,
-    time: Date.now()
-  });
-
-  messageInput.value = "";
-};
-
-function loadMessages() {
-  onChildAdded(ref(db, "messages"), snap => {
-    const m = snap.val();
-    const div = document.createElement("div");
-    div.className = m.admin ? "msg adminMsg" : "msg";
-
-    const t = new Date(m.time).toLocaleTimeString("de-DE", {
-      hour: "2-digit", minute: "2-digit"
-    });
-
-    div.innerHTML = m.admin
-      ? `<b>👑 Mirhan</b> <span class="time">${t}</span><br>${m.text}`
-      : `Anonym <span class="time">${t}</span><br>${m.text}`;
-
-    messages.appendChild(div);
-    messages.scrollTop = messages.scrollHeight;
-  });
-}
-
-/* ========= ADMIN PANEL ========= */
-window.openAdmin = () => {
-  adminPanel.style.display = "flex";
-  adminPanel.style.zIndex = "10000";
-};
-
-window.closeAdmin = () => {
-  adminPanel.style.display = "none";
-};
-
-function loadAdminPanel() {
-
-  // ONLINE LIST (ADMIN)
-  onValue(ref(db, "onlineUsers"), snap => {
-    onlineList.innerHTML = "";
-    if (!snap.exists()) return;
-    Object.values(snap.val()).forEach(name => {
-      onlineList.innerHTML += `<li>${name}</li>`;
-    });
-  });
-
-  // MESSAGE STATS + DELETE
-  onValue(ref(db, "messages"), snap => {
-    msgList.innerHTML = "";
-    msgCount.textContent = snap.exists()
-      ? Object.keys(snap.val()).length
-      : 0;
-
-    if (!snap.exists()) return;
-    Object.entries(snap.val()).forEach(([key, val]) => {
-      msgList.innerHTML += `
-        <li>
-          ${val.text}
-          <button onclick="deleteMsg('${key}')">❌</button>
-        </li>`;
-    });
-  });
-}
-
-window.deleteMsg = id => {
-  if (confirm("Nachricht löschen?"))
-    remove(ref(db, "messages/" + id));
-};
-
-window.banUser = () => {
-  const n = banName.value.trim();
-  if (n) set(ref(db, "banned/" + n), true);
-};
-</script>
-
+<!-- ================= LOADER CSS ================= -->
 <style>
+/* From Uiverse.io by anand_4957 */
+.loader {
+  position: fixed;
+  inset: 0;
+  background: #0b1d2a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+
+.loader span {
+  position: absolute;
+}
+
+.loader > span {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  animation: spin 1.2s linear infinite;
+}
+
+.loader > span span {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: #fff;
+  border-radius: 50%;
+}
+
+.loader > span span:nth-child(1) { top: 0; left: 46px; }
+.loader > span span:nth-child(2) { right: 0; top: 46px; }
+.loader > span span:nth-child(3) { bottom: 0; left: 46px; }
+.loader > span span:nth-child(4) { left: 0; top: 46px; }
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.longfazers {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.longfazers span {
+  position: absolute;
+  width: 200px;
+  height: 2px;
+  background: rgba(255,255,255,.2);
+  animation: faze 1.5s linear infinite;
+}
+
+.longfazers span:nth-child(1) { top: 20%; animation-delay: 0s; }
+.longfazers span:nth-child(2) { top: 40%; animation-delay: .3s; }
+.longfazers span:nth-child(3) { top: 60%; animation-delay: .6s; }
+.longfazers span:nth-child(4) { top: 80%; animation-delay: .9s; }
+
+@keyframes faze {
+  from { left: -200px; }
+  to { left: 100%; }
+}
+</style>
+
+<!-- ================= APP CSS ================= -->
+<style>
+*{box-sizing:border-box}
 body{
   margin:0;height:100vh;
-  background:#0b1d2a;color:#fff;
-  font-family:Segoe UI;
+  background:linear-gradient(#0b1d2a,#123);
+  font-family:'Segoe UI',sans-serif;
+  color:#fff;
+  overflow:hidden;
 }
+
 .box,.adminBox{
-  background:rgba(0,0,0,.6);
-  padding:20px;border-radius:16px;
+  background:rgba(0,0,0,.55);
+  backdrop-filter: blur(8px);
+  padding:25px;
+  border-radius:20px;
+  box-shadow:0 0 25px rgba(255,255,255,.15);
+  animation:fadeIn .6s ease;
 }
+
+@keyframes fadeIn{
+  from{opacity:0;transform:scale(.95)}
+  to{opacity:1;transform:scale(1)}
+}
+
 #loginBox,#chatBox,#adminPanel{
-  position:absolute;inset:0;
-  display:flex;align-items:center;justify-content:center;
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
+
 #chatBox,#adminPanel{display:none}
-#messages{
-  height:45vh;overflow-y:auto;
-  background:rgba(0,0,0,.4);
-  padding:10px;border-radius:10px;
+
+input,button{
+  width:100%;
+  padding:14px;
+  margin:8px 0;
+  border-radius:12px;
+  border:none;
+  font-size:16px;
 }
-.msg{margin-bottom:8px}
+
+button{
+  background:#1e90ff;
+  color:#fff;
+  cursor:pointer;
+}
+
+#messages{
+  height:45vh;
+  overflow-y:auto;
+  background:rgba(0,0,0,.35);
+  padding:12px;
+  border-radius:12px;
+  margin-bottom:8px;
+}
+
+.msg{margin-bottom:10px}
 .adminMsg{
   background:rgba(255,215,0,.2);
-  padding:6px;border-radius:8px
+  padding:8px;
+  border-radius:10px
 }
+
 .time{font-size:11px;opacity:.7}
-button{
-  padding:8px;border:none;border-radius:8px;
-  background:#1e90ff;color:#fff;cursor:pointer
-}
+
+#statusBar{font-size:13px;margin-bottom:8px}
+
 #adminBtn{
   position:fixed;
-  top:10px;
-  right:10px;
+  top:12px;
+  right:12px;
+  z-index:5000;
   display:none;
 }
-.adminBox{width:90%;max-width:360px}
-ul{padding-left:16px}
-#statusBar{font-size:13px;margin-bottom:6px}
+
+/* ❄️ SNOW */
+.snow{
+  position:fixed;
+  top:-10px;
+  width:8px;
+  height:8px;
+  background:white;
+  border-radius:50%;
+  opacity:.8;
+  animation:fall linear forwards;
+}
+@keyframes fall{to{transform:translateY(110vh)}}
 </style>
 </head>
 
 <body>
 
+<!-- ================= LOADER ================= -->
+<div class="loader" id="loader">
+  <span><span></span><span></span><span></span><span></span></span>
+  <div class="base">
+    <span></span>
+    <div class="face"></div>
+  </div>
+</div>
+<div class="longfazers"></div>
+
+<!-- ================= APP ================= -->
 <button id="adminBtn" onclick="openAdmin()">⚙️</button>
 
 <div id="loginBox">
   <div class="box">
+    <h2 style="text-align:center">❄️ Hogachat</h2>
     <input id="name" placeholder="Name">
     <input id="password" type="password" placeholder="Passwort">
     <button onclick="login()">Einloggen</button>
@@ -230,24 +204,107 @@ ul{padding-left:16px}
 <div id="adminPanel">
   <div class="adminBox">
     <h3>👑 Admin Panel</h3>
-
     📋 Online Nutzer:
     <ul id="onlineList"></ul>
-
-    <hr>
-
-    📊 Nachrichten gesamt: <b id="msgCount">0</b>
-
-    <hr>
-
-    ❌ Nachrichten löschen:
-    <ul id="msgList"></ul>
-
-    <input id="banName" placeholder="Name bannen">
-    <button onclick="banUser()">Bannen</button>
     <button onclick="closeAdmin()">Schließen</button>
   </div>
 </div>
+
+<!-- ================= FIREBASE + JS ================= -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+  getDatabase, ref, push, onChildAdded, onValue,
+  set, onDisconnect
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+const app = initializeApp({
+  apiKey: "AIzaSyDxr-d1ZKp3wt3i289o6FKmevr3s8Uw3WA",
+  authDomain: "okuler.firebaseapp.com",
+  databaseURL: "https://okuler-default-rtdb.firebaseio.com",
+  projectId: "okuler"
+});
+const db = getDatabase(app);
+
+/* DOM */
+const loader = document.getElementById("loader");
+const loginBox = document.getElementById("loginBox");
+const chatBox = document.getElementById("chatBox");
+const adminBtn = document.getElementById("adminBtn");
+const adminPanel = document.getElementById("adminPanel");
+const nameInput = document.getElementById("name");
+const passwordInput = document.getElementById("password");
+const messageInput = document.getElementById("message");
+const messages = document.getElementById("messages");
+const onlineCount = document.getElementById("onlineCount");
+const onlineList = document.getElementById("onlineList");
+
+/* LOADER HIDE */
+window.addEventListener("load",()=>{
+  setTimeout(()=>{
+    loader.style.display="none";
+  },1200);
+});
+
+/* SNOW */
+setInterval(()=>{
+  const s=document.createElement("div");
+  s.className="snow";
+  s.style.left=Math.random()*innerWidth+"px";
+  s.style.animationDuration=3+Math.random()*5+"s";
+  document.body.appendChild(s);
+  setTimeout(()=>s.remove(),8000);
+},200);
+
+/* LOGIN */
+let isAdmin=false;
+window.login=()=>{
+  const name=nameInput.value.trim();
+  const pass=passwordInput.value.trim();
+  if(!name||!pass) return;
+
+  if(pass==="mirhan5685") isAdmin=true;
+  else if(pass==="Hogachat") isAdmin=false;
+  else return alert("Falsches Passwort");
+
+  loginBox.style.display="none";
+  chatBox.style.display="flex";
+  if(isAdmin) adminBtn.style.display="block";
+
+  const key=Date.now();
+  const uRef=ref(db,"onlineUsers/"+key);
+  set(uRef,name);
+  onDisconnect(uRef).remove();
+
+  onValue(ref(db,"onlineUsers"),s=>{
+    onlineCount.textContent="Online: "+(s.exists()?Object.keys(s.val()).length:0);
+    if(isAdmin){
+      onlineList.innerHTML="";
+      Object.values(s.val()||{}).forEach(n=>{
+        onlineList.innerHTML+=`<li>${n}</li>`;
+      });
+    }
+  });
+
+  onChildAdded(ref(db,"messages"),snap=>{
+    const m=snap.val();
+    const d=document.createElement("div");
+    d.className=m.admin?"msg adminMsg":"msg";
+    d.innerHTML=m.admin?`👑 Mirhan<br>${m.text}`:`Anonym<br>${m.text}`;
+    messages.appendChild(d);
+  });
+};
+
+window.sendMessage=()=>{
+  const msg=messageInput.value.trim();
+  if(!msg) return;
+  push(ref(db,"messages"),{text:msg,admin:isAdmin});
+  messageInput.value="";
+};
+
+window.openAdmin=()=>adminPanel.style.display="flex";
+window.closeAdmin=()=>adminPanel.style.display="none";
+</script>
 
 </body>
 </html>
