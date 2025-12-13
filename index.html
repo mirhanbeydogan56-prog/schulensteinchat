@@ -4,73 +4,86 @@
 <meta charset="UTF-8">
 <title>Hogachat</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#0b1d2a">
 
-<!-- ================= LOADER CSS ================= -->
+<!-- ================= LOADER (Uiverse) ================= -->
 <style>
 /* From Uiverse.io by anand_4957 */
+#loaderScreen{
+  position:fixed;
+  inset:0;
+  background:#0b1d2a;
+  z-index:9999;
+}
+
 .loader {
-  position: fixed;
-  inset: 0;
-  background: #0b1d2a;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10000;
+  position:absolute;
+  top:50%;
+  left:50%;
+  margin-left:-50px;
+  animation:speeder .4s linear infinite;
 }
 
-.loader span {
-  position: absolute;
+.loader > span{
+  height:5px;width:35px;background:#fff;
+  position:absolute;top:-19px;left:60px;
+  border-radius:2px 10px 1px 0;
 }
 
-.loader > span {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  animation: spin 1.2s linear infinite;
+.base span{
+  position:absolute;width:0;height:0;
+  border-top:6px solid transparent;
+  border-right:100px solid #fff;
+  border-bottom:6px solid transparent;
+}
+.base span:before{
+  content:"";height:22px;width:22px;border-radius:50%;
+  background:#fff;position:absolute;right:-110px;top:-16px;
+}
+.base span:after{
+  content:"";position:absolute;width:0;height:0;
+  border-top:0 solid transparent;
+  border-right:55px solid #fff;
+  border-bottom:16px solid transparent;
+  top:-16px;right:-98px;
+}
+.face{
+  position:absolute;height:12px;width:20px;
+  background:#fff;border-radius:20px 20px 0 0;
+  transform:rotate(-40deg);right:-125px;top:-15px;
+}
+.face:after{
+  content:"";height:12px;width:12px;background:#fff;
+  right:4px;top:7px;position:absolute;
+  transform:rotate(40deg);border-radius:0 0 0 2px;
 }
 
-.loader > span span {
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  background: #fff;
-  border-radius: 50%;
+.loader > span > span{
+  width:30px;height:1px;background:#fff;
+  position:absolute;animation:fazer1 .2s linear infinite;
+}
+.loader > span > span:nth-child(2){top:3px;animation:fazer2 .4s}
+.loader > span > span:nth-child(3){top:1px;animation:fazer3 .4s}
+.loader > span > span:nth-child(4){top:4px;animation:fazer4 1s}
+
+@keyframes fazer1{to{left:-80px;opacity:0}}
+@keyframes fazer2{to{left:-100px;opacity:0}}
+@keyframes fazer3{to{left:-50px;opacity:0}}
+@keyframes fazer4{to{left:-150px;opacity:0}}
+
+@keyframes speeder{
+  0%{transform:translate(2px,1px)}
+  50%{transform:translate(-1px,3px)}
+  100%{transform:translate(1px,-2px)}
 }
 
-.loader > span span:nth-child(1) { top: 0; left: 46px; }
-.loader > span span:nth-child(2) { right: 0; top: 46px; }
-.loader > span span:nth-child(3) { bottom: 0; left: 46px; }
-.loader > span span:nth-child(4) { left: 0; top: 46px; }
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
+.longfazers span{
+  position:absolute;height:2px;width:20%;background:#fff;
 }
-
-.longfazers {
-  position: fixed;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-}
-
-.longfazers span {
-  position: absolute;
-  width: 200px;
-  height: 2px;
-  background: rgba(255,255,255,.2);
-  animation: faze 1.5s linear infinite;
-}
-
-.longfazers span:nth-child(1) { top: 20%; animation-delay: 0s; }
-.longfazers span:nth-child(2) { top: 40%; animation-delay: .3s; }
-.longfazers span:nth-child(3) { top: 60%; animation-delay: .6s; }
-.longfazers span:nth-child(4) { top: 80%; animation-delay: .9s; }
-
-@keyframes faze {
-  from { left: -200px; }
-  to { left: 100%; }
-}
+.longfazers span:nth-child(1){top:20%;animation:lf .6s infinite}
+.longfazers span:nth-child(2){top:40%;animation:lf .8s infinite}
+.longfazers span:nth-child(3){top:60%;animation:lf .6s infinite}
+.longfazers span:nth-child(4){top:80%;animation:lf .5s infinite}
+@keyframes lf{to{left:-200%;opacity:0}}
 </style>
 
 <!-- ================= APP CSS ================= -->
@@ -79,209 +92,122 @@
 body{
   margin:0;height:100vh;
   background:linear-gradient(#0b1d2a,#123);
-  font-family:'Segoe UI',sans-serif;
-  color:#fff;
-  overflow:hidden;
+  font-family:Segoe UI,sans-serif;
+  color:#fff;overflow:hidden;
 }
-
 .box,.adminBox{
-  background:rgba(0,0,0,.55);
-  backdrop-filter: blur(8px);
-  padding:25px;
-  border-radius:20px;
-  box-shadow:0 0 25px rgba(255,255,255,.15);
-  animation:fadeIn .6s ease;
+  background:rgba(0,0,0,.6);
+  padding:25px;border-radius:20px;
+  box-shadow:0 0 25px rgba(255,255,255,.2);
 }
-
-@keyframes fadeIn{
-  from{opacity:0;transform:scale(.95)}
-  to{opacity:1;transform:scale(1)}
+#login,#chat,#adminPanel{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
 }
-
-#loginBox,#chatBox,#adminPanel{
-  position:absolute;
-  inset:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-#chatBox,#adminPanel{display:none}
-
+#chat,#adminPanel{display:none}
 input,button{
-  width:100%;
-  padding:14px;
-  margin:8px 0;
-  border-radius:12px;
-  border:none;
-  font-size:16px;
+  width:100%;padding:12px;margin:6px 0;
+  border-radius:10px;border:none;font-size:16px;
 }
-
-button{
-  background:#1e90ff;
-  color:#fff;
-  cursor:pointer;
-}
-
+button{background:#1e90ff;color:#fff}
 #messages{
-  height:45vh;
-  overflow-y:auto;
-  background:rgba(0,0,0,.35);
-  padding:12px;
-  border-radius:12px;
-  margin-bottom:8px;
+  height:45vh;overflow:auto;
+  background:rgba(0,0,0,.4);
+  padding:10px;border-radius:10px;
 }
-
-.msg{margin-bottom:10px}
-.adminMsg{
-  background:rgba(255,215,0,.2);
-  padding:8px;
-  border-radius:10px
-}
-
-.time{font-size:11px;opacity:.7}
-
-#statusBar{font-size:13px;margin-bottom:8px}
-
+.msg{margin-bottom:8px}
+.adminMsg{background:rgba(255,215,0,.25);padding:6px;border-radius:8px}
 #adminBtn{
-  position:fixed;
-  top:12px;
-  right:12px;
-  z-index:5000;
-  display:none;
+  position:fixed;top:10px;right:10px;display:none;
 }
-
-/* ❄️ SNOW */
-.snow{
-  position:fixed;
-  top:-10px;
-  width:8px;
-  height:8px;
-  background:white;
-  border-radius:50%;
-  opacity:.8;
-  animation:fall linear forwards;
-}
-@keyframes fall{to{transform:translateY(110vh)}}
 </style>
 </head>
 
 <body>
 
-<!-- ================= LOADER ================= -->
-<div class="loader" id="loader">
-  <span><span></span><span></span><span></span><span></span></span>
-  <div class="base">
-    <span></span>
-    <div class="face"></div>
+<!-- LOADER -->
+<div id="loaderScreen">
+  <div class="loader">
+    <span><span></span><span></span><span></span><span></span></span>
+    <div class="base"><span></span><div class="face"></div></div>
+  </div>
+  <div class="longfazers">
+    <span></span><span></span><span></span><span></span>
   </div>
 </div>
-<div class="longfazers"></div>
 
-<!-- ================= APP ================= -->
 <button id="adminBtn" onclick="openAdmin()">⚙️</button>
 
-<div id="loginBox">
+<div id="login">
   <div class="box">
-    <h2 style="text-align:center">❄️ Hogachat</h2>
+    <h2>❄️ Hogachat</h2>
     <input id="name" placeholder="Name">
     <input id="password" type="password" placeholder="Passwort">
     <button onclick="login()">Einloggen</button>
   </div>
 </div>
 
-<div id="chatBox">
+<div id="chat">
   <div class="box">
-    <div id="statusBar">
-      <span id="onlineCount">Online: 0</span>
-    </div>
+    <div id="onlineCount">Online: 0</div>
     <div id="messages"></div>
     <input id="message" placeholder="Nachricht">
-    <button onclick="sendMessage()">Senden</button>
+    <button onclick="send()">Senden</button>
   </div>
 </div>
 
 <div id="adminPanel">
   <div class="adminBox">
     <h3>👑 Admin Panel</h3>
-    📋 Online Nutzer:
-    <ul id="onlineList"></ul>
+    <ul id="userList"></ul>
     <button onclick="closeAdmin()">Schließen</button>
   </div>
 </div>
 
-<!-- ================= FIREBASE + JS ================= -->
+<!-- ================= FIREBASE ================= -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
-  getDatabase, ref, push, onChildAdded, onValue,
-  set, onDisconnect
+  getDatabase, ref, push, onChildAdded,
+  onValue, set, remove, onDisconnect
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 const app = initializeApp({
-  apiKey: "AIzaSyDxr-d1ZKp3wt3i289o6FKmevr3s8Uw3WA",
-  authDomain: "okuler.firebaseapp.com",
-  databaseURL: "https://okuler-default-rtdb.firebaseio.com",
-  projectId: "okuler"
+  apiKey:"AIzaSyDxr-d1ZKp3wt3i289o6FKmevr3s8Uw3WA",
+  databaseURL:"https://okuler-default-rtdb.firebaseio.com"
 });
-const db = getDatabase(app);
+const db=getDatabase(app);
 
-/* DOM */
-const loader = document.getElementById("loader");
-const loginBox = document.getElementById("loginBox");
-const chatBox = document.getElementById("chatBox");
-const adminBtn = document.getElementById("adminBtn");
-const adminPanel = document.getElementById("adminPanel");
-const nameInput = document.getElementById("name");
-const passwordInput = document.getElementById("password");
-const messageInput = document.getElementById("message");
-const messages = document.getElementById("messages");
-const onlineCount = document.getElementById("onlineCount");
-const onlineList = document.getElementById("onlineList");
+let isAdmin=false,currentUser="",userKey="";
 
 /* LOADER HIDE */
-window.addEventListener("load",()=>{
-  setTimeout(()=>{
-    loader.style.display="none";
-  },1200);
-});
-
-/* SNOW */
-setInterval(()=>{
-  const s=document.createElement("div");
-  s.className="snow";
-  s.style.left=Math.random()*innerWidth+"px";
-  s.style.animationDuration=3+Math.random()*5+"s";
-  document.body.appendChild(s);
-  setTimeout(()=>s.remove(),8000);
-},200);
+window.onload=()=>setTimeout(()=>loaderScreen.style.display="none",1500);
 
 /* LOGIN */
-let isAdmin=false;
 window.login=()=>{
-  const name=nameInput.value.trim();
-  const pass=passwordInput.value.trim();
-  if(!name||!pass) return;
-
-  if(pass==="mirhan5685") isAdmin=true;
-  else if(pass==="Hogachat") isAdmin=false;
+  const n=name.value,p=password.value;
+  if(!n||!p)return;
+  if(p==="mirhan5685")isAdmin=true;
+  else if(p==="Hogachat")isAdmin=false;
   else return alert("Falsches Passwort");
 
-  loginBox.style.display="none";
-  chatBox.style.display="flex";
-  if(isAdmin) adminBtn.style.display="block";
+  currentUser=n;
+  login.style.display="none";
+  chat.style.display="flex";
+  if(isAdmin)adminBtn.style.display="block";
 
-  const key=Date.now();
-  const uRef=ref(db,"onlineUsers/"+key);
-  set(uRef,name);
+  userKey=Date.now();
+  const uRef=ref(db,"online/"+userKey);
+  set(uRef,n);
   onDisconnect(uRef).remove();
 
-  onValue(ref(db,"onlineUsers"),s=>{
+  onValue(ref(db,"online"),s=>{
     onlineCount.textContent="Online: "+(s.exists()?Object.keys(s.val()).length:0);
     if(isAdmin){
-      onlineList.innerHTML="";
-      Object.values(s.val()||{}).forEach(n=>{
-        onlineList.innerHTML+=`<li>${n}</li>`;
+      userList.innerHTML="";
+      Object.entries(s.val()||{}).forEach(([k,v])=>{
+        userList.innerHTML+=`<li>${v}
+          <button onclick="ban('${v}')">BAN</button></li>`;
       });
     }
   });
@@ -290,18 +216,33 @@ window.login=()=>{
     const m=snap.val();
     const d=document.createElement("div");
     d.className=m.admin?"msg adminMsg":"msg";
-    d.innerHTML=m.admin?`👑 Mirhan<br>${m.text}`:`Anonym<br>${m.text}`;
+    d.innerHTML=(m.admin?"👑 Mirhan":"Anonym")+": "+m.text;
+    if(isAdmin){
+      d.innerHTML+=` ❌`;
+      d.onclick=()=>remove(ref(db,"messages/"+snap.key));
+    }
     messages.appendChild(d);
   });
 };
 
-window.sendMessage=()=>{
-  const msg=messageInput.value.trim();
-  if(!msg) return;
-  push(ref(db,"messages"),{text:msg,admin:isAdmin});
-  messageInput.value="";
+/* SEND */
+window.send=()=>{
+  if(!message.value)return;
+  onValue(ref(db,"bans/"+currentUser),s=>{
+    if(s.exists())return alert("Banlandın");
+    push(ref(db,"messages"),{
+      text:message.value,admin:isAdmin
+    });
+    message.value="";
+  },{onlyOnce:true});
 };
 
+/* BAN */
+window.ban=(name)=>{
+  set(ref(db,"bans/"+name),true);
+};
+
+/* ADMIN */
 window.openAdmin=()=>adminPanel.style.display="flex";
 window.closeAdmin=()=>adminPanel.style.display="none";
 </script>
