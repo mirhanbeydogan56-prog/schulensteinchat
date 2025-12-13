@@ -1,86 +1,175 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>SchulensteinChat</title>
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#0d1b2a">
-<style>
-body{margin:0;font-family:Inter,system-ui,Arial,sans-serif;background:#0d1b2a;color:#fff}
-#login{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#0008}
-.box{background:#14213d;padding:24px;border-radius:14px;width:340px}
-input,button{width:100%;padding:12px;border-radius:10px;border:0;margin-top:10px}
-button{background:#00d1ff;font-weight:700}
-#app{display:none;padding:16px;max-width:900px;margin:auto}
-.msg{background:#1b263b;padding:10px;border-radius:8px;margin-bottom:8px}
-</style>
+  <meta charset="UTF-8" />
+  <title>Hogachat</title>
+
+  <!-- PWA / Zum Startbildschirm -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Hogachat" />
+  <link rel="manifest" href="data:application/manifest+json,{\"name\":\"Hogachat\",\"short_name\":\"Hogachat\",\"start_url\":\".\",\"display\":\"standalone\",\"background_color\":\"#0b1d2a\",\"theme_color\":\"#0b1d2a\"}" />
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDxr-d1ZKp3wt3i289o6FKmevr3s8Uw3WA",
+      authDomain: "okuler.firebaseapp.com",
+      databaseURL: "https://okuler-default-rtdb.firebaseio.com",
+      projectId: "okuler",
+      storageBucket: "okuler.firebasestorage.app",
+      messagingSenderId: "853942864718",
+      appId: "1:853942864718:web:337671e3596467ae7e6c1f",
+      measurementId: "G-2VTELY91G3"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    let currentUser = null;
+    let isAdmin = false;
+
+    window.login = () => {
+      const name = document.getElementById("name").value;
+      const pass = document.getElementById("password").value;
+
+      if (!name || !pass) return alert("Name und Passwort eingeben");
+
+      if (pass === "mirhan5685") isAdmin = true;
+      else if (pass === "Hogachat") isAdmin = false;
+      else return alert("Falsches Passwort");
+
+      currentUser = name;
+      document.getElementById("login").style.display = "none";
+      document.getElementById("chat").style.display = "flex";
+      loadMessages();
+    };
+
+    window.sendMessage = () => {
+      const msg = document.getElementById("message").value;
+      if (!msg) return;
+
+      push(ref(db, "messages"), { text: msg, name: currentUser });
+      document.getElementById("message").value = "";
+    };
+
+    function loadMessages() {
+      const messagesRef = ref(db, "messages");
+      onChildAdded(messagesRef, (data) => {
+        const m = data.val();
+        const div = document.createElement("div");
+        div.className = "msg";
+        div.textContent = isAdmin ? m.name + ": " + m.text : "Anonym: " + m.text;
+        document.getElementById("messages").appendChild(div);
+      });
+    }
+
+    // Schnee Effekt
+    setInterval(() => {
+      const snow = document.createElement("div");
+      snow.className = "snow";
+      snow.style.left = Math.random() * window.innerWidth + "px";
+      snow.style.animationDuration = 3 + Math.random() * 5 + "s";
+      document.body.appendChild(snow);
+      setTimeout(() => snow.remove(), 8000);
+    }, 200);
+  </script>
+
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin:0;
+      height:100vh;
+      background: linear-gradient(#0b1d2a, #123);
+      font-family: 'Segoe UI', sans-serif;
+      color:#fff;
+      overflow:hidden;
+    }
+
+    #login, #chat {
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex-direction:column;
+      backdrop-filter: blur(4px);
+    }
+
+    #chat { display:none; }
+
+    .box {
+      width:90%;
+      max-width:420px;
+      background:rgba(0,0,0,0.6);
+      padding:25px;
+      border-radius:20px;
+      box-shadow:0 0 20px rgba(255,255,255,0.2);
+    }
+
+    h2 { text-align:center; margin-bottom:15px; }
+
+    input, button {
+      width:100%;
+      padding:12px;
+      margin:6px 0;
+      border-radius:10px;
+      border:none;
+      font-size:16px;
+    }
+
+    button { background:#1e90ff; color:#fff; cursor:pointer; }
+
+    #messages {
+      height:45vh;
+      overflow-y:auto;
+      background:rgba(0,0,0,0.4);
+      padding:10px;
+      border-radius:10px;
+      margin-bottom:8px;
+    }
+
+    .msg { margin-bottom:6px; }
+
+    .snow {
+      position:fixed;
+      top:-10px;
+      width:8px;
+      height:8px;
+      background:white;
+      border-radius:50%;
+      opacity:0.8;
+      animation: fall linear forwards;
+    }
+
+    @keyframes fall {
+      to { transform: translateY(110vh); }
+    }
+  </style>
 </head>
 <body>
 
-<div id="login">
-  <div class="box">
-    <h2>SchulensteinChat</h2>
-    <input id="name" placeholder="Name" />
-    <input id="pass" type="password" placeholder="Passwort" />
-    <button onclick="login()">Einloggen</button>
+  <div id="login">
+    <div class="box">
+      <h2>🎄 Hogachat ❄️</h2>
+      <input id="name" placeholder="Name" />
+      <input id="password" type="password" placeholder="Passwort" />
+      <button onclick="login()">Einloggen</button>
+      <p style="text-align:center;font-size:13px">Zum Startbildschirm hinzufügen:<br>iOS ➜ Teilen ▸ Zum Home-Bildschirm<br>Android ➜ Menü ▸ App installieren</p>
+    </div>
   </div>
-</div>
 
-<div id="app">
-  <h1>SchulensteinChat</h1>
-  <div id="msgs"></div>
-  <input id="text" placeholder="Nachricht..." />
-  <button onclick="send()">Senden</button>
-</div>
+  <div id="chat">
+    <div class="box">
+      <h2>❄️ Winter Chat</h2>
+      <div id="messages"></div>
+      <input id="message" placeholder="Nachricht schreiben" />
+      <button onclick="sendMessage()">Senden</button>
+    </div>
+  </div>
 
-<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-messaging-compat.js"></script>
-
-<script>
-// FIREBASE
-const firebaseConfig={apiKey:"AIzaSyDxr-d1ZKp3wt3i289o6FKmevr3s8Uw3WA",authDomain:"okuler.firebaseapp.com",databaseURL:"https://okuler-default-rtdb.firebaseio.com",projectId:"okuler",messagingSenderId:"853942864718",appId:"1:853942864718:web:337671e3596467ae7e6c1f"};
-firebase.initializeApp(firebaseConfig);
-const db=firebase.database();
-const messaging=firebase.messaging();
-
-const PASS="Hogachat";
-let USER="";
-
-function login(){
-  if(pass.value!==PASS) return alert("Falsches Passwort");
-  USER=name.value.trim();
-  if(!USER) return alert("Name fehlt");
-  login.style.display="none";
-  app.style.display="block";
-  start();
-  requestPush();
-}
-
-function start(){
-  db.ref("messages").limitToLast(100).on("child_added",s=>{
-    const m=s.val();
-    const d=document.createElement("div");
-    d.className="msg";
-    d.textContent=m.text;
-    msgs.appendChild(d);
-  });
-}
-
-function send(){
-  if(!text.value) return;
-  db.ref("messages").push({text:text.value,time:Date.now()});
-  text.value="";
-}
-
-// PUSH (ECHT)
-async function requestPush(){
-  const reg=await navigator.serviceWorker.register("sw.js");
-  messaging.useServiceWorker(reg);
-  const token=await messaging.getToken({vapidKey:"BURAYA_VAPID_KEY"});
-  console.log("Push Token:",token);
-}
-</script>
 </body>
 </html>
