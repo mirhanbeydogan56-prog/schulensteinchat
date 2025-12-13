@@ -5,7 +5,7 @@
 <title>Hogachat</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- ================= LOADER (Uiverse) ================= -->
+<!-- ================= LOADER CSS ================= -->
 <style>
 /* From Uiverse.io by anand_4957 */
 #loaderScreen{
@@ -22,13 +22,11 @@
   margin-left:-50px;
   animation:speeder .4s linear infinite;
 }
-
 .loader > span{
   height:5px;width:35px;background:#fff;
   position:absolute;top:-19px;left:60px;
   border-radius:2px 10px 1px 0;
 }
-
 .base span{
   position:absolute;width:0;height:0;
   border-top:6px solid transparent;
@@ -41,9 +39,7 @@
 }
 .base span:after{
   content:"";position:absolute;width:0;height:0;
-  border-top:0 solid transparent;
-  border-right:55px solid #fff;
-  border-bottom:16px solid transparent;
+  border-right:55px solid #fff;border-bottom:16px solid transparent;
   top:-16px;right:-98px;
 }
 .face{
@@ -56,33 +52,20 @@
   right:4px;top:7px;position:absolute;
   transform:rotate(40deg);border-radius:0 0 0 2px;
 }
-
 .loader > span > span{
   width:30px;height:1px;background:#fff;
   position:absolute;animation:fazer1 .2s linear infinite;
 }
-.loader > span > span:nth-child(2){top:3px;animation:fazer2 .4s}
-.loader > span > span:nth-child(3){top:1px;animation:fazer3 .4s}
-.loader > span > span:nth-child(4){top:4px;animation:fazer4 1s}
-
 @keyframes fazer1{to{left:-80px;opacity:0}}
-@keyframes fazer2{to{left:-100px;opacity:0}}
-@keyframes fazer3{to{left:-50px;opacity:0}}
-@keyframes fazer4{to{left:-150px;opacity:0}}
-
 @keyframes speeder{
   0%{transform:translate(2px,1px)}
   50%{transform:translate(-1px,3px)}
   100%{transform:translate(1px,-2px)}
 }
-
 .longfazers span{
   position:absolute;height:2px;width:20%;background:#fff;
+  animation:lf .6s linear infinite;
 }
-.longfazers span:nth-child(1){top:20%;animation:lf .6s infinite}
-.longfazers span:nth-child(2){top:40%;animation:lf .8s infinite}
-.longfazers span:nth-child(3){top:60%;animation:lf .6s infinite}
-.longfazers span:nth-child(4){top:80%;animation:lf .5s infinite}
 @keyframes lf{to{left:-200%;opacity:0}}
 </style>
 
@@ -109,7 +92,7 @@ input,button{
   width:100%;padding:12px;margin:6px 0;
   border-radius:10px;border:none;font-size:16px;
 }
-button{background:#1e90ff;color:#fff}
+button{background:#1e90ff;color:#fff;cursor:pointer}
 #messages{
   height:45vh;overflow:auto;
   background:rgba(0,0,0,.4);
@@ -125,14 +108,11 @@ button{background:#1e90ff;color:#fff}
 
 <body>
 
-<!-- LOADER -->
+<!-- ================= LOADER ================= -->
 <div id="loaderScreen">
   <div class="loader">
     <span><span></span><span></span><span></span><span></span></span>
     <div class="base"><span></span><div class="face"></div></div>
-  </div>
-  <div class="longfazers">
-    <span></span><span></span><span></span><span></span>
   </div>
 </div>
 
@@ -152,7 +132,7 @@ button{background:#1e90ff;color:#fff}
     <div id="onlineCount">Online: 0</div>
     <div id="messages"></div>
     <input id="message" placeholder="Nachricht">
-    <button onclick="send()">Senden</button>
+    <button onclick="sendMessage()">Senden</button>
   </div>
 </div>
 
@@ -164,7 +144,7 @@ button{background:#1e90ff;color:#fff}
   </div>
 </div>
 
-<!-- ================= FIREBASE ================= -->
+<!-- ================= FIREBASE + JS ================= -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
@@ -178,36 +158,46 @@ const app = initializeApp({
 });
 const db=getDatabase(app);
 
-let isAdmin=false,currentUser="",userKey="";
+/* ===== LOADER FIX ===== */
+window.addEventListener("load",()=>{
+  const loader=document.getElementById("loaderScreen");
+  setTimeout(()=>loader.style.display="none",1500);
+});
 
-/* LOADER HIDE */
-window.onload=()=>setTimeout(()=>loaderScreen.style.display="none",1500);
+/* ===== STATE ===== */
+let isAdmin=false;
+let currentUser="";
+let userKey="";
 
-/* LOGIN */
+/* ===== LOGIN ===== */
 window.login=()=>{
-  const n=name.value,p=password.value;
-  if(!n||!p)return;
-  if(p==="mirhan5685")isAdmin=true;
-  else if(p==="Hogachat")isAdmin=false;
+  const name=document.getElementById("name").value.trim();
+  const pass=document.getElementById("password").value.trim();
+  if(!name||!pass)return alert("Boş bırakma");
+
+  if(pass==="mirhan5685") isAdmin=true;
+  else if(pass==="Hogachat") isAdmin=false;
   else return alert("Falsches Passwort");
 
-  currentUser=n;
-  login.style.display="none";
-  chat.style.display="flex";
-  if(isAdmin)adminBtn.style.display="block";
+  currentUser=name;
+  document.getElementById("login").style.display="none";
+  document.getElementById("chat").style.display="flex";
+  if(isAdmin) document.getElementById("adminBtn").style.display="block";
 
   userKey=Date.now();
   const uRef=ref(db,"online/"+userKey);
-  set(uRef,n);
+  set(uRef,name);
   onDisconnect(uRef).remove();
 
   onValue(ref(db,"online"),s=>{
-    onlineCount.textContent="Online: "+(s.exists()?Object.keys(s.val()).length:0);
+    document.getElementById("onlineCount").textContent=
+      "Online: "+(s.exists()?Object.keys(s.val()).length:0);
     if(isAdmin){
-      userList.innerHTML="";
+      const ul=document.getElementById("userList");
+      ul.innerHTML="";
       Object.entries(s.val()||{}).forEach(([k,v])=>{
-        userList.innerHTML+=`<li>${v}
-          <button onclick="ban('${v}')">BAN</button></li>`;
+        ul.innerHTML+=`<li>${v} 
+        <button onclick="banUser('${v}')">BAN</button></li>`;
       });
     }
   });
@@ -216,35 +206,38 @@ window.login=()=>{
     const m=snap.val();
     const d=document.createElement("div");
     d.className=m.admin?"msg adminMsg":"msg";
-    d.innerHTML=(m.admin?"👑 Mirhan":"Anonym")+": "+m.text;
+    d.textContent=(m.admin?"👑 Mirhan":"Anonym")+": "+m.text;
     if(isAdmin){
-      d.innerHTML+=` ❌`;
       d.onclick=()=>remove(ref(db,"messages/"+snap.key));
     }
-    messages.appendChild(d);
+    document.getElementById("messages").appendChild(d);
   });
 };
 
-/* SEND */
-window.send=()=>{
-  if(!message.value)return;
+/* ===== SEND ===== */
+window.sendMessage=()=>{
+  const msg=document.getElementById("message").value.trim();
+  if(!msg)return;
+
   onValue(ref(db,"bans/"+currentUser),s=>{
-    if(s.exists())return alert("Banlandın");
-    push(ref(db,"messages"),{
-      text:message.value,admin:isAdmin
-    });
-    message.value="";
+    if(s.exists()) return alert("Banlandın");
+    push(ref(db,"messages"),{text:msg,admin:isAdmin});
+    document.getElementById("message").value="";
   },{onlyOnce:true});
 };
 
-/* BAN */
-window.ban=(name)=>{
+/* ===== BAN ===== */
+window.banUser=(name)=>{
   set(ref(db,"bans/"+name),true);
 };
 
-/* ADMIN */
-window.openAdmin=()=>adminPanel.style.display="flex";
-window.closeAdmin=()=>adminPanel.style.display="none";
+/* ===== ADMIN ===== */
+window.openAdmin=()=>{
+  document.getElementById("adminPanel").style.display="flex";
+};
+window.closeAdmin=()=>{
+  document.getElementById("adminPanel").style.display="none";
+};
 </script>
 
 </body>
