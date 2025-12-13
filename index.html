@@ -1,134 +1,85 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SchulensteinChat</title>
-  <link rel="manifest" href="manifest.json" />
-  <meta name="theme-color" content="#0d1b2a" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <style>
-    :root{--bg1:#0d1b2a;--bg2:#1b263b;--accent:#00d1ff;--card:#14213d;--glass:rgba(255,255,255,0.06)}
-    *{box-sizing:border-box}
-    body{margin:0;font-family:Inter,system-ui,Arial,sans-serif;background:linear-gradient(135deg,var(--bg1),var(--bg2));color:#fff;min-height:100vh}
-
-    #loginScreen{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.6)}
-    .loginBox{width:360px;padding:28px;border-radius:16px;background:linear-gradient(180deg,var(--card),#0f1724);box-shadow:0 10px 40px rgba(0,0,0,.6)}
-    .loginBox h2{text-align:center}
-    .field{width:100%;padding:12px;border-radius:10px;border:0;background:var(--glass);color:#fff;margin-top:10px}
-    .btn{width:100%;padding:12px;border-radius:10px;border:0;background:var(--accent);color:#042028;font-weight:700;margin-top:14px;cursor:pointer}
-
-    #app{display:none;max-width:1000px;margin:20px auto;padding:16px}
-    .messages{height:60vh;overflow:auto;background:rgba(255,255,255,.05);padding:12px;border-radius:10px}
-    .msg{margin-bottom:10px;padding:10px;border-radius:8px;background:#1b263b}
-    .msg img{max-width:100%;border-radius:8px;margin-top:6px}
-    .controls{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
-    .controls input[type=text]{flex:1;min-width:200px;padding:12px;border-radius:10px;border:0;background:var(--glass);color:#fff}
-    .controls button{padding:12px 16px;border-radius:10px;border:0;background:var(--accent);font-weight:700}
-
-    #adminModal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.6)}
-    .adminBox{background:#fff;color:#111;width:95%;max-width:700px;border-radius:12px;padding:16px}
-    .adminItem{background:#f3f4f6;border-radius:8px;padding:10px;margin-bottom:8px}
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SchulensteinChat</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0d1b2a">
+<style>
+body{margin:0;font-family:Inter,system-ui,Arial,sans-serif;background:#0d1b2a;color:#fff}
+#login{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#0008}
+.box{background:#14213d;padding:24px;border-radius:14px;width:340px}
+input,button{width:100%;padding:12px;border-radius:10px;border:0;margin-top:10px}
+button{background:#00d1ff;font-weight:700}
+#app{display:none;padding:16px;max-width:900px;margin:auto}
+.msg{background:#1b263b;padding:10px;border-radius:8px;margin-bottom:8px}
+</style>
 </head>
 <body>
 
-<div id="loginScreen">
-  <div class="loginBox">
+<div id="login">
+  <div class="box">
     <h2>SchulensteinChat</h2>
-    <input id="username" class="field" placeholder="Ihr Name" />
-    <input id="password" class="field" type="password" placeholder="Passwort" />
-    <button class="btn" id="loginBtn">Einloggen</button>
-    <p style="font-size:13px;opacity:.8;text-align:center">Name ist im Chat unsichtbar. Nur Admin sieht Namen.</p>
+    <input id="name" placeholder="Name" />
+    <input id="pass" type="password" placeholder="Passwort" />
+    <button onclick="login()">Einloggen</button>
   </div>
 </div>
 
 <div id="app">
   <h1>SchulensteinChat</h1>
-
-  <div class="messages" id="messages"></div>
-
-  <div class="controls">
-    <input id="text" type="text" placeholder="Nachricht schreiben..." />
-    
-    <button id="sendBtn">Senden</button>
-  </div>
-
-  <div style="margin-top:14px">
-    <button class="btn" onclick="openAdmin()">Admin Panel</button>
-  </div>
-</div>
-
-<div id="adminModal">
-  <div class="adminBox">
-    <h3>Admin Panel</h3>
-    <input id="adminPassword" class="field" type="password" placeholder="Admin Passwort" />
-    <button class="btn" onclick="adminLogin()">Admin Login</button>
-    <div id="adminList" style="margin-top:12px"></div>
-    <button class="btn" onclick="closeAdmin()">Schließen</button>
-  </div>
+  <div id="msgs"></div>
+  <input id="text" placeholder="Nachricht..." />
+  <button onclick="send()">Senden</button>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
-
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-messaging-compat.js"></script>
 
 <script>
-const firebaseConfig={apiKey:"AIzaSyDxr-d1ZKp3wt3i289o6FKmevr3s8Uw3WA",authDomain:"okuler.firebaseapp.com",databaseURL:"https://okuler-default-rtdb.firebaseio.com",projectId:"okuler",storageBucket:"okuler.appspot.com",messagingSenderId:"853942864718",appId:"1:853942864718:web:337671e3596467ae7e6c1f"};
+// FIREBASE
+const firebaseConfig={apiKey:"AIzaSyDxr-d1ZKp3wt3i289o6FKmevr3s8Uw3WA",authDomain:"okuler.firebaseapp.com",databaseURL:"https://okuler-default-rtdb.firebaseio.com",projectId:"okuler",messagingSenderId:"853942864718",appId:"1:853942864718:web:337671e3596467ae7e6c1f"};
 firebase.initializeApp(firebaseConfig);
 const db=firebase.database();
+const messaging=firebase.messaging();
 
+const PASS="Hogachat";
+let USER="";
 
-const USER_PASS="Hogachat";
-const ADMIN_PASS="mirhan5685";
-let USERNAME="";
-let isAdmin=false;
-
-loginBtn.onclick=()=>{
-  if(password.value!==USER_PASS && password.value!==ADMIN_PASS)return alert("Falsches Passwort");
-  USERNAME=username.value.trim();
-  if(!USERNAME)return alert("Name fehlt");
-  if(password.value===ADMIN_PASS)isAdmin=true;
-  loginScreen.style.display="none";
+function login(){
+  if(pass.value!==PASS) return alert("Falsches Passwort");
+  USER=name.value.trim();
+  if(!USER) return alert("Name fehlt");
+  login.style.display="none";
   app.style.display="block";
-  startChat();
-};
+  start();
+  requestPush();
+}
 
-function startChat(){
-  db.ref("messages").limitToLast(100).on("value",snap=>{
-    messages.innerHTML="";
-    const v=snap.val(); if(!v)return;
-    Object.values(v).forEach(m=>{
-      const d=document.createElement("div"); d.className="msg";
-      let html=`<div>${m.text||""}</div>`;
-      if(m.image) html+=`<img src="${m.image}" />`;
-      html+=`<div style="font-size:12px;opacity:.6">${new Date(m.time).toLocaleString("de-DE")}</div>`;
-      d.innerHTML=html;
-      messages.appendChild(d);
-    });
-    messages.scrollTop=messages.scrollHeight;
+function start(){
+  db.ref("messages").limitToLast(100).on("child_added",s=>{
+    const m=s.val();
+    const d=document.createElement("div");
+    d.className="msg";
+    d.textContent=m.text;
+    msgs.appendChild(d);
   });
 }
 
-sendBtn.onclick=()=>{
-  const msg=text.value.trim();
-  if(!msg)return;
-  db.ref("messages").push({text:msg,name:USERNAME,time:Date.now()});
+function send(){
+  if(!text.value) return;
+  db.ref("messages").push({text:text.value,time:Date.now()});
   text.value="";
-};
+}
 
-function openAdmin(){adminModal.style.display="flex"}
-function closeAdmin(){adminModal.style.display="none"}
-function adminLogin(){ if(adminPassword.value!==ADMIN_PASS)return alert("Admin Passwort falsch"); loadAdmin(); }
-function loadAdmin(){ adminList.innerHTML=""; db.ref("messages").once("value").then(s=>{Object.values(s.val()||{}).forEach(m=>{const d=document.createElement("div");d.className="adminItem";d.textContent=m.name+": "+(m.text||"[Bild]");adminList.appendChild(d);});}); }
-</script>
-<script>
-// ===== PWA Service Worker =====
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js').catch(err=>console.log('SW fail',err));
-  });
+// PUSH (ECHT)
+async function requestPush(){
+  const reg=await navigator.serviceWorker.register("sw.js");
+  messaging.useServiceWorker(reg);
+  const token=await messaging.getToken({vapidKey:"BURAYA_VAPID_KEY"});
+  console.log("Push Token:",token);
 }
 </script>
 </body>
