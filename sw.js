@@ -1,19 +1,22 @@
-const CACHE_NAME = "schulensteinchat-v1";
-const urlsToCache = [
-  "./",
-  "./index.html"
-];
+importScripts('https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js');
+importScripts('https://www.gstatic.com/firebasejs/9.22.1/firebase-messaging-compat.js');
 
-self.addEventListener("install", event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache))
-  );
+firebase.initializeApp({
+  apiKey: "AIzaSyDxr-d1ZKp3wt3i289o6FKmevr3s8Uw3WA",
+  authDomain: "okuler.firebaseapp.com",
+  projectId: "okuler",
+  messagingSenderId: "853942864718",
+  appId: "1:853942864718:web:337671e3596467ae7e6c1f"
 });
 
-self.addEventListener("fetch", event => {
-  event.respondWith(
-    caches.match(event.request).then(response => {
-      return response || fetch(event.request);
-    })
+const messaging = firebase.messaging();
+
+messaging.onBackgroundMessage(payload => {
+  self.registration.showNotification(
+    "Neue Nachricht",
+    {
+      body: "Im SchulensteinChat gibt es eine neue Nachricht",
+      icon: "icon-192.png"
+    }
   );
 });
