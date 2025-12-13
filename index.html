@@ -78,6 +78,11 @@ firebase.initializeApp(firebaseConfig);
 const db=firebase.database();
 
 const USER_PASS="Hogachat";
+// GitHub Pages için dönüş sayfası kontrolü
+if (new URLSearchParams(window.location.search).get("success")==="1"){
+  document.getElementById("buyResult").innerText="Admin satın alındı. Admin şifresi verildi.";
+  document.getElementById("openAdmin").style.display="block";
+}
 let ADMIN_PASS=null;
 let USERNAME="";
 let isAdmin=false;
@@ -117,7 +122,7 @@ buyAdmin.onclick = async () => {
     method: "POST"
   });
   const d = await r.json();
-  location.href = d.url; // Stripe checkout'a yönlendirir
+  location.href = d.url; // Stripe checkout'a yönlendirir (success_url server'da ayarlı)
 };
 
 openAdmin.onclick=()=>adminModal.style.display="flex";
