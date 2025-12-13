@@ -111,10 +111,13 @@ sendBtn.onclick=()=>{
   text.value="";
 };
 
-buyAdmin.onclick=async()=>{
-  const r=await fetch("http://localhost:4242/create-payment",{method:"POST"});
-  const d=await r.json();
-  location.href=d.url;
+buyAdmin.onclick = async () => {
+  // Render sunucuna istek atıyoruz (localhost YOK)
+  const r = await fetch("https://schulensteinchat-server.onrender.com/create-payment", {
+    method: "POST"
+  });
+  const d = await r.json();
+  location.href = d.url; // Stripe checkout'a yönlendirir
 };
 
 openAdmin.onclick=()=>adminModal.style.display="flex";
