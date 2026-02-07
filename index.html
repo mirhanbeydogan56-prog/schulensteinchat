@@ -5,128 +5,242 @@
 <title>OyunuMaDokunma</title>
 
 <style>
-body {
-    background:#0f0f0f;
-    color:white;
-    font-family:Arial;
-    text-align:center;
+body{
+background:#0f0f0f;
+color:white;
+font-family:Arial;
+text-align:center;
+margin:0;
 }
 
-.container {
-    margin-top:100px;
+.container{
+margin-top:60px;
 }
 
-h1 {
-    font-size:40px;
+h1{font-size:40px;}
+
+.counter{
+font-size:55px;
+color:#a100ff;
+margin:20px 0;
 }
 
-.counter {
-    font-size:50px;
-    margin:20px 0;
-    color:#a100ff;
+.progress{
+width:80%;
+background:#333;
+margin:20px auto;
+height:25px;
+border-radius:20px;
+overflow:hidden;
 }
 
-input {
-    padding:10px;
-    margin:5px;
-    font-size:16px;
+.progress-bar{
+height:100%;
+width:0%;
+background:#00c853;
+transition:1s;
 }
 
-button {
-    background:#a100ff;
-    color:white;
-    padding:15px 30px;
-    font-size:18px;
-    border:none;
-    cursor:pointer;
+input{
+padding:10px;
+margin:5px;
+font-size:16px;
 }
 
-button.clicked {
-    background:#00c853;
+button{
+padding:12px 25px;
+font-size:16px;
+background:#a100ff;
+border:none;
+color:white;
+cursor:pointer;
 }
 
-.tick {
-    font-size:25px;
-    margin-left:10px;
+.hidden{display:none;}
+
+.panel{
+margin-top:50px;
 }
 </style>
 </head>
-
 <body>
 
-<div class="container">
+<div class="container" id="mainPage">
 
 <h1>🎮 OYUNUMA DOKUNMA</h1>
 <p>Slogana katılmak istiyor musun?</p>
 
 <div class="counter">
-Topluluğumuz: <span id="count">0</span> kişi
+Topluluğumuz: <span id="count">0</span>
 </div>
 
-<input type="text" id="name" placeholder="İsim" required>
-<input type="text" id="surname" placeholder="Soyisim" required>
-<br><br>
+<div class="progress">
+<div class="progress-bar" id="progressBar"></div>
+</div>
+<p id="percentText">%0 / 50.000 hedef</p>
 
-<button id="joinBtn">
-Katılıyorum
-<span id="tick"></span>
-</button>
+<h3>Kayıt Ol</h3>
+<input type="text" id="name" placeholder="Ad">
+<input type="text" id="surname" placeholder="Soyad">
+<input type="password" id="password" placeholder="Şifre">
+<br>
+<button onclick="register()">Katıl</button>
+
+<h3>Giriş Yap</h3>
+<input type="text" id="loginName" placeholder="Ad">
+<input type="password" id="loginPass" placeholder="Şifre">
+<br>
+<button onclick="login()">Giriş</button>
+
+<h3>Admin Pano</h3>
+<input type="text" id="adminUser" placeholder="Kullanıcı">
+<input type="password" id="adminPass" placeholder="Şifre">
+<br>
+<button onclick="adminLogin()">Admin Giriş</button>
 
 </div>
 
-<!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>
+<div id="userPanel" class="hidden panel">
+<h2>Hoşgeldin!</h2>
+<p>Toplam Katılım:</p>
+<h1 id="panelCount">0</h1>
+<button onclick="logout()">Çıkış</button>
+</div>
+
+<div id="adminPanel" class="hidden panel">
+<h2>ADMIN PANEL</h2>
+<p>Toplam Katılım:</p>
+<h1 id="adminCount">0</h1>
+<button onclick="logout()">Çıkış</button>
+</div>
 
 <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getDatabase, ref, set, get, onValue, update } 
+from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
 const firebaseConfig = {
-  apiKey: "BURAYA_APIKEY",
-  authDomain: "BURAYA_AUTHDOMAIN",
-  projectId: "BURAYA_PROJECTID",
-  storageBucket: "BURAYA_STORAGE",
-  messagingSenderId: "BURAYA_ID",
-  appId: "BURAYA_APPID"
+apiKey: "AIzaSyCWctGdHvzvT72dNkBIyyVg5S5Tdy8ejsg",
+authDomain: "oyunuma-dokunma.firebaseapp.com",
+databaseURL: "https://oyunuma-dokunma-default-rtdb.firebaseio.com",
+projectId: "oyunuma-dokunma",
+storageBucket: "oyunuma-dokunma.firebasestorage.app",
+messagingSenderId: "482708332586",
+appId: "1:482708332586:web:878af9623e16833e7fa353",
+measurementId: "G-RQH9Q7HZM7"
 };
 
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+const db = getDatabase(app);
 
-const countElement = document.getElementById("count");
-const joinBtn = document.getElementById("joinBtn");
-const tick = document.getElementById("tick");
+const countEl = document.getElementById("count");
+const panelCount = document.getElementById("panelCount");
+const adminCount = document.getElementById("adminCount");
+const progressBar = document.getElementById("progressBar");
+const percentText = document.getElementById("percentText");
 
-async function updateCount() {
-    const querySnapshot = await getDocs(collection(db, "katilanlar"));
-    countElement.textContent = querySnapshot.size;
+const hedef = 50000;
+
+// 🔥 GERÇEK ZAMANLI SAYI
+onValue(ref(db,"sayac"), (snapshot)=>{
+let val = snapshot.val() || 0;
+animateCounter(val);
+updateProgress(val);
+panelCount.innerText = val;
+adminCount.innerText = val;
+});
+
+// 🔥 ANİMASYONLU SAYI
+function animateCounter(target){
+let start = 0;
+let duration = 1000;
+let stepTime = Math.abs(Math.floor(duration / target));
+let timer = setInterval(()=>{
+start++;
+countEl.innerText = start;
+if(start >= target){
+clearInterval(timer);
+}
+}, stepTime);
 }
 
-updateCount();
+// 🔥 YÜZDE BAR
+function updateProgress(val){
+let percent = (val / hedef) * 100;
+progressBar.style.width = percent+"%";
+percentText.innerText = "%"+percent.toFixed(2)+" / 50.000 hedef";
+}
 
-joinBtn.addEventListener("click", async () => {
+// 🔥 KAYIT
+window.register = async function(){
 
-    const name = document.getElementById("name").value;
-    const surname = document.getElementById("surname").value;
+if(localStorage.getItem("katildi")){
+alert("Bu cihaz zaten katılmış!");
+return;
+}
 
-    if(name === "" || surname === "") {
-        alert("İsim ve soyisim zorunlu!");
-        return;
-    }
+let name = document.getElementById("name").value;
+let surname = document.getElementById("surname").value;
+let pass = document.getElementById("password").value;
 
-    await addDoc(collection(db, "katilanlar"), {
-        isim: name,
-        soyisim: surname,
-        tarih: new Date()
-    });
+if(!name || !surname || !pass){
+alert("Tüm alanlar zorunlu");
+return;
+}
 
-    joinBtn.classList.add("clicked");
-    tick.textContent = "✔";
+let userId = Date.now();
 
-    updateCount();
+await set(ref(db,"kullanicilar/"+userId),{
+ad:name,
+soyad:surname,
+sifre:pass
 });
+
+let sayacRef = ref(db,"sayac");
+let snapshot = await get(sayacRef);
+let yeni = (snapshot.val() || 0) + 1;
+await set(sayacRef,yeni);
+
+localStorage.setItem("katildi","true");
+
+document.getElementById("mainPage").classList.add("hidden");
+document.getElementById("userPanel").classList.remove("hidden");
+}
+
+// 🔥 GİRİŞ
+window.login = async function(){
+
+let name = document.getElementById("loginName").value;
+let pass = document.getElementById("loginPass").value;
+
+let snapshot = await get(ref(db,"kullanicilar"));
+
+snapshot.forEach(child=>{
+let data = child.val();
+if(data.ad == name && data.sifre == pass){
+document.getElementById("mainPage").classList.add("hidden");
+document.getElementById("userPanel").classList.remove("hidden");
+}
+});
+}
+
+// 🔥 ADMIN
+window.adminLogin = function(){
+let u = document.getElementById("adminUser").value;
+let p = document.getElementById("adminPass").value;
+
+if(u=="12345" && p=="12345"){
+document.getElementById("mainPage").classList.add("hidden");
+document.getElementById("adminPanel").classList.remove("hidden");
+}else{
+alert("Hatalı admin girişi");
+}
+}
+
+window.logout = function(){
+location.reload();
+}
 
 </script>
 
