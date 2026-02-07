@@ -1,309 +1,133 @@
 <!DOCTYPE html>
-<html lang="de">
+<html>
 <head>
 <meta charset="UTF-8">
-<title>Hogachat</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#0b1d2a">
+<title>OyunuMaDokunma</title>
 
-<!-- ================= LOADER CSS ================= -->
 <style>
-/* From Uiverse.io by anand_4957 */
-.loader {
-  position: fixed;
-  inset: 0;
-  background: #0b1d2a;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10000;
+body {
+    background:#0f0f0f;
+    color:white;
+    font-family:Arial;
+    text-align:center;
 }
 
-.loader span {
-  position: absolute;
+.container {
+    margin-top:100px;
 }
 
-.loader > span {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  animation: spin 1.2s linear infinite;
+h1 {
+    font-size:40px;
 }
 
-.loader > span span {
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  background: #fff;
-  border-radius: 50%;
+.counter {
+    font-size:50px;
+    margin:20px 0;
+    color:#a100ff;
 }
 
-.loader > span span:nth-child(1) { top: 0; left: 46px; }
-.loader > span span:nth-child(2) { right: 0; top: 46px; }
-.loader > span span:nth-child(3) { bottom: 0; left: 46px; }
-.loader > span span:nth-child(4) { left: 0; top: 46px; }
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
+input {
+    padding:10px;
+    margin:5px;
+    font-size:16px;
 }
 
-.longfazers {
-  position: fixed;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
+button {
+    background:#a100ff;
+    color:white;
+    padding:15px 30px;
+    font-size:18px;
+    border:none;
+    cursor:pointer;
 }
 
-.longfazers span {
-  position: absolute;
-  width: 200px;
-  height: 2px;
-  background: rgba(255,255,255,.2);
-  animation: faze 1.5s linear infinite;
+button.clicked {
+    background:#00c853;
 }
 
-.longfazers span:nth-child(1) { top: 20%; animation-delay: 0s; }
-.longfazers span:nth-child(2) { top: 40%; animation-delay: .3s; }
-.longfazers span:nth-child(3) { top: 60%; animation-delay: .6s; }
-.longfazers span:nth-child(4) { top: 80%; animation-delay: .9s; }
-
-@keyframes faze {
-  from { left: -200px; }
-  to { left: 100%; }
+.tick {
+    font-size:25px;
+    margin-left:10px;
 }
-</style>
-
-<!-- ================= APP CSS ================= -->
-<style>
-*{box-sizing:border-box}
-body{
-  margin:0;height:100vh;
-  background:linear-gradient(#0b1d2a,#123);
-  font-family:'Segoe UI',sans-serif;
-  color:#fff;
-  overflow:hidden;
-}
-
-.box,.adminBox{
-  background:rgba(0,0,0,.55);
-  backdrop-filter: blur(8px);
-  padding:25px;
-  border-radius:20px;
-  box-shadow:0 0 25px rgba(255,255,255,.15);
-  animation:fadeIn .6s ease;
-}
-
-@keyframes fadeIn{
-  from{opacity:0;transform:scale(.95)}
-  to{opacity:1;transform:scale(1)}
-}
-
-#loginBox,#chatBox,#adminPanel{
-  position:absolute;
-  inset:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-#chatBox,#adminPanel{display:none}
-
-input,button{
-  width:100%;
-  padding:14px;
-  margin:8px 0;
-  border-radius:12px;
-  border:none;
-  font-size:16px;
-}
-
-button{
-  background:#1e90ff;
-  color:#fff;
-  cursor:pointer;
-}
-
-#messages{
-  height:45vh;
-  overflow-y:auto;
-  background:rgba(0,0,0,.35);
-  padding:12px;
-  border-radius:12px;
-  margin-bottom:8px;
-}
-
-.msg{margin-bottom:10px}
-.adminMsg{
-  background:rgba(255,215,0,.2);
-  padding:8px;
-  border-radius:10px
-}
-
-.time{font-size:11px;opacity:.7}
-
-#statusBar{font-size:13px;margin-bottom:8px}
-
-#adminBtn{
-  position:fixed;
-  top:12px;
-  right:12px;
-  z-index:5000;
-  display:none;
-}
-
-/* ❄️ SNOW */
-.snow{
-  position:fixed;
-  top:-10px;
-  width:8px;
-  height:8px;
-  background:white;
-  border-radius:50%;
-  opacity:.8;
-  animation:fall linear forwards;
-}
-@keyframes fall{to{transform:translateY(110vh)}}
 </style>
 </head>
 
 <body>
 
-<!-- ================= LOADER ================= -->
-<div class="loader" id="loader">
-  <span><span></span><span></span><span></span><span></span></span>
-  <div class="base">
-    <span></span>
-    <div class="face"></div>
-  </div>
-</div>
-<div class="longfazers"></div>
+<div class="container">
 
-<!-- ================= APP ================= -->
-<button id="adminBtn" onclick="openAdmin()">⚙️</button>
+<h1>🎮 OYUNUMA DOKUNMA</h1>
+<p>Slogana katılmak istiyor musun?</p>
 
-<div id="loginBox">
-  <div class="box">
-    <h2 style="text-align:center">❄️ Hogachat</h2>
-    <input id="name" placeholder="Name">
-    <input id="password" type="password" placeholder="Passwort">
-    <button onclick="login()">Einloggen</button>
-  </div>
+<div class="counter">
+Topluluğumuz: <span id="count">0</span> kişi
 </div>
 
-<div id="chatBox">
-  <div class="box">
-    <div id="statusBar">
-      <span id="onlineCount">Online: 0</span>
-    </div>
-    <div id="messages"></div>
-    <input id="message" placeholder="Nachricht">
-    <button onclick="sendMessage()">Senden</button>
-  </div>
+<input type="text" id="name" placeholder="İsim" required>
+<input type="text" id="surname" placeholder="Soyisim" required>
+<br><br>
+
+<button id="joinBtn">
+Katılıyorum
+<span id="tick"></span>
+</button>
+
 </div>
 
-<div id="adminPanel">
-  <div class="adminBox">
-    <h3>👑 Admin Panel</h3>
-    📋 Online Nutzer:
-    <ul id="onlineList"></ul>
-    <button onclick="closeAdmin()">Schließen</button>
-  </div>
-</div>
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>
 
-<!-- ================= FIREBASE + JS ================= -->
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import {
-  getDatabase, ref, push, onChildAdded, onValue,
-  set, onDisconnect
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
-const app = initializeApp({
-  apiKey: "AIzaSyDxr-d1ZKp3wt3i289o6FKmevr3s8Uw3WA",
-  authDomain: "okuler.firebaseapp.com",
-  databaseURL: "https://okuler-default-rtdb.firebaseio.com",
-  projectId: "okuler"
-});
-const db = getDatabase(app);
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-/* DOM */
-const loader = document.getElementById("loader");
-const loginBox = document.getElementById("loginBox");
-const chatBox = document.getElementById("chatBox");
-const adminBtn = document.getElementById("adminBtn");
-const adminPanel = document.getElementById("adminPanel");
-const nameInput = document.getElementById("name");
-const passwordInput = document.getElementById("password");
-const messageInput = document.getElementById("message");
-const messages = document.getElementById("messages");
-const onlineCount = document.getElementById("onlineCount");
-const onlineList = document.getElementById("onlineList");
+const firebaseConfig = {
+  apiKey: "BURAYA_APIKEY",
+  authDomain: "BURAYA_AUTHDOMAIN",
+  projectId: "BURAYA_PROJECTID",
+  storageBucket: "BURAYA_STORAGE",
+  messagingSenderId: "BURAYA_ID",
+  appId: "BURAYA_APPID"
+};
 
-/* LOADER HIDE */
-window.addEventListener("load",()=>{
-  setTimeout(()=>{
-    loader.style.display="none";
-  },1200);
-});
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-/* SNOW */
-setInterval(()=>{
-  const s=document.createElement("div");
-  s.className="snow";
-  s.style.left=Math.random()*innerWidth+"px";
-  s.style.animationDuration=3+Math.random()*5+"s";
-  document.body.appendChild(s);
-  setTimeout(()=>s.remove(),8000);
-},200);
+const countElement = document.getElementById("count");
+const joinBtn = document.getElementById("joinBtn");
+const tick = document.getElementById("tick");
 
-/* LOGIN */
-let isAdmin=false;
-window.login=()=>{
-  const name=nameInput.value.trim();
-  const pass=passwordInput.value.trim();
-  if(!name||!pass) return;
+async function updateCount() {
+    const querySnapshot = await getDocs(collection(db, "katilanlar"));
+    countElement.textContent = querySnapshot.size;
+}
 
-  if(pass==="mirhan5685") isAdmin=true;
-  else if(pass==="Hogachat") isAdmin=false;
-  else return alert("Falsches Passwort");
+updateCount();
 
-  loginBox.style.display="none";
-  chatBox.style.display="flex";
-  if(isAdmin) adminBtn.style.display="block";
+joinBtn.addEventListener("click", async () => {
 
-  const key=Date.now();
-  const uRef=ref(db,"onlineUsers/"+key);
-  set(uRef,name);
-  onDisconnect(uRef).remove();
+    const name = document.getElementById("name").value;
+    const surname = document.getElementById("surname").value;
 
-  onValue(ref(db,"onlineUsers"),s=>{
-    onlineCount.textContent="Online: "+(s.exists()?Object.keys(s.val()).length:0);
-    if(isAdmin){
-      onlineList.innerHTML="";
-      Object.values(s.val()||{}).forEach(n=>{
-        onlineList.innerHTML+=`<li>${n}</li>`;
-      });
+    if(name === "" || surname === "") {
+        alert("İsim ve soyisim zorunlu!");
+        return;
     }
-  });
 
-  onChildAdded(ref(db,"messages"),snap=>{
-    const m=snap.val();
-    const d=document.createElement("div");
-    d.className=m.admin?"msg adminMsg":"msg";
-    d.innerHTML=m.admin?`👑 Mirhan<br>${m.text}`:`Anonym<br>${m.text}`;
-    messages.appendChild(d);
-  });
-};
+    await addDoc(collection(db, "katilanlar"), {
+        isim: name,
+        soyisim: surname,
+        tarih: new Date()
+    });
 
-window.sendMessage=()=>{
-  const msg=messageInput.value.trim();
-  if(!msg) return;
-  push(ref(db,"messages"),{text:msg,admin:isAdmin});
-  messageInput.value="";
-};
+    joinBtn.classList.add("clicked");
+    tick.textContent = "✔";
 
-window.openAdmin=()=>adminPanel.style.display="flex";
-window.closeAdmin=()=>adminPanel.style.display="none";
+    updateCount();
+});
+
 </script>
 
 </body>
