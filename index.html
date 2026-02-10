@@ -6,20 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <style>
+        /* Genel Ayarlar */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: Arial, Helvetica, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
             background: url("ataturk.png") no-repeat center center fixed;
             background-size: cover;
             color: white;
+            overflow-x: hidden;
         }
 
-        /* Karartma efekti */
         body::before {
             content: "";
             position: fixed;
@@ -35,56 +36,93 @@
         .navbar {
             display: flex;
             justify-content: flex-end;
-            padding: 20px;
-            gap: 15px;
+            padding: 20px 40px;
+            gap: 20px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 10;
         }
 
         .navbar a {
             text-decoration: none;
             color: white;
-            background-color: red;
-            padding: 10px 18px;
-            border-radius: 8px;
+            background-color: #e63946;
+            padding: 12px 22px;
+            border-radius: 10px;
             font-weight: bold;
-            transition: 0.3s;
+            transition: all 0.3s ease;
         }
 
         .navbar a:hover {
-            background-color: darkred;
+            transform: scale(1.1);
+            background-color: #d62828;
+            box-shadow: 0 0 15px rgba(255,255,255,0.6);
         }
 
         /* İçerik */
         .content {
             text-align: center;
-            margin-top: 120px;
+            margin-top: 180px;
             padding: 20px;
+            animation: fadeInUp 1.5s ease forwards;
+            opacity: 0;
         }
 
         h1 {
-            font-size: 55px;
+            font-size: 60px;
             margin-bottom: 30px;
-            color: #ff3c3c;
+            color: #ff6b6b;
+            animation: textGlow 2s infinite alternate;
         }
 
         p {
             font-size: 20px;
             max-width: 900px;
             margin: auto;
-            line-height: 1.7;
+            line-height: 1.8;
         }
 
         .hashtag {
-            color: #00ffcc;
+            color: #00fff7;
             font-weight: bold;
+            animation: colorPulse 2s infinite alternate;
         }
 
         footer {
-            margin-top: 80px;
+            margin-top: 100px;
             text-align: center;
             padding: 20px;
             font-size: 14px;
             opacity: 0.8;
         }
+
+        /* Animasyonlar */
+        @keyframes fadeInUp {
+            0% {opacity: 0; transform: translateY(50px);}
+            100% {opacity: 1; transform: translateY(0);}
+        }
+
+        @keyframes textGlow {
+            0% {text-shadow: 0 0 5px #ff6b6b, 0 0 10px #ff6b6b;}
+            100% {text-shadow: 0 0 20px #ff6b6b, 0 0 30px #ff0000;}
+        }
+
+        @keyframes colorPulse {
+            0% {color: #00fff7;}
+            50% {color: #00d4ff;}
+            100% {color: #00fff7;}
+        }
+
+        /* Responsive */
+        @media (max-width: 768px){
+            h1 { font-size: 45px; }
+            p { font-size: 18px; }
+            .navbar { padding: 15px 20px; gap: 10px; }
+            .navbar a { padding: 10px 16px; font-size: 14px; }
+        }
+
     </style>
 </head>
 
