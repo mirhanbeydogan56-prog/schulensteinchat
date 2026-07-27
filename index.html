@@ -3,344 +3,95 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Mirhan ❤️ Merve Chat</title>
 
-<style>
-
-*{
-    box-sizing:border-box;
-    font-family:Arial,sans-serif;
-}
-
-body{
-    height:100vh;
-    margin:0;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background:linear-gradient(135deg,#2196f3,#4caf50);
-    transition:.5s;
-}
-
-body.merve{
-    background:linear-gradient(135deg,#b56cff,#ffb6d9);
-}
-
-
-.box{
-    width:95%;
-    max-width:400px;
-    background:white;
-    padding:20px;
-    border-radius:20px;
-    text-align:center;
-    box-shadow:0 10px 30px #0005;
-}
-
-
-input{
-    width:100%;
-    padding:12px;
-    margin:10px 0;
-    border-radius:10px;
-    border:1px solid #ddd;
-}
-
-
-button{
-    width:100%;
-    padding:12px;
-    border:none;
-    border-radius:10px;
-    background:#333;
-    color:white;
-    cursor:pointer;
-}
-
-
-#chat{
-    display:none;
-}
-
-
-#messages{
-    height:300px;
-    overflow:auto;
-    background:#eee;
-    padding:10px;
-    border-radius:10px;
-}
-
-
-.msg{
-    background:white;
-    padding:10px;
-    margin:8px 0;
-    border-radius:10px;
-}
-
-
-/* Film butonu */
-
-.film-btn{
-
-    position:fixed;
-    top:20px;
-    right:20px;
-
-    width:60px;
-    height:60px;
-
-    border-radius:50%;
-
-    background:#ff4d6d;
-
-    font-size:30px;
-
-    color:white;
-
-    border:none;
-
-    box-shadow:0 5px 15px #0005;
-
-}
-
-
-/* Mobilde üst orta */
-
-@media(max-width:600px){
-
-.film-btn{
-
-top:10px;
-left:50%;
-right:auto;
-
-transform:translateX(-50%);
-
-}
-
-}
-
-
-</style>
-
-
+<link rel="stylesheet" href="style.css">
 
 <script type="module">
-
-import { initializeApp } 
-from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
-
-import { 
-getDatabase,
-ref,
-push,
-onChildAdded
-}
-from "https://www.gstatic.com/firebasejs/10.13.2/firebase-database.js";
-
-
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-database.js";
 
 const firebaseConfig = {
-
-apiKey:"AIzaSyDGibvGAFm4CSFMvskXmH1weYn1EyDV3yI",
-
-authDomain:"teett-b2ca0.firebaseapp.com",
-
-databaseURL:"https://teett-b2ca0-default-rtdb.europe-west1.firebasedatabase.app",
-
-projectId:"teett-b2ca0",
-
-storageBucket:"teett-b2ca0.firebasestorage.app",
-
-messagingSenderId:"409690180731",
-
-appId:"1:409690180731:web:f9613a3b7626d318cce6de"
-
+  apiKey: "AIzaSyDGibvGAFm4CSFMvskXmH1weYn1EyDV3yI",
+  authDomain: "teett-b2ca0.firebaseapp.com",
+  databaseURL: "https://teett-b2ca0-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "teett-b2ca0",
+  storageBucket: "teett-b2ca0.firebasestorage.app",
+  messagingSenderId: "409690180731",
+  appId: "1:409690180731:web:f9613a3b7626d318cce6de"
 };
 
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
 
+let user = "";
 
-const app=initializeApp(firebaseConfig);
+window.login = function () {
+    const pass = document.getElementById("pass").value;
 
-const db=getDatabase(app);
+    if (pass === "mirhan5685") {
+        user = "Mirhan";
+        document.body.className = "mirhan";
+    } else if (pass === "merve5685") {
+        user = "Merve";
+        document.body.className = "merve";
+    } else {
+        alert("Hatalı şifre!");
+        return;
+    }
 
-
-
-let user="";
-
-
-
-window.login=function(){
-
-
-let sifre=document.getElementById("password").value;
-
-
-
-if(sifre=="mirhan5685"){
-
-user="Mirhan";
-
-document.body.className="";
-
+    document.getElementById("login").style.display = "none";
+    document.getElementById("chat").style.display = "block";
 }
 
+window.sendMessage = function () {
+    const text = document.getElementById("msg").value;
 
-else if(sifre=="merve5685"){
+    if(text=="") return;
 
-user="Merve";
+    push(ref(db,"messages"),{
+        user:user,
+        text:text
+    });
 
-document.body.className="merve";
-
+    document.getElementById("msg").value="";
 }
 
+onChildAdded(ref(db,"messages"),(data)=>{
+    const m=data.val();
 
-else{
-
-alert("Yanlış şifre");
-
-return;
-
-}
-
-
-
-document.getElementById("login").style.display="none";
-
-document.getElementById("chat").style.display="block";
-
-
-};
-
-
-
-window.send=function(){
-
-
-let text=document.getElementById("text").value;
-
-
-if(text=="") return;
-
-
-
-push(ref(db,"chat"),{
-
-user:user,
-
-message:text
-
+    document.getElementById("messages").innerHTML += `
+    <div class="message">
+        <b>${m.user}:</b> ${m.text}
+    </div>`;
 });
-
-
-
-document.getElementById("text").value="";
-
-
-};
-
-
-
-onChildAdded(ref(db,"chat"),(data)=>{
-
-
-let m=data.val();
-
-
-
-document.getElementById("messages").innerHTML +=
-
-`
-
-<div class="msg">
-
-<b>${m.user}</b><br>
-
-${m.message}
-
-</div>
-
-`;
-
-
-
-});
-
-
-
-window.openFilm=function(){
-
-window.location.href="film.html";
-
-};
-
-
-
 </script>
 
-
 </head>
-
-
-
 <body>
 
+<div id="login">
+<h1>💕 Sohbete Giriş</h1>
 
-<button class="film-btn" onclick="openFilm()">
+<input id="pass" type="password" placeholder="Şifre">
 
-🎬
+<br><br>
 
-</button>
-
-
-
-<div class="box" id="login">
-
-
-<h2>❤️ Özel Chat</h2>
-
-
-<input id="password" placeholder="Şifre">
-
-
-<button onclick="login()">
-
-Giriş
-
-</button>
-
+<button onclick="login()">Giriş Yap</button>
 
 </div>
 
+<div id="chat" style="display:none;">
 
-
-
-<div class="box" id="chat">
-
-
-<h2>💬 Canlı Sohbet</h2>
-
+<h2>Canlı Sohbet</h2>
 
 <div id="messages"></div>
 
+<input id="msg" placeholder="Mesaj yaz...">
 
-<input id="text" placeholder="Mesaj yaz">
-
-
-<button onclick="send()">
-
-Gönder
-
-</button>
-
+<button onclick="sendMessage()">Gönder</button>
 
 </div>
 
-
-
 </body>
-
 </html>
