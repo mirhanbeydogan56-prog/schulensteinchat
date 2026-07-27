@@ -1,1 +1,97 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mirhan ❤️ Merve Chat</title>
 
+<link rel="stylesheet" href="style.css">
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDGibvGAFm4CSFMvskXmH1weYn1EyDV3yI",
+  authDomain: "teett-b2ca0.firebaseapp.com",
+  databaseURL: "https://teett-b2ca0-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "teett-b2ca0",
+  storageBucket: "teett-b2ca0.firebasestorage.app",
+  messagingSenderId: "409690180731",
+  appId: "1:409690180731:web:f9613a3b7626d318cce6de"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+let user = "";
+
+window.login = function () {
+    const pass = document.getElementById("pass").value;
+
+    if (pass === "mirhan5685") {
+        user = "Mirhan";
+        document.body.className = "mirhan";
+    } else if (pass === "merve5685") {
+        user = "Merve";
+        document.body.className = "merve";
+    } else {
+        alert("Hatalı şifre!");
+        return;
+    }
+
+    document.getElementById("login").style.display = "none";
+    document.getElementById("chat").style.display = "block";
+}
+
+window.sendMessage = function () {
+    const text = document.getElementById("msg").value;
+
+    if(text=="") return;
+
+    push(ref(db,"messages"),{
+        user:user,
+        text:text
+    });
+
+    document.getElementById("msg").value="";
+}
+
+onChildAdded(ref(db,"messages"),(data)=>{
+    const m=data.val();
+
+    document.getElementById("messages").innerHTML += `
+    <div class="message">
+        <b>${m.user}:</b> ${m.text}
+    </div>`;
+});
+</script>
+
+</head>
+<body>
+
+<div id="login">
+<h1>💕 Sohbete Giriş</h1>
+
+<input id="pass" type="password" placeholder="Şifre">
+
+<br><br>
+
+<button onclick="login()">Giriş Yap</button>
+
+</div>
+
+<div id="chat" style="display:none;">
+
+<h2>Canlı Sohbet</h2>
+
+<div id="messages"></div>
+
+<input id="msg" placeholder="Mesaj yaz...">
+
+<button onclick="sendMessage()">Gönder</button>
+
+</div>
+
+</body>
+</html>
