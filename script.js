@@ -88,3 +88,7 @@ onChildAdded(ref(db,"messages"),(data)=>{
     box.scrollTop=box.scrollHeight;
 
 });
+
+window.openFilm = function(){
+    window.location.href="film.html";
+}
