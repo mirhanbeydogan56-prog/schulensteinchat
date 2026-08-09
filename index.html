@@ -1,4 +1,4 @@
-```html
+
 <!DOCTYPE html>
 <html lang="tr">
 
@@ -20,22 +20,7 @@
     z-index:999;
 }
 
-.music-btn{
-    position:fixed;
-    bottom:20px;
-    right:20px;
-    width:55px;
-    height:55px;
-    border-radius:50%;
-    border:none;
-    background:#6c63ff;
-    color:white;
-    font-size:25px;
-    cursor:pointer;
-    box-shadow:0 5px 15px #0005;
-    z-index:999;
-}
-
+/* Telefonda üst orta */
 @media(max-width:600px){
 
 .film-btn{
@@ -45,10 +30,32 @@
     transform:translateX(-50%);
 }
 
-.music-btn{
-    bottom:15px;
-    right:15px;
 }
+
+
+/* ÇİÇEK ANİMASYONU */
+
+.flower{
+    position:fixed;
+    top:-60px;
+    color:#800020;
+    font-size:28px;
+    z-index:998;
+    pointer-events:none;
+    animation:flowerFall linear forwards;
+}
+
+@keyframes flowerFall{
+
+    0%{
+        transform:translateY(-60px) rotate(0deg);
+        opacity:1;
+    }
+
+    100%{
+        transform:translateY(110vh) rotate(360deg);
+        opacity:0;
+    }
 
 }
 
@@ -66,169 +73,120 @@
 <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
-
-import {
-    getDatabase,
-    ref,
-    push,
-    onChildAdded
-} from "https://www.gstatic.com/firebasejs/10.13.2/firebase-database.js";
+import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-database.js";
 
 
 const firebaseConfig = {
-
   apiKey: "AIzaSyDGibvGAFm4CSFMvskXmH1weYn1EyDV3yI",
-
   authDomain: "teett-b2ca0.firebaseapp.com",
-
   databaseURL: "https://teett-b2ca0-default-rtdb.europe-west1.firebasedatabase.app",
-
   projectId: "teett-b2ca0",
-
   storageBucket: "teett-b2ca0.firebasestorage.app",
-
   messagingSenderId: "409690180731",
-
   appId: "1:409690180731:web:f9613a3b7626d318cce6de"
-
 };
 
-
 const app = initializeApp(firebaseConfig);
-
 const db = getDatabase(app);
 
 let user = "";
 
-const music = new Audio("./music.mp3");
-
-music.loop = true;
-
-music.volume = 0.5;
-
-
-/* MÜZİĞİ BAŞLAT */
-
-function startMusic(){
-
-    music.play()
-    .then(() => {
-
-        document.getElementById("musicBtn").innerHTML = "🔊";
-
-    })
-    .catch((error) => {
-
-        console.log("Müzik hatası:", error);
-
-        alert("Müzik açılamadı! music.mp3 dosyasının index.html ile aynı klasörde olduğundan emin ol.");
-
-    });
-
-}
-
-
-/* MÜZİK BUTONU */
-
-window.toggleMusic = function(){
-
-    if(music.paused){
-
-        startMusic();
-
-    }else{
-
-        music.pause();
-
-        document.getElementById("musicBtn").innerHTML = "🔇";
-
-    }
-
-}
-
-
-/* GİRİŞ */
 
 window.login = function () {
 
     const pass = document.getElementById("pass").value;
 
-
     if (pass === "mirhan5685") {
 
         user = "Mirhan";
-
         document.body.className = "mirhan";
-
 
     } else if (pass === "azra5685") {
 
         user = "azra";
-
         document.body.className = "merve";
-
 
     } else {
 
         alert("Hatalı şifre!");
-
         return;
 
     }
 
-
     document.getElementById("login").style.display = "none";
-
     document.getElementById("chat").style.display = "block";
 
 
-    /* GİRİŞTEN SONRA MÜZİĞİ BAŞLAT */
+    // Müzik başlat
+    const music = document.getElementById("bgMusic");
 
-    startMusic();
+    music.volume = 0.5;
+
+    music.play().catch(error => {
+        console.log("Müzik başlatılamadı:", error);
+    });
 
 }
 
-
-/* MESAJ GÖNDER */
 
 window.sendMessage = function () {
 
     const text = document.getElementById("msg").value;
 
-
-    if(text == "") return;
-
+    if(text=="") return;
 
     push(ref(db,"messages"),{
-
         user:user,
-
         text:text
-
     });
 
-
-    document.getElementById("msg").value = "";
+    document.getElementById("msg").value="";
 
 }
 
 
-/* MESAJLARI GETİR */
-
 onChildAdded(ref(db,"messages"),(data)=>{
 
-    const m = data.val();
-
+    const m=data.val();
 
     document.getElementById("messages").innerHTML += `
-
     <div class="message">
-
         <b>${m.user}:</b> ${m.text}
-
     </div>`;
 
 });
+
+
+/* KALP BUTONUNA BASINCA ÇİÇEKLER */
+
+window.makeFlowers = function(){
+
+    for(let i = 0; i < 35; i++){
+
+        const flower = document.createElement("div");
+
+        flower.className = "flower";
+
+        flower.innerHTML = "🌹";
+
+        flower.style.left = Math.random() * 100 + "vw";
+
+        flower.style.fontSize = (20 + Math.random() * 25) + "px";
+
+        flower.style.animationDuration = (3 + Math.random() * 4) + "s";
+
+        flower.style.animationDelay = Math.random() * 1.5 + "s";
+
+        document.body.appendChild(flower);
+
+
+        setTimeout(() => {
+            flower.remove();
+        }, 8000);
+
+    }
+
+}
 
 </script>
 
@@ -238,64 +196,42 @@ onChildAdded(ref(db,"messages"),(data)=>{
 <body>
 
 
-<!-- MÜZİK -->
+<!-- KALP BUTONU -->
 
-<button
-    id="musicBtn"
-    class="music-btn"
-    onclick="toggleMusic()">
-    🎵
+<button class="film-btn" onclick="makeFlowers()">
+❤️
 </button>
 
-
-<!-- FİLM BUTONU -->
-
-<button
-    class="film-btn"
-    onclick="openFilm()">
-    🎬
-</button>
-
-
-<!-- GİRİŞ -->
 
 <div id="login">
 
 <h1>💕 Sohbete Giriş</h1>
 
-<input
-    id="pass"
-    type="password"
-    placeholder="Şifre">
+<input id="pass" type="password" placeholder="Şifre">
 
 <br><br>
 
-<button onclick="login()">
-Giriş Yap
-</button>
+<button onclick="login()">Giriş Yap</button>
 
 </div>
 
 
-<!-- CHAT -->
-
-<div
-    id="chat"
-    style="display:none;">
+<div id="chat" style="display:none;">
 
 <h2>Canlı Sohbet</h2>
 
 <div id="messages"></div>
 
-<input
-    id="msg"
-    placeholder="Mesaj yaz...">
+<input id="msg" placeholder="Mesaj yaz...">
 
-<button onclick="sendMessage()">
-Gönder
-</button>
+<button onclick="sendMessage()">Gönder</button>
 
 </div>
+
+
+<!-- ARKA PLAN MÜZİĞİ -->
+
+<audio id="bgMusic" src="./music.mp3" loop preload="auto"></audio>
 
 
 </body>
