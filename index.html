@@ -67,7 +67,7 @@ window.login = function () {
         document.body.className = "mirhan";
     } else if (pass === "azra5685") {
         user = "azra";
-        document.body.className = "azra";
+        document.body.className = "merve";
     } else {
         alert("Hatalı şifre!");
         return;
@@ -75,6 +75,9 @@ window.login = function () {
 
     document.getElementById("login").style.display = "none";
     document.getElementById("chat").style.display = "block";
+
+    // Müzik başlat
+    document.getElementById("bgMusic").play();
 }
 
 window.sendMessage = function () {
@@ -101,8 +104,13 @@ onChildAdded(ref(db,"messages"),(data)=>{
 </script>
 
 </head>
+
 <body>
-  <button class="film-btn" onclick="openFilm()">
+
+<!-- Arka plan müziği -->
+<audio id="bgMusic" src="music.mp3" loop></audio>
+
+<button class="film-btn" onclick="openFilm()">
 🎬
 </button>
 
