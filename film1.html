@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Azra ❤️ Mirhan</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top, #3b173d 0%, #160d1d 40%, #09070d 100%);
+      color: white;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .app {
+      width: min(1100px, 94%);
+      margin: 25px auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 18px;
+    }
+
+    header h1 {
+      font-size: clamp(24px, 5vw, 38px);
+      background: linear-gradient(90deg, #ff6fae, #ffb6d5);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    header p {
+      margin-top: 7px;
+      color: #bcaabd;
+      font-size: 14px;
+    }
+
+    .card {
+      background: rgba(22, 16, 28, 0.88);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: 0 20px 70px rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(15px);
+    }
+
+    /* VIDEO */
+
+    .video-area {
+      background: #000;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+    }
+
+    #player {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* VIDEO CONTROLS */
+
+    .video-controls {
+      display: flex;
+      gap: 10px;
+      padding: 14px;
+      background: #17111c;
+      border-bottom: 1px solid rgba(255,255,255,.07);
+      flex-wrap: wrap;
+    }
+
+    .video-controls input {
+      flex: 1;
+      min-width: 200px;
+      padding: 13px 15px;
+      border-radius: 12px;
+      border: 1px solid #3c2b43;
+      outline: none;
+      background: #0e0a12;
+      color: white;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+      color: white;
+      font-weight: bold;
+      border-radius: 12px;
+      padding: 12px 17px;
+      background: linear-gradient(135deg, #e94488, #a92875);
+      transition: .2s;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.1);
+    }
+
+    .control-btn {
+      min-width: 50px;
+    }
+
+    /* CHAT */
+
+    .chat {
+      padding: 18px;
+    }
+
+    .chat-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .chat-title h2 {
+      font-size: 19px;
+    }
+
+    #onlineStatus {
+      font-size: 12px;
+      color: #7dffad;
+    }
+
+    #messages {
+      height: 300px;
+      overflow-y: auto;
+      padding: 12px;
+      border-radius: 15px;
+      background: rgba(0,0,0,.25);
+      border: 1px solid rgba(255,255,255,.06);
+    }
+
+    .message {
+      margin-bottom: 12px;
+      display: flex;
+      flex-direction: column;
+      max-width: 82%;
+    }
+
+    .message.mine {
+      margin-left: auto;
+      align-items: flex-end;
+    }
+
+    .name {
+      font-size: 11px;
+      color: #ff8fbd;
+      margin-bottom: 4px;
+      font-weight: bold;
+    }
+
+    .bubble {
+      padding: 10px 13px;
+      border-radius: 14px;
+      background: #2a1e31;
+      color: #eee;
+      word-break: break-word;
+    }
+
+    .mine .bubble {
+      background: linear-gradient(135deg, #d83e82, #9f286d);
+    }
+
+    .time {
+      color: #87758e;
+      font-size: 9px;
+      margin-top: 4px;
+    }
+
+    .chat-input {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .chat-input input {
+      flex: 1;
+      padding: 14px;
+      border-radius: 13px;
+      border: 1px solid #3c2b43;
+      outline: none;
+      background: #0e0a12;
+      color: white;
+      font-size: 14px;
+    }
+
+    /* LOGIN */
+
+    .login-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 3, 7, .92);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      z-index: 1000;
+    }
+
+    .login-box {
+      width: min(400px, 100%);
+      padding: 30px;
+      border-radius: 24px;
+      text-align: center;
+      background: #17111c;
+      border: 1px solid rgba(255,255,255,.08);
+      box-shadow: 0 25px 80px rgba(0,0,0,.5);
+    }
+
+    .login-box .heart {
+      font-size: 45px;
+      margin-bottom: 10px;
+    }
+
+    .login-box h2 {
+      margin-bottom: 8px;
+    }
+
+    .login-box p {
+      color: #9e8da5;
+      font-size: 13px;
+      margin-bottom: 20px;
+    }
+
+    .login-box input {
+      width: 100%;
+      padding: 15px;
+      border-radius: 13px;
+      border: 1px solid #3c2b43;
+      background: #0c090e;
+      color: white;
+      outline: none;
+      margin-bottom: 10px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    #loginError {
+      color: #ff6d8d;
+      min-height: 20px;
+      font-size: 12px;
+      margin-top: 10px;
+    }
+
+    .user-badge {
+      color: #ff8fbd;
+      font-size: 12px;
+    }
+
+    @media (max-width: 600px) {
+      .app {
+        width: 100%;
+        margin: 0;
+      }
+
+      .card {
+        border-radius: 0;
+        border-left: 0;
+        border-right: 0;
+      }
+
+      header {
+        padding: 20px 10px 5px;
+      }
+
+      .video-controls {
+        padding: 10px;
+      }
+
+      .chat {
+        padding: 12px;
+      }
+
+      #messages {
+        height: 280px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- LOGIN -->
+  <div class="login-overlay" id="loginOverlay">
+    <div class="login-box">
+      <div class="heart">❤️</div>
+      <h2>Azra & Mirhan</h2>
+      <p>Devam etmek için kendi kodunu gir.</p>
+
+      <input
+        id="loginCode"
+        type="password"
+        placeholder="Giriş kodu"
+        autocomplete="off"
+      />
+
+      <button onclick="login()" style="width:100%;">
+        Giriş Yap
+      </button>
+
+      <div id="loginError"></div>
+    </div>
+  </div>
+
+  <div class="app">
+
+    <header>
+      <h1>❤️ Azra & Mirhan ❤️</h1>
+      <p>Birlikte izle · Birlikte konuş</p>
+    </header>
+
+    <div class="card">
+
+      <!-- YOUTUBE -->
+      <div class="video-area">
+        <div id="player"></div>
+      </div>
+
+      <!-- VIDEO LINK -->
+      <div class="video-controls">
+
+        <input
+          id="youtubeUrl"
+          type="text"
+          placeholder="YouTube linkini buraya yapıştır..."
+        />
+
+        <button onclick="loadVideo()">
+          Videoyu Aç
+        </button>
+
+        <button class="control-btn" onclick="syncPlay()">
+          ▶
+        </button>
+
+        <button class="control-btn" onclick="syncPause()">
+          ⏸
+        </button>
+
+      </div>
+
+      <!-- CHAT -->
+      <div class="chat">
+
+        <div class="chat-title">
+          <h2>💬 Birlikte Chat</h2>
+          <span id="onlineStatus">● Bağlanıyor...</span>
+        </div>
+
+        <div id="messages"></div>
+
+        <div class="chat-input">
+
+          <input
+            id="messageInput"
+            type="text"
+            maxlength="500"
+            placeholder="Mesajını yaz..."
+            autocomplete="off"
+          />
+
+          <button onclick="sendMessage()">
+            Gönder
+          </button>
+
+        </div>
+
+        <div style="margin-top:10px;">
+          <span class="user-badge" id="currentUser"></span>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- YOUTUBE API -->
+  <script src="https://www.youtube.com/iframe_api"></script>
+
+  <!-- FIREBASE -->
+  <script type="module">
+
+    import { initializeApp } from
+      "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+    import {
+      getDatabase,
+      ref,
+      push,
+      onChildAdded,
+      set,
+      onValue
+    } from
+      "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDGibvGAFm4CSFMvskXmH1weYn1EyDV3yI",
+      authDomain: "teett-b2ca0.firebaseapp.com",
+      databaseURL: "https://teett-b2ca0-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "teett-b2ca0",
+      storageBucket: "teett-b2ca0.firebasestorage.app",
+      messagingSenderId: "409690180731",
+      appId: "1:409690180731:web:f9613a3b7626d318cce6de",
+      measurementId: "G-J77YSB8MY8"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    window.firebaseDB = db;
+    window.firebaseRef = ref;
+    window.firebasePush = push;
+    window.firebaseSet = set;
+    window.firebaseOnChildAdded = onChildAdded;
+    window.firebaseOnValue = onValue;
+
+    /*
+      Ortak oda.
+      İstersen daha sonra:
+      /rooms/azra-mirhan/
+      şeklinde farklı odalar da ekleyebiliriz.
+    */
+    window.roomRef = ref(db, "rooms/azra-mirhan");
+
+    document.getElementById("onlineStatus").textContent =
+      "● Firebase bağlı";
+
+    // Mesajları dinle
+    const messagesRef = ref(db, "rooms/azra-mirhan/messages");
+
+    onChildAdded(messagesRef, (snapshot) => {
+
+      const data = snapshot.val();
+
+      if (!data) return;
+
+      addMessageToScreen(data);
+
+    });
+
+    // Video durumunu dinle
+    const videoRef = ref(db, "rooms/azra-mirhan/video");
+
+    let applyingRemoteState = false;
+
+    onValue(videoRef, (snapshot) => {
+
+      const data = snapshot.val();
+
+      if (!data || !window.playerReady) return;
+
+      applyingRemoteState = true;
+
+      if (data.videoId && window.player) {
+
+        if (
+          window.player.getVideoData &&
+          window.player.getVideoData().video_id !== data.videoId
+        ) {
+          window.player.loadVideoById(data.videoId);
+        }
+
+        setTimeout(() => {
+
+          if (data.state === "playing") {
+            window.player.seekTo(data.time || 0, true);
+            window.player.playVideo();
+          }
+
+          if (data.state === "paused") {
+            window.player.seekTo(data.time || 0, true);
+            window.player.pauseVideo();
+          }
+
+          applyingRemoteState = false;
+
+        }, 700);
+
+      }
+
+    });
+
+    window.saveVideoState = async function(state) {
+
+      if (!window.player || applyingRemoteState) return;
+
+      const videoData = window.player.getVideoData();
+
+      if (!videoData || !videoData.video_id) return;
+
+      await set(
+        ref(db, "rooms/azra-mirhan/video"),
+        {
+          videoId: videoData.video_id,
+          time: window.player.getCurrentTime(),
+          state: state,
+          updatedAt: Date.now(),
+          updatedBy: window.currentUser || "unknown"
+        }
+      );
+    };
+
+    window.sendFirebaseMessage = async function(text) {
+
+      await push(
+        ref(db, "rooms/azra-mirhan/messages"),
+        {
+          name: window.currentUser,
+          text: text,
+          timestamp: Date.now()
+        }
+      );
+
+    };
+
+    window.getFirebaseDB = function() {
+      return db;
+    };
+
+  </script>
+
+  <script>
+
+    /* =========================
+       KULLANICI GİRİŞİ
+       ========================= */
+
+    const USERS = {
+      "azra5685": "Azra",
+      "mirhan5685": "Mirhan"
+    };
+
+    window.currentUser = null;
+
+    function login() {
+
+      const code =
+        document.getElementById("loginCode").value.trim().toLowerCase();
+
+      const error =
+        document.getElementById("loginError");
+
+      if (USERS[code]) {
+
+        window.currentUser = USERS[code];
+
+        localStorage.setItem(
+          "azra_mirhan_user",
+          USERS[code]
+        );
+
+        document.getElementById("loginOverlay").style.display = "none";
+
+        document.getElementById("currentUser").textContent =
+          "Giriş yapan: " + USERS[code];
+
+        return;
+      }
+
+      error.textContent = "Kod yanlış.";
+
+    }
+
+    document
+      .getElementById("loginCode")
+      .addEventListener("keydown", function(e) {
+
+        if (e.key === "Enter") {
+          login();
+        }
+
+      });
+
+    const savedUser =
+      localStorage.getItem("azra_mirhan_user");
+
+    if (savedUser === "Azra" || savedUser === "Mirhan") {
+
+      window.currentUser = savedUser;
+
+      document.getElementById("loginOverlay").style.display = "none";
+
+      document.getElementById("currentUser").textContent =
+        "Giriş yapan: " + savedUser;
+    }
+
+
+    /* =========================
+       CHAT
+       ========================= */
+
+    function sendMessage() {
+
+      const input =
+        document.getElementById("messageInput");
+
+      const text = input.value.trim();
+
+      if (!text) return;
+
+      if (!window.currentUser) {
+        alert("Önce giriş yap.");
+        return;
+      }
+
+      window.sendFirebaseMessage(text);
+
+      input.value = "";
+      input.focus();
+
+    }
+
+    document
+      .getElementById("messageInput")
+      .addEventListener("keydown", function(e) {
+
+        if (e.key === "Enter") {
+          sendMessage();
+        }
+
+      });
+
+
+    function addMessageToScreen(data) {
+
+      const messages =
+        document.getElementById("messages");
+
+      const wrapper =
+        document.createElement("div");
+
+      wrapper.className =
+        "message " +
+        (data.name === window.currentUser ? "mine" : "");
+
+      const name =
+        document.createElement("div");
+
+      name.className = "name";
+      name.textContent = data.name;
+
+      const bubble =
+        document.createElement("div");
+
+      bubble.className = "bubble";
+      bubble.textContent = data.text;
+
+      const time =
+        document.createElement("div");
+
+      time.className = "time";
+
+      if (data.timestamp) {
+
+        time.textContent =
+          new Date(data.timestamp).toLocaleTimeString(
+            "tr-TR",
+            {
+              hour: "2-digit",
+              minute: "2-digit"
+            }
+          );
+
+      }
+
+      wrapper.appendChild(name);
+      wrapper.appendChild(bubble);
+      wrapper.appendChild(time);
+
+      messages.appendChild(wrapper);
+
+      messages.scrollTop =
+        messages.scrollHeight;
+
+    }
+
+
+    /* =========================
+       YOUTUBE
+       ========================= */
+
+    window.player = null;
+    window.playerReady = false;
+
+    window.onYouTubeIframeAPIReady = function() {
+
+      window.player =
+        new YT.Player("player", {
+
+          videoId: "",
+
+          playerVars: {
+            autoplay: 0,
+            controls: 1,
+            rel: 0,
+            modestbranding: 1
+          },
+
+          events: {
+
+            onReady: function() {
+
+              window.playerReady = true;
+
+            },
+
+            onStateChange: function(event) {
+
+              if (!window.currentUser) return;
+
+              if (event.data === YT.PlayerState.PLAYING) {
+
+                if (window.saveVideoState) {
+                  window.saveVideoState("playing");
+                }
+
+              }
+
+              if (event.data === YT.PlayerState.PAUSED) {
+
+                if (window.saveVideoState) {
+                  window.saveVideoState("paused");
+                }
+
+              }
+
+            }
+
+          }
+
+        });
+
+    };
+
+
+    function getYouTubeId(url) {
+
+      try {
+
+        const parsed =
+          new URL(url);
+
+        if (parsed.hostname.includes("youtu.be")) {
+
+          return parsed.pathname.substring(1);
+
+        }
+
+        if (
+          parsed.hostname.includes("youtube.com")
+        ) {
+
+          return parsed.searchParams.get("v");
+
+        }
+
+      } catch (e) {}
+
+      return null;
+
+    }
+
+
+    function loadVideo() {
+
+      const url =
+        document.getElementById("youtubeUrl").value.trim();
+
+      const videoId =
+        getYouTubeId(url);
+
+      if (!videoId) {
+
+        alert("Geçerli bir YouTube linki gir.");
+
+        return;
+      }
+
+      if (!window.playerReady) {
+
+        alert("YouTube henüz yükleniyor. Birkaç saniye bekle.");
+
+        return;
+      }
+
+      window.player.loadVideoById(videoId);
+
+      setTimeout(() => {
+
+        if (window.saveVideoState) {
+          window.saveVideoState("playing");
+        }
+
+      }, 500);
+
+    }
+
+
+    function syncPlay() {
+
+      if (!window.player) return;
+
+      window.player.playVideo();
+
+    }
+
+
+    function syncPause() {
+
+      if (!window.player) return;
+
+      window.player.pauseVideo();
+
+    }
+
+  </script>
+
+</body>
+</html>
