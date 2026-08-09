@@ -2,1483 +2,1474 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Azra ❤️ Mirhan | Film</title>
+<title>Azra ❤️ Mirhan</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    min-height:100vh;
+    background:
+        radial-gradient(circle at top,#42152b,#170811 55%,#080509);
+    color:white;
+    font-family:Arial,sans-serif;
+}
+
+.container{
+    width:min(1100px,95%);
+    margin:25px auto;
+}
+
+.header{
+    text-align:center;
+    margin-bottom:18px;
+}
+
+.header h1{
+    margin:0;
+    color:#ff7198;
+    font-size:clamp(25px,5vw,38px);
+}
+
+.header p{
+    color:#ad9aa4;
+}
+
+.card{
+    overflow:hidden;
+    background:#160d13;
+    border:1px solid #ff71981c;
+    border-radius:22px;
+    box-shadow:0 20px 70px #0009;
+}
+
+/* VIDEO */
+
+.video{
+    width:100%;
+    aspect-ratio:16/9;
+    background:#000;
+}
+
+#player{
+    width:100%;
+    height:100%;
+}
+
+/* URL */
+
+.controls{
+    display:flex;
+    gap:8px;
+    padding:14px;
+    background:#1d1118;
+}
+
+.controls input{
+    flex:1;
+    min-width:0;
+    padding:14px;
+    border:1px solid #512839;
+    border-radius:11px;
+    outline:none;
+    background:#0e080c;
+    color:white;
+}
+
+button{
+    border:none;
+    border-radius:11px;
+    padding:12px 17px;
+    background:#ed4775;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#ff5d88;
+}
+
+.buttons{
+    display:flex;
+    gap:8px;
+    padding:0 14px 14px;
+    background:#1d1118;
+}
+
+.status{
+    padding:9px 14px;
+    background:#110a0f;
+    color:#aaa;
+    font-size:12px;
+}
+
+#statusText{
+    color:#78e6a3;
+}
+
+/* CHAT */
+
+.chat{
+    padding:18px;
+}
+
+.chat-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:12px;
+}
+
+.chat-title h2{
+    margin:0;
+    color:#ff8eac;
+}
+
+#userText{
+    color:#bba8b1;
+    font-size:12px;
+}
+
+#messages{
+    height:300px;
+    overflow-y:auto;
+    padding:12px;
+    border-radius:14px;
+    background:#0c070a;
+    border:1px solid #ffffff0b;
+}
+
+.message{
+    max-width:85%;
+    margin-bottom:10px;
+    padding:9px 12px;
+    border-radius:13px;
+    background:#2d1722;
+    word-break:break-word;
+}
+
+.message.mine{
+    margin-left:auto;
+    background:#8e2f4d;
+}
+
+.message-name{
+    display:block;
+    color:#ff9db7;
+    font-size:11px;
+    font-weight:bold;
+    margin-bottom:4px;
+}
+
+.message-text{
+    font-size:14px;
+}
+
+.message-time{
+    display:block;
+    margin-top:4px;
+    color:#bcaab2;
+    font-size:9px;
+}
+
+.chat-input{
+    display:flex;
+    gap:8px;
+    margin-top:10px;
+}
+
+.chat-input input{
+    flex:1;
+    min-width:0;
+    padding:14px;
+    border:1px solid #512839;
+    border-radius:11px;
+    outline:none;
+    background:#0e080c;
+    color:white;
+}
+
+/* LOGIN */
+
+#loginScreen{
+    position:fixed;
+    inset:0;
+    z-index:1000;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    background:#080509ee;
+}
+
+.login-box{
+    width:min(400px,100%);
+    padding:30px;
+    border-radius:22px;
+    background:#1b1017;
+    text-align:center;
+    box-shadow:0 25px 80px #000;
+}
+
+.login-box .heart{
+    font-size:45px;
+}
+
+.login-box h2{
+    color:#ff7198;
+}
+
+.login-box p{
+    color:#a9959f;
+    font-size:13px;
+}
+
+.login-box input{
+    width:100%;
+    padding:14px;
+    margin:10px 0;
+    border:1px solid #512839;
+    border-radius:11px;
+    outline:none;
+    background:#10090e;
+    color:white;
+    text-align:center;
+}
+
+.login-box button{
+    width:100%;
+}
+
+#loginError{
+    min-height:18px;
+    margin-top:8px;
+    color:#ff718d;
+    font-size:12px;
+}
+
+@media(max-width:600px){
+
+    .container{
+        width:100%;
+        margin:0;
     }
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background:
-        radial-gradient(circle at top, #3b1025, #12070e 55%, #080509);
-      color: white;
-      font-family: Arial, sans-serif;
+    .card{
+        border-radius:0;
     }
 
-    .container {
-      width: min(1100px, 95%);
-      margin: 25px auto;
+    .header{
+        padding:20px 10px 10px;
     }
 
-    .top {
-      text-align: center;
-      margin-bottom: 18px;
+    .controls{
+        flex-wrap:wrap;
     }
 
-    .top h1 {
-      margin: 0;
-      color: #ff7198;
-      font-size: clamp(25px, 5vw, 38px);
+    .controls input{
+        flex-basis:100%;
     }
 
-    .top p {
-      color: #a9959f;
-      margin-top: 7px;
+    .controls button{
+        flex:1;
     }
 
-    .card {
-      overflow: hidden;
-      background: rgba(22, 12, 19, .95);
-      border: 1px solid rgba(255, 105, 145, .15);
-      border-radius: 22px;
-      box-shadow: 0 20px 70px #0008;
+    .chat{
+        padding:12px;
     }
 
-    /* VIDEO */
-
-    .video {
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      background: #000;
+    #messages{
+        height:280px;
     }
+}
+</style>
 
-    #player {
-      width: 100%;
-      height: 100%;
-    }
+<!--
+    ÖNEMLİ:
+    YouTube API callback fonksiyonunu
+    API scriptinden ÖNCE tanımlıyoruz.
+-->
+<script>
+window.youtubeReady = false;
+window.youtubePlayer = null;
 
-    /* VIDEO LINK */
+window.onYouTubeIframeAPIReady = function(){
 
-    .controls {
-      display: flex;
-      gap: 9px;
-      padding: 14px;
-      background: #1b1017;
-      border-bottom: 1px solid #ffffff0d;
-    }
+    console.log("YouTube API hazır.");
 
-    .controls input {
-      flex: 1;
-      min-width: 0;
-      padding: 13px;
-      border: 1px solid #4a2635;
-      border-radius: 11px;
-      background: #10090e;
-      color: white;
-      outline: none;
-    }
+    window.youtubePlayer = new YT.Player("player",{
 
-    button {
-      border: none;
-      border-radius: 11px;
-      padding: 12px 17px;
-      background: #ed4775;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-    }
+        width:"100%",
+        height:"100%",
 
-    button:hover {
-      background: #ff5d88;
-    }
+        videoId:"",
 
-    .small-buttons {
-      display: flex;
-      gap: 7px;
-      padding: 0 14px 14px;
-      background: #1b1017;
-    }
+        playerVars:{
+            autoplay:0,
+            controls:1,
+            rel:0,
+            modestbranding:1,
+            playsinline:1
+        },
 
-    /* DURUM */
+        events:{
 
-    .status {
-      padding: 8px 14px;
-      color: #9e8d96;
-      font-size: 12px;
-      background: #130b11;
-    }
+            onReady:function(){
 
-    #statusText {
-      color: #76e6a2;
-    }
+                window.youtubeReady = true;
 
-    /* CHAT */
+                console.log("YouTube player hazır.");
 
-    .chat {
-      padding: 18px;
-    }
+                if(window.setStatus){
+                    window.setStatus("YouTube hazır");
+                }
 
-    .chat-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-    }
+            },
 
-    .chat-header h2 {
-      margin: 0;
-      font-size: 20px;
-      color: #ff8eac;
-    }
+            onStateChange:function(event){
 
-    #userText {
-      font-size: 12px;
-      color: #bdaab2;
-    }
+                /*
+                    Firebase'den gelen hareketi
+                    tekrar Firebase'e göndermiyoruz.
+                */
 
-    #messages {
-      height: 300px;
-      overflow-y: auto;
-      padding: 12px;
-      border-radius: 14px;
-      background: #0d080c;
-      border: 1px solid #ffffff0b;
-    }
+                if(window.applyingRemote){
+                    return;
+                }
 
-    .message {
-      margin-bottom: 11px;
-      max-width: 85%;
-      padding: 9px 12px;
-      border-radius: 13px;
-      background: #2b1721;
-      word-break: break-word;
-    }
+                if(!window.currentUser){
+                    return;
+                }
 
-    .message.mine {
-      margin-left: auto;
-      background: #8e2f4d;
-    }
+                if(
+                    event.data ===
+                    YT.PlayerState.PLAYING
+                ){
 
-    .message-name {
-      display: block;
-      color: #ff9db7;
-      font-size: 11px;
-      font-weight: bold;
-      margin-bottom: 4px;
-    }
+                    window.sendVideoState("playing");
 
-    .message-text {
-      font-size: 14px;
-      line-height: 1.4;
-    }
+                }
 
-    .message-time {
-      display: block;
-      color: #bcaab2;
-      font-size: 9px;
-      margin-top: 4px;
-    }
+                else if(
+                    event.data ===
+                    YT.PlayerState.PAUSED
+                ){
 
-    .chat-input {
-      display: flex;
-      gap: 8px;
-      margin-top: 10px;
-    }
+                    window.sendVideoState("paused");
 
-    .chat-input input {
-      flex: 1;
-      min-width: 0;
-      padding: 14px;
-      border: 1px solid #4a2635;
-      border-radius: 11px;
-      background: #10090e;
-      color: white;
-      outline: none;
-    }
+                }
 
-    /* LOGIN */
+            }
+        }
+    });
+};
+</script>
 
-    #loginScreen {
-      position: fixed;
-      inset: 0;
-      z-index: 1000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      background: #080509ee;
-    }
+<!--
+    Callback yukarıda tanımlandıktan sonra
+    YouTube API yükleniyor.
+-->
+<script src="https://www.youtube.com/iframe_api"></script>
 
-    .login-box {
-      width: min(400px, 100%);
-      padding: 30px;
-      border-radius: 22px;
-      background: #1b1017;
-      border: 1px solid #ff47751f;
-      box-shadow: 0 25px 80px #000;
-      text-align: center;
-    }
-
-    .login-box .heart {
-      font-size: 45px;
-    }
-
-    .login-box h2 {
-      color: #ff7198;
-    }
-
-    .login-box p {
-      color: #a9959f;
-      font-size: 13px;
-    }
-
-    .login-box input {
-      width: 100%;
-      padding: 14px;
-      margin: 10px 0;
-      border: 1px solid #4a2635;
-      border-radius: 11px;
-      background: #10090e;
-      color: white;
-      text-align: center;
-      outline: none;
-    }
-
-    .login-box button {
-      width: 100%;
-    }
-
-    #loginError {
-      min-height: 18px;
-      margin-top: 8px;
-      color: #ff718d;
-      font-size: 12px;
-    }
-
-    @media (max-width: 600px) {
-      .container {
-        width: 100%;
-        margin: 0;
-      }
-
-      .card {
-        border-radius: 0;
-      }
-
-      .top {
-        padding: 20px 10px 10px;
-      }
-
-      .controls {
-        flex-wrap: wrap;
-      }
-
-      .controls input {
-        flex-basis: 100%;
-      }
-
-      .controls button {
-        flex: 1;
-      }
-
-      .chat {
-        padding: 12px;
-      }
-
-      #messages {
-        height: 280px;
-      }
-    }
-  </style>
 </head>
 
 <body>
 
-<!-- ================= LOGIN ================= -->
+<!-- LOGIN -->
 
 <div id="loginScreen">
 
-  <div class="login-box">
+    <div class="login-box">
 
-    <div class="heart">❤️</div>
+        <div class="heart">❤️</div>
 
-    <h2>Azra & Mirhan</h2>
+        <h2>Azra & Mirhan</h2>
 
-    <p>Film odasına giriş yap</p>
+        <p>Film odasına giriş yap</p>
 
-    <input
-      id="loginCode"
-      type="password"
-      placeholder="Giriş kodu"
-      autocomplete="off"
-    >
+        <input
+            id="loginCode"
+            type="password"
+            placeholder="Giriş kodu"
+            autocomplete="off"
+        >
 
-    <button id="loginButton">
-      Giriş Yap
-    </button>
+        <button id="loginButton">
+            Giriş Yap
+        </button>
 
-    <div id="loginError"></div>
+        <div id="loginError"></div>
 
-  </div>
+    </div>
 
 </div>
 
 
 <div class="container">
 
-  <div class="top">
-    <h1>❤️ Azra & Mirhan ❤️</h1>
-    <p>Birlikte Film İzle</p>
-  </div>
+    <div class="header">
 
+        <h1>❤️ Azra & Mirhan ❤️</h1>
 
-  <div class="card">
-
-    <!-- ================= VIDEO ================= -->
-
-    <div class="video">
-      <div id="player"></div>
-    </div>
-
-
-    <!-- ================= URL ================= -->
-
-    <div class="controls">
-
-      <input
-        id="youtubeUrl"
-        placeholder="YouTube linkini yapıştır..."
-      >
-
-      <button id="loadButton">
-        Videoyu Aç
-      </button>
+        <p>Birlikte Film İzle</p>
 
     </div>
 
 
-    <!-- ================= MANUEL KONTROLLER ================= -->
+    <div class="card">
 
-    <div class="small-buttons">
+        <!-- VIDEO -->
 
-      <button id="playButton">
-        ▶ Oynat
-      </button>
+        <div class="video">
 
-      <button id="pauseButton">
-        ⏸ Durdur
-      </button>
+            <div id="player"></div>
 
-      <button id="syncButton">
-        🔄 Senkronla
-      </button>
+        </div>
+
+
+        <!-- YOUTUBE LİNKİ -->
+
+        <div class="controls">
+
+            <input
+                id="youtubeUrl"
+                placeholder="YouTube linkini yapıştır..."
+            >
+
+            <button id="loadButton">
+                Videoyu Aç
+            </button>
+
+        </div>
+
+
+        <!-- KONTROLLER -->
+
+        <div class="buttons">
+
+            <button id="playButton">
+                ▶ Oynat
+            </button>
+
+            <button id="pauseButton">
+                ⏸ Durdur
+            </button>
+
+            <button id="syncButton">
+                🔄 Senkronla
+            </button>
+
+        </div>
+
+
+        <div class="status">
+
+            Durum:
+            <span id="statusText">
+                YouTube yükleniyor...
+            </span>
+
+        </div>
+
+
+        <!-- CHAT -->
+
+        <div class="chat">
+
+            <div class="chat-title">
+
+                <h2>💬 Chat</h2>
+
+                <span id="userText"></span>
+
+            </div>
+
+
+            <div id="messages"></div>
+
+
+            <div class="chat-input">
+
+                <input
+                    id="messageInput"
+                    placeholder="Mesaj yaz..."
+                    maxlength="500"
+                    autocomplete="off"
+                >
+
+                <button id="sendButton">
+                    Gönder
+                </button>
+
+            </div>
+
+        </div>
 
     </div>
-
-
-    <div class="status">
-      Durum:
-      <span id="statusText">Bağlanıyor...</span>
-    </div>
-
-
-    <!-- ================= CHAT ================= -->
-
-    <div class="chat">
-
-      <div class="chat-header">
-
-        <h2>💬 Chat</h2>
-
-        <span id="userText"></span>
-
-      </div>
-
-
-      <div id="messages"></div>
-
-
-      <div class="chat-input">
-
-        <input
-          id="messageInput"
-          placeholder="Mesaj yaz..."
-          maxlength="500"
-          autocomplete="off"
-        >
-
-        <button id="sendButton">
-          Gönder
-        </button>
-
-      </div>
-
-    </div>
-
-  </div>
 
 </div>
 
 
-<!-- YOUTUBE API -->
-
-<script src="https://www.youtube.com/iframe_api"></script>
-
-
-<!-- ================= FIREBASE ================= -->
+<!-- FIREBASE -->
 
 <script type="module">
 
-  import {
+import {
     initializeApp
-  } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+} from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
 
-  import {
+import {
     getDatabase,
     ref,
     set,
     push,
     onValue,
     onChildAdded
-  } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-database.js";
+} from "https://www.gstatic.com/firebasejs/10.13.2/firebase-database.js";
 
 
-  /* FIREBASE */
+/* FIREBASE */
 
-  const firebaseConfig = {
+const firebaseConfig = {
 
-    apiKey: "AIzaSyDGibvGAFm4CSFMvskXmH1weYn1EyDV3yI",
+    apiKey:
+        "AIzaSyDGibvGAFm4CSFMvskXmH1weYn1EyDV3yI",
 
     authDomain:
-      "teett-b2ca0.firebaseapp.com",
+        "teett-b2ca0.firebaseapp.com",
 
     databaseURL:
-      "https://teett-b2ca0-default-rtdb.europe-west1.firebasedatabase.app",
+        "https://teett-b2ca0-default-rtdb.europe-west1.firebasedatabase.app",
 
     projectId:
-      "teett-b2ca0",
+        "teett-b2ca0",
 
     storageBucket:
-      "teett-b2ca0.firebasestorage.app",
+        "teett-b2ca0.firebasestorage.app",
 
     messagingSenderId:
-      "409690180731",
+        "409690180731",
 
     appId:
-      "1:409690180731:web:f9613a3b7626d318cce6de"
+        "1:409690180731:web:f9613a3b7626d318cce6de"
 
-  };
+};
 
 
-  const app =
+const app =
     initializeApp(firebaseConfig);
 
-  const db =
+const db =
     getDatabase(app);
 
 
-  /* ================= LOGIN ================= */
+/* =========================
+   GLOBAL DEĞİŞKENLER
+========================= */
 
-  const users = {
+window.currentUser = null;
 
-    "azra5685": "Azra",
+window.applyingRemote = false;
 
-    "mirhan5685": "Mirhan"
+let currentVideoId = "";
 
-  };
+let remoteVideo = null;
 
-
-  let currentUser = null;
-
-
-  const savedUser =
-    localStorage.getItem("film_user");
+let lastFirebaseWrite = 0;
 
 
-  if (
-    savedUser === "Azra" ||
-    savedUser === "Mirhan"
-  ) {
+/* =========================
+   DURUM
+========================= */
 
-    currentUser = savedUser;
+window.setStatus = function(text){
 
     document
-      .getElementById("loginScreen")
-      .style.display = "none";
+        .getElementById("statusText")
+        .textContent = text;
 
-    document
-      .getElementById("userText")
-      .textContent =
-      "👤 " + currentUser;
-
-  }
+};
 
 
-  function login() {
+/* =========================
+   LOGIN
+========================= */
+
+const users = {
+
+    azra5685:"Azra",
+
+    mirhan5685:"Mirhan"
+
+};
+
+
+function login(){
 
     const code =
-      document
-        .getElementById("loginCode")
-        .value
-        .trim()
-        .toLowerCase();
+        document
+            .getElementById("loginCode")
+            .value
+            .trim()
+            .toLowerCase();
 
 
-    if (!users[code]) {
+    if(!users[code]){
 
-      document
-        .getElementById("loginError")
-        .textContent =
-        "Hatalı giriş kodu.";
+        document
+            .getElementById("loginError")
+            .textContent =
+            "Hatalı giriş kodu.";
 
-      return;
+        return;
 
     }
 
 
-    currentUser =
-      users[code];
+    window.currentUser =
+        users[code];
 
 
     localStorage.setItem(
-      "film_user",
-      currentUser
+        "film_user",
+        window.currentUser
     );
 
 
     document
-      .getElementById("loginScreen")
-      .style.display = "none";
+        .getElementById("loginScreen")
+        .style.display = "none";
 
 
     document
-      .getElementById("userText")
-      .textContent =
-      "👤 " + currentUser;
-
-  }
+        .getElementById("userText")
+        .textContent =
+        "👤 " + window.currentUser;
 
 
-  document
+    setStatus(
+        "Bağlandı"
+    );
+
+}
+
+
+document
     .getElementById("loginButton")
     .addEventListener(
-      "click",
-      login
+        "click",
+        login
     );
 
 
-  document
+document
     .getElementById("loginCode")
     .addEventListener(
-      "keydown",
-      e => {
+        "keydown",
+        function(e){
 
-        if (e.key === "Enter") {
-
-          login();
+            if(e.key === "Enter"){
+                login();
+            }
 
         }
-
-      }
     );
 
 
-  /* ================= CHAT ================= */
+/* Kayıtlı kullanıcı */
 
-  const messagesRef =
+const savedUser =
+    localStorage.getItem("film_user");
+
+
+if(
+    savedUser === "Azra" ||
+    savedUser === "Mirhan"
+){
+
+    window.currentUser =
+        savedUser;
+
+    document
+        .getElementById("loginScreen")
+        .style.display = "none";
+
+    document
+        .getElementById("userText")
+        .textContent =
+        "👤 " + savedUser;
+
+}
+
+
+/* =========================
+   CHAT
+========================= */
+
+const messagesRef =
     ref(
-      db,
-      "rooms/azra-mirhan/messages"
+        db,
+        "rooms/azra-mirhan/messages"
     );
 
 
-  document
-    .getElementById("sendButton")
-    .addEventListener(
-      "click",
-      sendMessage
-    );
-
-
-  document
-    .getElementById("messageInput")
-    .addEventListener(
-      "keydown",
-      e => {
-
-        if (e.key === "Enter") {
-
-          sendMessage();
-
-        }
-
-      }
-    );
-
-
-  async function sendMessage() {
+async function sendMessage(){
 
     const input =
-      document.getElementById(
-        "messageInput"
-      );
+        document
+            .getElementById(
+                "messageInput"
+            );
 
 
     const text =
-      input.value.trim();
+        input.value.trim();
 
 
-    if (!text || !currentUser) {
-      return;
+    if(
+        !text ||
+        !window.currentUser
+    ){
+
+        return;
+
     }
 
 
     await push(
-      messagesRef,
-      {
+        messagesRef,
+        {
 
-        user: currentUser,
+            user:
+                window.currentUser,
 
-        text: text,
+            text:
+                text,
 
-        timestamp: Date.now()
+            timestamp:
+                Date.now()
 
-      }
+        }
     );
 
 
     input.value = "";
 
-  }
+    input.focus();
+
+}
 
 
-  onChildAdded(
-    messagesRef,
-    snapshot => {
-
-      const data =
-        snapshot.val();
-
-
-      if (!data) return;
-
-
-      const wrapper =
-        document.createElement("div");
-
-
-      wrapper.className =
-        "message";
-
-
-      if (
-        data.user === currentUser
-      ) {
-
-        wrapper.classList.add("mine");
-
-      }
-
-
-      const name =
-        document.createElement("span");
-
-
-      name.className =
-        "message-name";
-
-
-      name.textContent =
-        data.user;
-
-
-      const text =
-        document.createElement("span");
-
-
-      text.className =
-        "message-text";
-
-
-      /*
-        textContent kullanıyoruz.
-        Böylece biri HTML kodu gönderirse
-        sayfaya kod çalıştırılamaz.
-      */
-
-      text.textContent =
-        data.text;
-
-
-      const time =
-        document.createElement("span");
-
-
-      time.className =
-        "message-time";
-
-
-      if (data.timestamp) {
-
-        time.textContent =
-          new Date(
-            data.timestamp
-          ).toLocaleTimeString(
-            "tr-TR",
-            {
-              hour: "2-digit",
-              minute: "2-digit"
-            }
-          );
-
-      }
-
-
-      wrapper.appendChild(name);
-
-      wrapper.appendChild(text);
-
-      wrapper.appendChild(time);
-
-
-      const messages =
-        document.getElementById(
-          "messages"
-        );
-
-
-      messages.appendChild(wrapper);
-
-
-      messages.scrollTop =
-        messages.scrollHeight;
-
-    }
-  );
-
-
-  /* ================= VIDEO ================= */
-
-  const videoRef =
-    ref(
-      db,
-      "rooms/azra-mirhan/video"
+document
+    .getElementById("sendButton")
+    .addEventListener(
+        "click",
+        sendMessage
     );
 
 
-  let player = null;
+document
+    .getElementById("messageInput")
+    .addEventListener(
+        "keydown",
+        function(e){
 
-  let playerReady = false;
+            if(e.key === "Enter"){
 
-  /*
-    Bu değişken çok önemli.
-
-    Firebase'den gelen hareketi
-    tekrar Firebase'e yazmamızı engeller.
-  */
-
-  let applyingRemote = false;
-
-
-  /*
-    Son Firebase verisini burada tutuyoruz.
-  */
-
-  let remoteVideo = null;
-
-
-  /*
-    Aynı videoyu tekrar tekrar
-    loadVideoById yapmıyoruz.
-  */
-
-  let currentVideoId = "";
-
-
-  /*
-    Firebase'e gereksiz yere
-    yüzlerce istek göndermemek için.
-  */
-
-  let lastWrite = 0;
-
-
-  /* ================= YOUTUBE ================= */
-
-  window.onYouTubeIframeAPIReady =
-    function () {
-
-      player =
-        new YT.Player(
-          "player",
-          {
-
-            width: "100%",
-
-            height: "100%",
-
-            videoId: "",
-
-            playerVars: {
-
-              autoplay: 0,
-
-              controls: 1,
-
-              rel: 0,
-
-              modestbranding: 1,
-
-              playsinline: 1
-
-            },
-
-
-            events: {
-
-              onReady: function () {
-
-                playerReady = true;
-
-                setStatus(
-                  "Hazır"
-                );
-
-              },
-
-
-              onStateChange:
-                function (event) {
-
-                  /*
-                    Firebase'den gelen
-                    komutu geri yazma.
-                  */
-
-                  if (applyingRemote) {
-
-                    return;
-
-                  }
-
-
-                  if (
-                    event.data ===
-                    YT.PlayerState.PLAYING
-                  ) {
-
-                    sendVideoState(
-                      "playing"
-                    );
-
-                  }
-
-
-                  if (
-                    event.data ===
-                    YT.PlayerState.PAUSED
-                  ) {
-
-                    sendVideoState(
-                      "paused"
-                    );
-
-                  }
-
-                }
+                sendMessage();
 
             }
 
-          }
+        }
+    );
+
+
+onChildAdded(
+    messagesRef,
+    function(snapshot){
+
+        const data =
+            snapshot.val();
+
+
+        if(!data){
+            return;
+        }
+
+
+        const wrapper =
+            document.createElement(
+                "div"
+            );
+
+
+        wrapper.className =
+            "message";
+
+
+        if(
+            data.user ===
+            window.currentUser
+        ){
+
+            wrapper.classList.add(
+                "mine"
+            );
+
+        }
+
+
+        const name =
+            document.createElement(
+                "span"
+            );
+
+
+        name.className =
+            "message-name";
+
+
+        name.textContent =
+            data.user;
+
+
+        const text =
+            document.createElement(
+                "span"
+            );
+
+
+        text.className =
+            "message-text";
+
+
+        text.textContent =
+            data.text;
+
+
+        const time =
+            document.createElement(
+                "span"
+            );
+
+
+        time.className =
+            "message-time";
+
+
+        if(data.timestamp){
+
+            time.textContent =
+                new Date(
+                    data.timestamp
+                ).toLocaleTimeString(
+                    "tr-TR",
+                    {
+                        hour:"2-digit",
+                        minute:"2-digit"
+                    }
+                );
+
+        }
+
+
+        wrapper.appendChild(name);
+
+        wrapper.appendChild(text);
+
+        wrapper.appendChild(time);
+
+
+        const messages =
+            document.getElementById(
+                "messages"
+            );
+
+
+        messages.appendChild(
+            wrapper
         );
 
-    };
+
+        messages.scrollTop =
+            messages.scrollHeight;
+
+    }
+);
 
 
-  /* ================= YOUTUBE ID ================= */
+/* =========================
+   YOUTUBE ID
+========================= */
 
-  function getYoutubeId(url) {
+function getYoutubeId(url){
 
-    try {
+    try{
 
-      const parsed =
-        new URL(url);
-
-
-      /*
-        youtube.com/watch?v=
-      */
-
-      if (
-        parsed.hostname
-          .includes("youtube.com")
-      ) {
-
-        return parsed
-          .searchParams
-          .get("v");
-
-      }
+        const parsed =
+            new URL(url);
 
 
-      /*
-        youtu.be/VIDEOID
-      */
+        if(
+            parsed.hostname
+                .includes("youtu.be")
+        ){
 
-      if (
-        parsed.hostname
-          .includes("youtu.be")
-      ) {
+            return parsed
+                .pathname
+                .replace("/","");
 
-        return parsed
-          .pathname
-          .replace("/", "");
-
-      }
+        }
 
 
-      /*
-        youtube.com/shorts/VIDEOID
-      */
+        if(
+            parsed.hostname
+                .includes("youtube.com")
+        ){
 
-      if (
-        parsed.pathname
-          .startsWith("/shorts/")
-      ) {
+            const v =
+                parsed
+                    .searchParams
+                    .get("v");
 
-        return parsed
-          .pathname
-          .split("/")[2];
-
-      }
+            if(v){
+                return v;
+            }
 
 
-    } catch (error) {
+            if(
+                parsed.pathname
+                    .startsWith("/shorts/")
+            ){
 
-      return null;
+                return parsed
+                    .pathname
+                    .split("/")[2];
+
+            }
+
+        }
+
+    }
+    catch(error){
+
+        return null;
 
     }
 
 
     return null;
 
-  }
+}
 
 
-  /* ================= VİDEO AÇ ================= */
+/* =========================
+   VİDEO AÇ
+========================= */
 
-  document
-    .getElementById("loadButton")
-    .addEventListener(
-      "click",
-      loadVideo
-    );
+async function loadVideo(){
+
+    if(!window.youtubeReady){
+
+        alert(
+            "YouTube henüz hazır değil. Birkaç saniye bekle."
+        );
+
+        return;
+
+    }
 
 
-  async function loadVideo() {
+    if(!window.youtubePlayer){
 
-    if (!playerReady) {
+        alert(
+            "YouTube oynatıcı oluşturulamadı."
+        );
 
-      alert(
-        "YouTube henüz hazır değil."
-      );
-
-      return;
+        return;
 
     }
 
 
     const url =
-      document
-        .getElementById(
-          "youtubeUrl"
-        )
-        .value
-        .trim();
+        document
+            .getElementById(
+                "youtubeUrl"
+            )
+            .value
+            .trim();
 
 
     const videoId =
-      getYoutubeId(url);
+        getYoutubeId(url);
 
 
-    if (!videoId) {
+    if(!videoId){
 
-      alert(
-        "Geçerli bir YouTube linki gir."
-      );
+        alert(
+            "Geçerli bir YouTube linki gir."
+        );
 
-      return;
+        return;
 
     }
 
 
     /*
-      Aynı videoyu tekrar yükleme.
+        Aynı videoyu tekrar yükleme.
     */
 
-    if (
-      currentVideoId === videoId
-    ) {
+    if(
+        currentVideoId ===
+        videoId
+    ){
 
-      return;
+        return;
 
     }
 
 
     currentVideoId =
-      videoId;
+        videoId;
 
 
-    /*
-      SADECE burada
-      loadVideoById kullanıyoruz.
-    */
-
-    applyingRemote = true;
+    window.applyingRemote =
+        true;
 
 
-    player.loadVideoById(
-      videoId
-    );
+    window.youtubePlayer
+        .cueVideoById(
+            videoId
+        );
 
 
     setTimeout(
-      () => {
+        function(){
 
-        applyingRemote = false;
+            window.applyingRemote =
+                false;
 
-        sendVideoState(
-          "paused"
-        );
 
-      },
-      700
+            sendVideoState(
+                "paused"
+            );
+
+        },
+        700
     );
 
-  }
+}
 
 
-  /* ================= PLAY ================= */
+document
+    .getElementById("loadButton")
+    .addEventListener(
+        "click",
+        loadVideo
+    );
 
-  document
+
+/* =========================
+   PLAY
+========================= */
+
+document
     .getElementById("playButton")
     .addEventListener(
-      "click",
-      () => {
+        "click",
+        function(){
 
-        if (!playerReady) return;
+            if(
+                !window.youtubeReady ||
+                !window.youtubePlayer
+            ){
 
-        player.playVideo();
+                return;
 
-      }
+            }
+
+
+            window.youtubePlayer
+                .playVideo();
+
+        }
     );
 
 
-  /* ================= PAUSE ================= */
+/* =========================
+   PAUSE
+========================= */
 
-  document
+document
     .getElementById("pauseButton")
     .addEventListener(
-      "click",
-      () => {
+        "click",
+        function(){
 
-        if (!playerReady) return;
+            if(
+                !window.youtubeReady ||
+                !window.youtubePlayer
+            ){
 
-        player.pauseVideo();
+                return;
 
-      }
+            }
+
+
+            window.youtubePlayer
+                .pauseVideo();
+
+        }
     );
 
 
-  /* ================= FIREBASE'E YAZ ================= */
+/* =========================
+   FIREBASE'E VİDEO YAZ
+========================= */
 
-  async function sendVideoState(
-    state
-  ) {
+window.sendVideoState =
+async function(state){
 
-    if (
-      !playerReady ||
-      !currentUser ||
-      applyingRemote
-    ) {
+    if(
+        !window.youtubeReady ||
+        !window.youtubePlayer ||
+        !window.currentUser ||
+        window.applyingRemote
+    ){
 
-      return;
+        return;
 
     }
 
 
     const now =
-      Date.now();
+        Date.now();
 
 
     /*
-      Çok hızlı tekrar yazmayı engelle.
+        Aşırı Firebase isteğini engelle.
     */
 
-    if (
-      now - lastWrite < 300
-    ) {
+    if(
+        now - lastFirebaseWrite <
+        500
+    ){
 
-      return;
+        return;
 
     }
 
 
-    lastWrite = now;
+    lastFirebaseWrite =
+        now;
 
 
-    const data =
-      player.getVideoData();
+    const videoData =
+        window.youtubePlayer
+            .getVideoData();
 
 
-    if (
-      !data ||
-      !data.video_id
-    ) {
+    if(
+        !videoData ||
+        !videoData.video_id
+    ){
 
-      return;
+        return;
 
     }
 
 
     currentVideoId =
-      data.video_id;
+        videoData.video_id;
 
 
     await set(
-      videoRef,
-      {
+        ref(
+            db,
+            "rooms/azra-mirhan/video"
+        ),
+        {
 
-        videoId:
-          data.video_id,
+            videoId:
+                videoData.video_id,
 
-        time:
-          player.getCurrentTime(),
+            time:
+                window.youtubePlayer
+                    .getCurrentTime(),
 
-        state:
-          state,
+            state:
+                state,
 
-        updatedAt:
-          Date.now(),
+            updatedAt:
+                Date.now(),
 
-        updatedBy:
-          currentUser
+            updatedBy:
+                window.currentUser
 
-      }
+        }
     );
 
-  }
+};
 
 
-  /* ================= FIREBASE'DEN OKU ================= */
+/* =========================
+   FIREBASE VIDEO DİNLE
+========================= */
 
-  onValue(
+const videoRef =
+    ref(
+        db,
+        "rooms/azra-mirhan/video"
+    );
+
+
+onValue(
     videoRef,
-    snapshot => {
+    function(snapshot){
 
-      const data =
-        snapshot.val();
-
-
-      if (!data) {
-
-        setStatus(
-          "Video bekleniyor..."
-        );
-
-        return;
-
-      }
+        const data =
+            snapshot.val();
 
 
-      remoteVideo =
-        data;
+        if(!data){
+            return;
+        }
 
 
-      if (!playerReady) {
-
-        return;
-
-      }
+        remoteVideo =
+            data;
 
 
-      if (!data.videoId) {
+        if(
+            !window.youtubeReady ||
+            !window.youtubePlayer
+        ){
 
-        return;
+            return;
 
-      }
-
-
-      /*
-        Video farklıysa sadece bir kez aç.
-      */
-
-      if (
-        currentVideoId !==
-        data.videoId
-      ) {
-
-        currentVideoId =
-          data.videoId;
+        }
 
 
-        applyingRemote = true;
+        if(!data.videoId){
+
+            return;
+
+        }
 
 
-        player.loadVideoById(
-          data.videoId,
-          data.time || 0
-        );
+        /*
+            FARKLI VİDEOYSA SADECE BİR KEZ
+            YÜKLE.
+        */
+
+        if(
+            currentVideoId !==
+            data.videoId
+        ){
+
+            currentVideoId =
+                data.videoId;
 
 
-        setTimeout(
-          () => {
+            window.applyingRemote =
+                true;
 
-            applyRemoteState(
-              data
+
+            window.youtubePlayer
+                .cueVideoById(
+                    data.videoId
+                );
+
+
+            setTimeout(
+                function(){
+
+                    applyRemoteState(
+                        data
+                    );
+
+                },
+                800
             );
 
-          },
-          800
+
+            return;
+
+        }
+
+
+        /*
+            Aynı videoysa tekrar yükleme.
+        */
+
+        applyRemoteState(
+            data
         );
 
+    }
+);
+
+
+/* =========================
+   UZAK DURUM
+========================= */
+
+function applyRemoteState(data){
+
+    if(
+        !window.youtubeReady ||
+        !window.youtubePlayer
+    ){
 
         return;
 
-      }
-
-
-      /*
-        Aynı videoysa
-        tekrar loadVideoById YOK.
-      */
-
-      applyRemoteState(
-        data
-      );
-
-    }
-  );
-
-
-  /* ================= UZAK DURUMU UYGULA ================= */
-
-  function applyRemoteState(
-    data
-  ) {
-
-    if (!playerReady) {
-
-      return;
-
     }
 
 
-    applyingRemote = true;
+    window.applyingRemote =
+        true;
 
 
     const targetTime =
-      Number(data.time || 0);
+        Number(
+            data.time || 0
+        );
 
 
     const localTime =
-      player.getCurrentTime();
+        window.youtubePlayer
+            .getCurrentTime();
 
 
     /*
-      Sadece ciddi bir zaman farkı varsa
-      seek yapıyoruz.
-
-      Böylece video sürekli ileri-geri
-      zıplamıyor.
+        2 saniyeden fazla fark varsa
+        senkronla.
     */
 
-    if (
-      Math.abs(
-        localTime - targetTime
-      ) > 2
-    ) {
+    if(
+        Math.abs(
+            localTime -
+            targetTime
+        ) > 2
+    ){
 
-      player.seekTo(
-        targetTime,
-        true
-      );
-
-    }
-
-
-    if (
-      data.state === "playing"
-    ) {
-
-      /*
-        Tarayıcı autoplay engellerse
-        kullanıcı Play'e basabilir.
-      */
-
-      player.playVideo();
+        window.youtubePlayer
+            .seekTo(
+                targetTime,
+                true
+            );
 
     }
 
 
-    if (
-      data.state === "paused"
-    ) {
+    if(
+        data.state ===
+        "playing"
+    ){
 
-      player.pauseVideo();
+        window.youtubePlayer
+            .playVideo();
+
+    }
+
+
+    else if(
+        data.state ===
+        "paused"
+    ){
+
+        window.youtubePlayer
+            .pauseVideo();
 
     }
 
 
     setTimeout(
-      () => {
+        function(){
 
-        applyingRemote = false;
+            window.applyingRemote =
+                false;
 
-      },
-      500
+        },
+        600
     );
 
-  }
+}
 
 
-  /* ================= MANUEL SENKRON ================= */
+/* =========================
+   MANUEL SENKRON
+========================= */
 
-  document
+document
     .getElementById("syncButton")
     .addEventListener(
-      "click",
-      syncVideo
+        "click",
+        function(){
+
+            if(
+                !remoteVideo ||
+                !window.youtubeReady
+            ){
+
+                return;
+
+            }
+
+
+            applyRemoteState(
+                remoteVideo
+            );
+
+        }
     );
 
 
-  function syncVideo() {
+/* =========================
+   HER 5 SANİYEDE SENKRON
+========================= */
 
-    if (
-      !playerReady ||
-      !remoteVideo
-    ) {
+setInterval(
+    function(){
 
-      return;
+        if(
+            !window.youtubeReady ||
+            !window.youtubePlayer ||
+            !window.currentUser ||
+            window.applyingRemote
+        ){
 
-    }
+            return;
 
-
-    applyingRemote = true;
-
-
-    /*
-      Videonun farklı olması durumunda
-      bir kere yükle.
-    */
-
-    if (
-      currentVideoId !==
-      remoteVideo.videoId
-    ) {
-
-      currentVideoId =
-        remoteVideo.videoId;
+        }
 
 
-      player.loadVideoById(
-        remoteVideo.videoId,
-        remoteVideo.time || 0
-      );
-
-    }
-
-    else {
-
-      player.seekTo(
-        remoteVideo.time || 0,
-        true
-      );
-
-    }
+        const state =
+            window.youtubePlayer
+                .getPlayerState();
 
 
-    setTimeout(
-      () => {
+        if(
+            state ===
+            YT.PlayerState.PLAYING
+        ){
 
-        applyRemoteState(
-          remoteVideo
-        );
+            sendVideoState(
+                "playing"
+            );
 
-      },
-      700
-    );
-
-  }
-
-
-  /* ================= DURUM ================= */
-
-  function setStatus(
-    text
-  ) {
-
-    document
-      .getElementById(
-        "statusText"
-      )
-      .textContent = text;
-
-  }
-
-
-  /*
-    Video ilerlerken zaman bilgisini
-    periyodik olarak Firebase'e gönderiyoruz.
-
-    2 saniyeden daha az fark varsa
-    karşı tarafı sürekli seek etmiyoruz.
-  */
-
-  setInterval(
-    () => {
-
-      if (
-        !playerReady ||
-        applyingRemote ||
-        !currentUser ||
-        !player
-      ) {
-
-        return;
-
-      }
-
-
-      const state =
-        player.getPlayerState();
-
-
-      if (
-        state ===
-        YT.PlayerState.PLAYING
-      ) {
-
-        sendVideoState(
-          "playing"
-        );
-
-      }
+        }
 
     },
     5000
-  );
-
-
-  setStatus(
-    "Firebase bağlı"
-  );
+);
 
 </script>
 
