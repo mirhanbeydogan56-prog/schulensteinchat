@@ -32,11 +32,11 @@
 }
 
 </style>
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>azrammm</title>
-
 
 <link rel="stylesheet" href="style.css">
 
@@ -77,7 +77,12 @@ window.login = function () {
     document.getElementById("chat").style.display = "block";
 
     // Müzik başlat
-    document.getElementById("bgMusic").play();
+    const music = document.getElementById("bgMusic");
+    music.volume = 0.5;
+
+    music.play().catch(error => {
+        console.log("Müzik başlatılamadı:", error);
+    });
 }
 
 window.sendMessage = function () {
@@ -107,14 +112,15 @@ onChildAdded(ref(db,"messages"),(data)=>{
 
 <body>
 
-<!-- Arka plan müziği -->
-<audio id="bgMusic" src="music.mp3" loop></audio>
+<!-- ARKA PLAN MÜZİĞİ -->
+<audio id="bgMusic" src="./music.mp3" loop preload="auto"></audio>
 
 <button class="film-btn" onclick="openFilm()">
 🎬
 </button>
 
 <div id="login">
+
 <h1>💕 Sohbete Giriş</h1>
 
 <input id="pass" type="password" placeholder="Şifre">
