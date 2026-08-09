@@ -1,194 +1,525 @@
-
+```html
 <!DOCTYPE html>
 <html lang="tr">
 
-<style>
-
-.film-btn{
-    position:fixed;
-    top:20px;
-    right:20px;
-    width:60px;
-    height:60px;
-    border-radius:50%;
-    border:none;
-    background:#ff4d6d;
-    color:white;
-    font-size:30px;
-    cursor:pointer;
-    box-shadow:0 5px 15px #0005;
-    z-index:999;
-}
-
-/* Telefonda üst orta */
-@media(max-width:600px){
-
-.film-btn{
-    top:10px;
-    left:50%;
-    right:auto;
-    transform:translateX(-50%);
-}
-
-}
-
-
-/* ÇİÇEK ANİMASYONU */
-
-.flower{
-    position:fixed;
-    top:-60px;
-    color:#800020;
-    font-size:28px;
-    z-index:998;
-    pointer-events:none;
-    animation:flowerFall linear forwards;
-}
-
-@keyframes flowerFall{
-
-    0%{
-        transform:translateY(-60px) rotate(0deg);
-        opacity:1;
-    }
-
-    100%{
-        transform:translateY(110vh) rotate(360deg);
-        opacity:0;
-    }
-
-}
-
-</style>
-
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>azrammm</title>
 
-<title>azrammm</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-<link rel="stylesheet" href="style.css">
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #140008, #3b0015, #17000a);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
 
-<script type="module">
+        /* FİLM BUTONU */
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
-import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-database.js";
+        .film-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            background: #ff4d6d;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            box-shadow: 0 5px 20px #0008;
+            z-index: 999;
+            transition: 0.2s;
+        }
+
+        .film-btn:hover {
+            transform: scale(1.08);
+            background: #ff3358;
+        }
+
+        /* Telefonda üst orta */
+
+        @media (max-width: 600px) {
+            .film-btn {
+                top: 10px;
+                left: 50%;
+                right: auto;
+                transform: translateX(-50%);
+            }
+
+            .film-btn:hover {
+                transform: translateX(-50%) scale(1.08);
+            }
+        }
+
+        /* ÇİÇEK / GÜL ANİMASYONU */
+
+        .flower {
+            position: fixed;
+            top: -60px;
+            color: #800020;
+            font-size: 28px;
+            z-index: 998;
+            pointer-events: none;
+            animation: flowerFall linear forwards;
+        }
+
+        @keyframes flowerFall {
+
+            0% {
+                transform: translateY(-60px) rotate(0deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(110vh) rotate(360deg);
+                opacity: 0;
+            }
+
+        }
+
+        /* LOGIN */
+
+        #login {
+            width: 100%;
+            max-width: 400px;
+            background: rgba(30, 0, 12, 0.92);
+            border: 1px solid rgba(255, 77, 109, 0.3);
+            border-radius: 25px;
+            padding: 35px 25px;
+            text-align: center;
+            box-shadow: 0 20px 60px #0008;
+        }
+
+        #login h1 {
+            margin-top: 0;
+            color: #ff8fa3;
+        }
+
+        #pass {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            border: 1px solid #5c1730;
+            outline: none;
+            background: #18000a;
+            color: white;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        #login button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background: #ff4d6d;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        #login button:hover {
+            background: #ff3158;
+        }
+
+        /* CHAT */
+
+        #chat {
+            width: 100%;
+            max-width: 700px;
+            background: rgba(30, 0, 12, 0.94);
+            border: 1px solid rgba(255, 77, 109, 0.3);
+            border-radius: 25px;
+            padding: 25px;
+            box-shadow: 0 20px 60px #0008;
+        }
+
+        #chat h2 {
+            text-align: center;
+            color: #ff8fa3;
+            margin-top: 0;
+        }
+
+        #messages {
+            width: 100%;
+            height: 400px;
+            overflow-y: auto;
+            padding: 15px;
+            border-radius: 15px;
+            background: rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            margin-bottom: 15px;
+        }
+
+        .message {
+            padding: 10px 14px;
+            margin-bottom: 10px;
+            background: #3a0c1d;
+            border-radius: 12px;
+            word-break: break-word;
+        }
+
+        .message b {
+            color: #ff8fa3;
+        }
+
+        #msg {
+            width: calc(100% - 105px);
+            padding: 14px;
+            border-radius: 12px;
+            border: 1px solid #5c1730;
+            background: #18000a;
+            color: white;
+            outline: none;
+            font-size: 15px;
+        }
+
+        #chat button {
+            width: 90px;
+            padding: 14px 5px;
+            margin-left: 8px;
+            border: none;
+            border-radius: 12px;
+            background: #ff4d6d;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        #chat button:hover {
+            background: #ff3158;
+        }
+
+        @media (max-width: 600px) {
+
+            body {
+                padding: 15px;
+            }
+
+            #login,
+            #chat {
+                padding: 20px;
+            }
+
+            #messages {
+                height: 350px;
+            }
+
+            #msg {
+                width: calc(100% - 85px);
+            }
+
+            #chat button {
+                width: 70px;
+            }
+        }
+    </style>
+
+    <!-- FIREBASE -->
+
+    <script type="module">
+
+        import {
+            initializeApp
+        } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+
+        import {
+            getDatabase,
+            ref,
+            push,
+            onChildAdded
+        } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-database.js";
 
 
-const firebaseConfig = {
-  apiKey: "AIzaSyDGibvGAFm4CSFMvskXmH1weYn1EyDV3yI",
-  authDomain: "teett-b2ca0.firebaseapp.com",
-  databaseURL: "https://teett-b2ca0-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "teett-b2ca0",
-  storageBucket: "teett-b2ca0.firebasestorage.app",
-  messagingSenderId: "409690180731",
-  appId: "1:409690180731:web:f9613a3b7626d318cce6de"
-};
+        const firebaseConfig = {
 
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
+            apiKey: "AIzaSyDGibvGAFm4CSFMvskXmH1weYn1EyDV3yI",
 
-let user = "";
+            authDomain: "teett-b2ca0.firebaseapp.com",
 
+            databaseURL:
+                "https://teett-b2ca0-default-rtdb.europe-west1.firebasedatabase.app",
 
-window.login = function () {
+            projectId: "teett-b2ca0",
 
-    const pass = document.getElementById("pass").value;
+            storageBucket:
+                "teett-b2ca0.firebasestorage.app",
 
-    if (pass === "mirhan5685") {
+            messagingSenderId: "409690180731",
 
-        user = "Mirhan";
-        document.body.className = "mirhan";
+            appId:
+                "1:409690180731:web:f9613a3b7626d318cce6de"
 
-    } else if (pass === "azra5685") {
-
-        user = "azra";
-        document.body.className = "merve";
-
-    } else {
-
-        alert("Hatalı şifre!");
-        return;
-
-    }
-
-    document.getElementById("login").style.display = "none";
-    document.getElementById("chat").style.display = "block";
+        };
 
 
-    // Müzik başlat
-    const music = document.getElementById("bgMusic");
+        const app = initializeApp(firebaseConfig);
 
-    music.volume = 0.5;
-
-    music.play().catch(error => {
-        console.log("Müzik başlatılamadı:", error);
-    });
-
-}
+        const db = getDatabase(app);
 
 
-window.sendMessage = function () {
-
-    const text = document.getElementById("msg").value;
-
-    if(text=="") return;
-
-    push(ref(db,"messages"),{
-        user:user,
-        text:text
-    });
-
-    document.getElementById("msg").value="";
-
-}
+        let user = "";
 
 
-onChildAdded(ref(db,"messages"),(data)=>{
+        /* =========================
+           GİRİŞ
+        ========================= */
 
-    const m=data.val();
+        window.login = function () {
 
-    document.getElementById("messages").innerHTML += `
-    <div class="message">
-        <b>${m.user}:</b> ${m.text}
-    </div>`;
-
-});
+            const pass =
+                document.getElementById("pass").value.trim();
 
 
-/* KALP BUTONUNA BASINCA ÇİÇEKLER */
+            if (pass === "mirhan5685") {
 
-window.makeFlowers = function(){
+                user = "Mirhan";
 
-    for(let i = 0; i < 35; i++){
+                document.body.className = "mirhan";
 
-        const flower = document.createElement("div");
+            }
 
-        flower.className = "flower";
+            else if (pass === "azra5685") {
 
-        flower.innerHTML = "🌹";
+                user = "Azra";
 
-        flower.style.left = Math.random() * 100 + "vw";
+                document.body.className = "azra";
 
-        flower.style.fontSize = (20 + Math.random() * 25) + "px";
+            }
 
-        flower.style.animationDuration = (3 + Math.random() * 4) + "s";
+            else {
 
-        flower.style.animationDelay = Math.random() * 1.5 + "s";
+                alert("Hatalı şifre!");
 
-        document.body.appendChild(flower);
+                return;
+
+            }
 
 
-        setTimeout(() => {
-            flower.remove();
-        }, 8000);
+            document.getElementById("login").style.display = "none";
 
-    }
+            document.getElementById("chat").style.display = "block";
 
-}
 
-</script>
+            /* MÜZİK */
+
+            const music =
+                document.getElementById("bgMusic");
+
+            music.volume = 0.5;
+
+            music.play().catch(error => {
+
+                console.log(
+                    "Müzik otomatik başlatılamadı:",
+                    error
+                );
+
+            });
+
+        };
+
+
+        /* ENTER İLE GİRİŞ */
+
+        document
+            .getElementById("pass")
+            .addEventListener("keydown", function (event) {
+
+                if (event.key === "Enter") {
+
+                    login();
+
+                }
+
+            });
+
+
+        /* =========================
+           MESAJ GÖNDER
+        ========================= */
+
+        window.sendMessage = function () {
+
+            const input =
+                document.getElementById("msg");
+
+            const text =
+                input.value.trim();
+
+
+            if (text === "") return;
+
+
+            push(ref(db, "messages"), {
+
+                user: user,
+
+                text: text,
+
+                time: Date.now()
+
+            });
+
+
+            input.value = "";
+
+            input.focus();
+
+        };
+
+
+        /* ENTER İLE MESAJ */
+
+        document
+            .getElementById("msg")
+            .addEventListener("keydown", function (event) {
+
+                if (event.key === "Enter") {
+
+                    sendMessage();
+
+                }
+
+            });
+
+
+        /* =========================
+           MESAJLARI DİNLE
+        ========================= */
+
+        onChildAdded(
+            ref(db, "messages"),
+            (data) => {
+
+                const m = data.val();
+
+
+                const message =
+                    document.createElement("div");
+
+                message.className = "message";
+
+
+                const name =
+                    document.createElement("b");
+
+                name.textContent =
+                    m.user + ": ";
+
+
+                const text =
+                    document.createElement("span");
+
+                text.textContent =
+                    m.text;
+
+
+                message.appendChild(name);
+
+                message.appendChild(text);
+
+
+                const messages =
+                    document.getElementById("messages");
+
+
+                messages.appendChild(message);
+
+
+                /* En alta kaydır */
+
+                messages.scrollTop =
+                    messages.scrollHeight;
+
+            }
+        );
+
+
+        /* =========================
+           GÜL ANİMASYONU
+        ========================= */
+
+        window.makeFlowers = function () {
+
+            for (let i = 0; i < 35; i++) {
+
+                const flower =
+                    document.createElement("div");
+
+
+                flower.className = "flower";
+
+
+                flower.innerHTML = "🌹";
+
+
+                flower.style.left =
+                    Math.random() * 100 + "vw";
+
+
+                flower.style.fontSize =
+                    (20 + Math.random() * 25) + "px";
+
+
+                flower.style.animationDuration =
+                    (3 + Math.random() * 4) + "s";
+
+
+                flower.style.animationDelay =
+                    Math.random() * 1.5 + "s";
+
+
+                document.body.appendChild(flower);
+
+
+                setTimeout(() => {
+
+                    flower.remove();
+
+                }, 8000);
+
+            }
+
+        };
+
+
+        /* =========================
+           FİLM SAYFASINI AÇ
+        ========================= */
+
+        window.openFilm = function () {
+
+            /* Önce gülleri göster */
+
+            makeFlowers();
+
+
+            /* Kısa animasyondan sonra film1.html */
+
+            setTimeout(() => {
+
+                window.location.href = "film1.html";
+
+            }, 900);
+
+        };
+
+    </script>
 
 </head>
 
@@ -196,42 +527,78 @@ window.makeFlowers = function(){
 <body>
 
 
-<!-- KALP BUTONU -->
+    <!-- FİLM BUTONU -->
 
-<button class="film-btn" onclick="makeFlowers()">
-❤️
-</button>
+    <button
+        class="film-btn"
+        onclick="openFilm()"
+        title="Film izlemeye git">
 
+        🎬
 
-<div id="login">
-
-<h1>💕 Sohbete Giriş</h1>
-
-<input id="pass" type="password" placeholder="Şifre">
-
-<br><br>
-
-<button onclick="login()">Giriş Yap</button>
-
-</div>
+    </button>
 
 
-<div id="chat" style="display:none;">
+    <!-- LOGIN -->
 
-<h2>Canlı Sohbet</h2>
+    <div id="login">
 
-<div id="messages"></div>
+        <h1>💕 Sohbete Giriş</h1>
 
-<input id="msg" placeholder="Mesaj yaz...">
+        <input
+            id="pass"
+            type="password"
+            placeholder="Şifre"
+            autocomplete="off"
+        >
 
-<button onclick="sendMessage()">Gönder</button>
+        <br>
+        <br>
 
-</div>
+        <button onclick="login()">
+            Giriş Yap
+        </button>
+
+    </div>
 
 
-<!-- ARKA PLAN MÜZİĞİ -->
+    <!-- CHAT -->
 
-<audio id="bgMusic" src="./music.mp3" loop preload="auto"></audio>
+    <div
+        id="chat"
+        style="display:none;">
+
+        <h2>
+            💕 Canlı Sohbet
+        </h2>
+
+
+        <div id="messages"></div>
+
+
+        <input
+            id="msg"
+            placeholder="Mesaj yaz..."
+            autocomplete="off"
+            maxlength="500"
+        >
+
+
+        <button onclick="sendMessage()">
+            Gönder
+        </button>
+
+    </div>
+
+
+    <!-- ARKA PLAN MÜZİĞİ -->
+
+    <audio
+        id="bgMusic"
+        src="./music.mp3"
+        loop
+        preload="auto">
+    </audio>
 
 
 </body>
