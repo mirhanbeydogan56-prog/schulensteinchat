@@ -33,9 +33,9 @@ window.login = function(){
         document.body.className="mirhan";
     }
 
-    else if(password === "merve5685"){
-        user="Merve";
-        document.body.className="merve";
+    else if(password === "azra5685"){
+        user="azra";
+        document.body.className="azra";
     }
 
     else{
