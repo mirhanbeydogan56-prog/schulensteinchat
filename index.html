@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="tr">
 
@@ -25,7 +24,9 @@
             padding: 20px;
         }
 
-        /* FİLM BUTONU */
+        /* =========================
+           FİLM BUTONU
+        ========================= */
 
         .film-btn {
             position: fixed;
@@ -49,22 +50,62 @@
             background: #ff3358;
         }
 
-        /* Telefonda üst orta */
+        /* =========================
+           DC BUTONU
+        ========================= */
+
+        .dc-btn {
+            position: fixed;
+            top: 20px;
+            right: 90px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            background: #ff4d6d;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            box-shadow: 0 5px 20px #0008;
+            z-index: 999;
+            transition: 0.2s;
+        }
+
+        .dc-btn:hover {
+            transform: scale(1.08);
+            background: #ff3358;
+        }
+
+        /* =========================
+           TELEFON
+        ========================= */
 
         @media (max-width: 600px) {
+
             .film-btn {
                 top: 10px;
-                left: 50%;
+                left: calc(50% + 35px);
                 right: auto;
-                transform: translateX(-50%);
             }
 
             .film-btn:hover {
-                transform: translateX(-50%) scale(1.08);
+                transform: scale(1.08);
+            }
+
+            .dc-btn {
+                top: 10px;
+                left: calc(50% - 95px);
+                right: auto;
+            }
+
+            .dc-btn:hover {
+                transform: scale(1.08);
             }
         }
 
-        /* ÇİÇEK / GÜL ANİMASYONU */
+        /* =========================
+           ÇİÇEK / GÜL ANİMASYONU
+        ========================= */
 
         .flower {
             position: fixed;
@@ -90,7 +131,9 @@
 
         }
 
-        /* LOGIN */
+        /* =========================
+           LOGIN
+        ========================= */
 
         #login {
             width: 100%;
@@ -136,7 +179,9 @@
             background: #ff3158;
         }
 
-        /* CHAT */
+        /* =========================
+           CHAT
+        ========================= */
 
         #chat {
             width: 100%;
@@ -229,7 +274,10 @@
         }
     </style>
 
-    <!-- FIREBASE -->
+
+    <!-- =========================
+         FIREBASE
+    ========================= -->
 
     <script type="module">
 
@@ -259,7 +307,8 @@
             storageBucket:
                 "teett-b2ca0.firebasestorage.app",
 
-            messagingSenderId: "409690180731",
+            messagingSenderId:
+                "409690180731",
 
             appId:
                 "1:409690180731:web:f9613a3b7626d318cce6de"
@@ -519,6 +568,17 @@
 
         };
 
+
+        /* =========================
+           DC SAYFASINI AÇ
+        ========================= */
+
+        window.openDC = function () {
+
+            window.location.href = "dc.html";
+
+        };
+
     </script>
 
 </head>
@@ -527,7 +587,23 @@
 <body>
 
 
-    <!-- FİLM BUTONU -->
+    <!-- =========================
+         DC BUTONU
+    ========================= -->
+
+    <button
+        class="dc-btn"
+        onclick="openDC()"
+        title="DC sayfasına git">
+
+        🫀
+
+    </button>
+
+
+    <!-- =========================
+         FİLM BUTONU
+    ========================= -->
 
     <button
         class="film-btn"
@@ -539,7 +615,9 @@
     </button>
 
 
-    <!-- LOGIN -->
+    <!-- =========================
+         LOGIN
+    ========================= -->
 
     <div id="login">
 
@@ -562,7 +640,9 @@
     </div>
 
 
-    <!-- CHAT -->
+    <!-- =========================
+         CHAT
+    ========================= -->
 
     <div
         id="chat"
@@ -591,7 +671,9 @@
     </div>
 
 
-    <!-- ARKA PLAN MÜZİĞİ -->
+    <!-- =========================
+         ARKA PLAN MÜZİĞİ
+    ========================= -->
 
     <audio
         id="bgMusic"
@@ -604,4 +686,3 @@
 </body>
 
 </html>
-```
