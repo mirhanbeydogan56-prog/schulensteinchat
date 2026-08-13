@@ -10,7 +10,7 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>💕 Senin İçin</title>
+    <title>💕 Sana Özel</title>
 
 
     <style>
@@ -19,14 +19,12 @@
             box-sizing: border-box;
         }
 
-
         html,
         body {
             margin: 0;
             width: 100%;
             min-height: 100%;
         }
-
 
         body {
 
@@ -38,70 +36,136 @@
 
             color: white;
 
-            overflow-x: hidden;
+            overflow: hidden;
 
             background:
+
                 radial-gradient(
                     circle at 50% 20%,
-                    #5c0927 0%,
-                    #300015 35%,
-                    #130008 100%
+                    #650b2c 0%,
+                    #3b0018 35%,
+                    #150008 75%,
+                    #080003 100%
                 );
 
         }
 
 
-        /* =========================
-           ARKA PLAN KALPLERİ
-        ========================= */
+        /* ===============================
+           ARKA PLAN IŞIKLARI
+        =============================== */
 
-        .background-heart {
+        .glow {
 
             position: fixed;
 
-            color:
-                rgba(
-                    255,
-                    77,
-                    109,
-                    0.12
-                );
+            width: 300px;
+            height: 300px;
+
+            border-radius: 50%;
+
+            filter: blur(90px);
+
+            opacity: .18;
 
             pointer-events: none;
 
             animation:
-                backgroundFloat
-                linear
-                infinite;
+                glowMove
+                8s
+                ease-in-out
+                infinite
+                alternate;
 
-            z-index: 0;
+        }
+
+        .glow.one {
+
+            background: #ff174f;
+
+            top: -100px;
+            left: -100px;
+
+        }
+
+        .glow.two {
+
+            background: #5c4dff;
+
+            right: -100px;
+            bottom: -100px;
+
+            animation-delay: 2s;
+
+        }
+
+        @keyframes glowMove {
+
+            0% {
+                transform:
+                    translate(0, 0);
+            }
+
+            100% {
+                transform:
+                    translate(100px, -60px);
+            }
 
         }
 
 
-        @keyframes backgroundFloat {
+        /* ===============================
+           ARKA PLAN KALPLERİ
+        =============================== */
+
+        .bg-heart {
+
+            position: fixed;
+
+            bottom: -50px;
+
+            pointer-events: none;
+
+            color:
+                rgba(
+                    255,
+                    100,
+                    140,
+                    .13
+                );
+
+            animation:
+                bgHeart
+                linear
+                forwards;
+
+            z-index: 1;
+
+        }
+
+        @keyframes bgHeart {
 
             0% {
 
                 transform:
-                    translateY(110vh)
-                    rotate(0deg);
+                    translateY(0)
+                    rotate(0deg)
+                    scale(.6);
 
                 opacity: 0;
 
             }
 
-            20% {
-
+            15% {
                 opacity: 1;
-
             }
 
             100% {
 
                 transform:
-                    translateY(-15vh)
-                    rotate(360deg);
+                    translateY(-115vh)
+                    rotate(360deg)
+                    scale(1.3);
 
                 opacity: 0;
 
@@ -110,225 +174,150 @@
         }
 
 
-        /* =========================
-           ANA ALAN
-        ========================= */
+        /* ===============================
+           ANA SAYFA
+        =============================== */
 
         .page {
 
             position: relative;
 
-            z-index: 2;
+            z-index: 5;
 
             width: 100%;
 
-            min-height: 100vh;
+            height: 100vh;
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
 
             padding:
-                25px
-                20px
-                50px;
+                25px 15px;
 
         }
 
-
-        .title {
-
-            text-align: center;
+        h1 {
 
             margin:
-                10px
-                0
-                5px;
+                5px 0 4px;
 
             color:
-                #ff9fb2;
+                #ff9caf;
 
             font-size:
                 clamp(
-                    28px,
-                    6vw,
+                    30px,
+                    7vw,
                     48px
                 );
 
+            text-align: center;
+
             text-shadow:
-                0 0 20px
+                0 0 25px
                 rgba(
                     255,
                     77,
                     109,
-                    0.5
+                    .5
                 );
+
+            animation:
+                titlePulse
+                3s
+                ease-in-out
+                infinite;
 
         }
 
+        @keyframes titlePulse {
+
+            0%,
+            100% {
+
+                text-shadow:
+                    0 0 15px
+                    rgba(
+                        255,
+                        77,
+                        109,
+                        .35
+                    );
+
+            }
+
+            50% {
+
+                text-shadow:
+                    0 0 35px
+                    rgba(
+                        255,
+                        77,
+                        109,
+                        .8
+                    );
+
+            }
+
+        }
 
         .subtitle {
 
+            color:
+                #d493a5;
+
             text-align: center;
 
-            color:
-                #d895a5;
-
             margin-bottom:
-                20px;
+                12px;
+
+            font-size:
+                14px;
 
         }
 
 
-        /* =========================
-           OYUNCU BİLGİSİ
-        ========================= */
+        /* ===============================
+           OYUN ALANI
+        =============================== */
 
-        .player-bar {
+        .game {
 
-            width: 100%;
+            position: relative;
 
-            max-width: 900px;
-
-            margin:
-                0 auto
-                20px;
-
-            display: flex;
-
-            justify-content: center;
-
-            flex-wrap: wrap;
-
-            gap: 10px;
-
-        }
-
-
-        .player {
-
-            background:
-                rgba(
-                    50,
-                    0,
-                    20,
-                    0.8
+            width:
+                min(
+                    900px,
+                    100%
                 );
+
+            flex: 1;
+
+            max-height:
+                700px;
+
+            border-radius:
+                30px;
 
             border:
                 1px solid
                 rgba(
                     255,
-                    143,
-                    163,
-                    0.2
+                    100,
+                    130,
+                    .18
                 );
-
-            border-radius:
-                50px;
-
-            padding:
-                9px
-                15px;
-
-            color:
-                #d9a1ae;
-
-            transition:
-                0.25s;
-
-        }
-
-
-        .player.active {
-
-            border-color:
-                #ff4d6d;
-
-            color:
-                white;
-
-            box-shadow:
-                0 0 15px
-                rgba(
-                    255,
-                    77,
-                    109,
-                    0.3
-                );
-
-        }
-
-
-        .player-dot {
-
-            display:
-                inline-block;
-
-            width:
-                9px;
-
-            height:
-                9px;
-
-            border-radius:
-                50%;
-
-            background:
-                #666;
-
-            margin-right:
-                5px;
-
-        }
-
-
-        .player.active
-        .player-dot {
-
-            background:
-                #4dffb8;
-
-            box-shadow:
-                0 0 8px
-                #4dffb8;
-
-        }
-
-
-        /* =========================
-           OYUN ALANI
-        ========================= */
-
-        .game-area {
-
-            position: relative;
-
-            width: 100%;
-
-            max-width: 900px;
-
-            min-height:
-                600px;
-
-            margin:
-                0 auto;
 
             background:
                 rgba(
                     20,
                     0,
                     10,
-                    0.55
+                    .45
                 );
-
-            border:
-                1px solid
-                rgba(
-                    255,
-                    77,
-                    109,
-                    0.18
-                );
-
-            border-radius:
-                30px;
 
             box-shadow:
                 0 20px 70px
@@ -336,7 +325,7 @@
                     0,
                     0,
                     0,
-                    0.4
+                    .45
                 );
 
             overflow:
@@ -345,29 +334,77 @@
         }
 
 
-        /* =========================
-           STRES TOPU
-        ========================= */
+        /* ===============================
+           ÜST ETİKET
+        =============================== */
 
-        .ball-container {
+        .badge {
+
+            position: absolute;
+
+            top: 18px;
+
+            left: 50%;
+
+            transform:
+                translateX(-50%);
+
+            padding:
+                8px 16px;
+
+            border-radius:
+                50px;
+
+            background:
+                rgba(
+                    255,
+                    77,
+                    109,
+                    .12
+                );
+
+            border:
+                1px solid
+                rgba(
+                    255,
+                    143,
+                    163,
+                    .18
+                );
+
+            color:
+                #ff9caf;
+
+            font-size:
+                13px;
+
+            z-index: 30;
+
+        }
+
+
+        /* ===============================
+           TOP
+        =============================== */
+
+        .ball-wrap {
 
             position: absolute;
 
             left: 50%;
+            top: 50%;
 
-            top: 48%;
+            width:
+                270px;
+
+            height:
+                270px;
 
             transform:
                 translate(
                     -50%,
                     -50%
                 );
-
-            width:
-                260px;
-
-            height:
-                260px;
 
             display:
                 flex;
@@ -383,82 +420,72 @@
         }
 
 
-        .stress-ball {
+        .ball {
+
+            position: relative;
 
             width:
-                210px;
+                205px;
 
             height:
-                210px;
+                205px;
 
             border-radius:
-                48% 52%
-                55% 45% /
-                50% 45%
-                55% 50%;
-
-            cursor:
-                pointer;
-
-            user-select:
-                none;
-
-            touch-action:
-                none;
+                50%;
 
             background:
 
                 radial-gradient(
-                    circle at 30% 25%,
-                    #ff9db0,
-                    #ff5575 35%,
-                    #d91f4e 70%,
-                    #870024 100%
+                    circle at 30% 22%,
+                    #ffc0cc 0%,
+                    #ff708d 20%,
+                    #ff3d67 48%,
+                    #d3194d 75%,
+                    #79001f 100%
                 );
 
             box-shadow:
 
                 inset
-                -18px
-                -20px
-                35px
+                20px
+                15px
+                30px
                 rgba(
-                    80,
-                    0,
-                    20,
-                    0.5
+                    255,
+                    255,
+                    255,
+                    .2
                 ),
 
                 inset
-                15px
-                12px
-                20px
+                -25px
+                -30px
+                40px
                 rgba(
-                    255,
-                    255,
-                    255,
-                    0.25
+                    70,
+                    0,
+                    20,
+                    .5
                 ),
 
                 0
-                20px
-                40px
+                25px
+                50px
                 rgba(
                     0,
                     0,
                     0,
-                    0.4
+                    .5
                 );
 
-            transition:
+            cursor:
+                pointer;
 
-                transform
-                0.15s
-                ease,
+            touch-action:
+                none;
 
-                border-radius
-                0.15s
-                ease;
+            user-select:
+                none;
 
             display:
                 flex;
@@ -470,87 +497,189 @@
                 center;
 
             font-size:
-                55px;
+                58px;
+
+            transition:
+                transform
+                .15s
+                ease;
 
         }
 
 
-        .stress-ball:hover {
+        /* TOP PARLAMASI */
+
+        .ball::before {
+
+            content: "";
+
+            position: absolute;
+
+            width:
+                50px;
+
+            height:
+                25px;
+
+            background:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    .3
+                );
+
+            border-radius:
+                50%;
+
+            top:
+                25px;
+
+            left:
+                38px;
 
             transform:
-                scale(1.04);
+                rotate(-25deg);
+
+            filter:
+                blur(5px);
 
         }
 
 
-        .stress-ball.pressed {
+        /* ===============================
+           TOP EZİLME
+        =============================== */
+
+        .ball.pressed {
 
             transform:
                 scale(
-                    1.16,
-                    0.78
+                    1.15,
+                    .72
                 );
 
             border-radius:
                 55% 45%
-                65% 35% /
-                40% 55%
-                45% 60%;
+                62% 38% /
+                43% 58%
+                42% 57%;
+
+            box-shadow:
+
+                inset
+                20px
+                15px
+                35px
+                rgba(
+                    255,
+                    255,
+                    255,
+                    .18
+                ),
+
+                0
+                10px
+                25px
+                rgba(
+                    0,
+                    0,
+                    0,
+                    .5
+                );
 
         }
 
 
-        .stress-ball.popping {
+        /* ===============================
+           TOP TİTREME
+        =============================== */
+
+        .ball.shake {
 
             animation:
-                ballPop
-                0.55s
+                shake
+                .35s
+                linear
+                infinite;
+
+        }
+
+        @keyframes shake {
+
+            0% {
+                margin-left: -3px;
+            }
+
+            25% {
+                margin-left: 3px;
+            }
+
+            50% {
+                margin-left: -4px;
+            }
+
+            75% {
+                margin-left: 4px;
+            }
+
+            100% {
+                margin-left: 0;
+            }
+
+        }
+
+
+        /* ===============================
+           TOP PATLAMA
+        =============================== */
+
+        .ball.pop {
+
+            animation:
+                pop
+                .55s
                 ease
                 forwards;
 
         }
 
-
-        @keyframes ballPop {
+        @keyframes pop {
 
             0% {
 
                 transform:
                     scale(
-                        1.1,
-                        0.8
+                        1,
+                        .75
                     );
 
             }
 
-            35% {
+            30% {
 
                 transform:
                     scale(
                         1.35,
-                        0.65
+                        .55
                     );
 
             }
 
-            60% {
+            55% {
 
                 transform:
-                    scale(
-                        0.8
-                    );
+                    scale(.8);
 
                 opacity:
-                    0.7;
+                    .8;
 
             }
 
             100% {
 
                 transform:
-                    scale(
-                        0
-                    );
+                    scale(0);
 
                 opacity:
                     0;
@@ -560,54 +689,141 @@
         }
 
 
-        /* =========================
-           BALON GİBİ GERİ GELME
-        ========================= */
+        /* ===============================
+           AŞKIM YAZISI
+        =============================== */
 
-        .stress-ball.returning {
+        .effect-text {
 
-            animation:
-                ballReturn
-                0.6s
-                cubic-bezier(
-                    .2,
-                    .8,
-                    .3,
-                    1.2
+            position: absolute;
+
+            left: 50%;
+            top: 50%;
+
+            transform:
+                translate(
+                    -50%,
+                    -50%
+                )
+                scale(0)
+                rotate(-10deg);
+
+            font-size:
+                clamp(
+                    35px,
+                    8vw,
+                    70px
                 );
+
+            font-weight:
+                900;
+
+            color:
+                #65dcff;
+
+            text-align:
+                center;
+
+            white-space:
+                nowrap;
+
+            text-shadow:
+
+                0 0 10px
+                #1ebeff,
+
+                0 0 30px
+                #168fff,
+
+                0 0 60px
+                rgba(
+                    30,
+                    180,
+                    255,
+                    .7
+                );
+
+            pointer-events:
+                none;
+
+            z-index:
+                50;
 
         }
 
+        .effect-text.show {
 
-        @keyframes ballReturn {
+            animation:
+                effectText
+                .9s
+                ease
+                forwards;
+
+        }
+
+        @keyframes effectText {
 
             0% {
 
                 transform:
-                    scale(0);
+                    translate(
+                        -50%,
+                        -50%
+                    )
+                    scale(0)
+                    rotate(-15deg);
+
+                opacity: 0;
 
             }
 
-            60% {
+            25% {
 
                 transform:
-                    scale(1.15);
+                    translate(
+                        -50%,
+                        -50%
+                    )
+                    scale(1.25)
+                    rotate(8deg);
+
+                opacity: 1;
+
+            }
+
+            70% {
+
+                transform:
+                    translate(
+                        -50%,
+                        -50%
+                    )
+                    scale(1)
+                    rotate(0);
+
+                opacity: 1;
 
             }
 
             100% {
 
                 transform:
-                    scale(1);
+                    translate(
+                        -50%,
+                        -50%
+                    )
+                    scale(1.5);
+
+                opacity: 0;
 
             }
 
         }
 
 
-        /* =========================
-           KALPLER
-        ========================= */
+        /* ===============================
+           MAVİ KALPLER
+        =============================== */
 
         .heart {
 
@@ -626,70 +842,38 @@
             cursor:
                 pointer;
 
+            z-index:
+                25;
+
             user-select:
                 none;
 
-            z-index:
-                8;
-
-            filter:
-                drop-shadow(
-                    0
-                    5px
-                    8px
-                    rgba(
-                        0,
-                        0,
-                        0,
-                        0.35
-                    )
-                );
-
             animation:
-                heartFly
-                1.3s
+                flyHeart
+                1.4s
                 cubic-bezier(
-                    .15,
-                    .8,
-                    .25,
+                    .1,
+                    .75,
+                    .2,
                     1
                 )
                 forwards;
 
-            transform-origin:
-                center;
-
-        }
-
-
-        .heart:hover {
-
             filter:
                 drop-shadow(
-                    0
-                    0
-                    10px
-                    #62d9ff
+                    0 5px 7px
+                    rgba(
+                        0,
+                        0,
+                        0,
+                        .35
+                    )
                 );
 
         }
 
 
-        .heart.squish {
-
-            animation:
-                heartSquish
-                0.4s
-                ease
-                forwards;
-
-            pointer-events:
-                none;
-
-        }
-
-
-        @keyframes heartFly {
+        @keyframes flyHeart {
 
             0% {
 
@@ -698,18 +882,146 @@
                         -50%,
                         -50%
                     )
-                    scale(0.2)
-                    rotate(0deg);
+                    scale(.1);
 
                 opacity:
                     0;
 
             }
 
-            25% {
+            20% {
+                opacity: 1;
+            }
+
+            100% {
+
+                transform:
+                    translate(
+                        calc(
+                            -50% +
+                            var(--x)
+                        ),
+                        calc(
+                            -50% +
+                            var(--y)
+                        )
+                    )
+                    rotate(
+                        var(--r)
+                    )
+                    scale(
+                        var(--s)
+                    );
 
                 opacity:
                     1;
+
+            }
+
+        }
+
+
+        /* ===============================
+           KALBE DOKUNMA
+        =============================== */
+
+        .heart.squish {
+
+            animation:
+                squish
+                .4s
+                ease
+                forwards;
+
+            pointer-events:
+                none;
+
+        }
+
+        @keyframes squish {
+
+            0% {
+
+                transform:
+                    scale(1);
+
+            }
+
+            30% {
+
+                transform:
+                    scale(
+                        1.5,
+                        .35
+                    );
+
+            }
+
+            100% {
+
+                transform:
+                    scale(0);
+
+                opacity: 0;
+
+            }
+
+        }
+
+
+        /* ===============================
+           PARÇACIKLAR
+        =============================== */
+
+        .particle {
+
+            position:
+                absolute;
+
+            left:
+                50%;
+
+            top:
+                50%;
+
+            width:
+                var(--size);
+
+            height:
+                var(--size);
+
+            border-radius:
+                50%;
+
+            background:
+                var(--color);
+
+            pointer-events:
+                none;
+
+            z-index:
+                20;
+
+            animation:
+                particle
+                .9s
+                ease-out
+                forwards;
+
+        }
+
+        @keyframes particle {
+
+            0% {
+
+                transform:
+                    translate(
+                        -50%,
+                        -50%
+                    )
+                    scale(1);
+
+                opacity: 1;
 
             }
 
@@ -726,63 +1038,20 @@
                             var(--y)
                         )
                     )
-                    scale(
-                        var(--scale)
-                    )
-                    rotate(
-                        var(--rotate)
-                    );
+                    scale(0);
 
-                opacity:
-                    1;
+                opacity: 0;
 
             }
 
         }
 
 
-        @keyframes heartSquish {
+        /* ===============================
+           BALONCUKLAR
+        =============================== */
 
-            0% {
-
-                transform:
-                    scale(1);
-
-                opacity:
-                    1;
-
-            }
-
-            40% {
-
-                transform:
-                    scale(
-                        1.4,
-                        0.45
-                    );
-
-            }
-
-            100% {
-
-                transform:
-                    scale(
-                        0
-                    );
-
-                opacity:
-                    0;
-
-            }
-
-        }
-
-
-        /* =========================
-           PATLAMA PARÇACIKLARI
-        ========================= */
-
-        .particle {
+        .bubble {
 
             position:
                 absolute;
@@ -794,10 +1063,19 @@
                 50%;
 
             width:
-                8px;
+                var(--size);
 
             height:
-                8px;
+                var(--size);
+
+            border:
+                2px solid
+                rgba(
+                    100,
+                    220,
+                    255,
+                    .65
+                );
 
             border-radius:
                 50%;
@@ -805,19 +1083,18 @@
             pointer-events:
                 none;
 
+            z-index:
+                18;
+
             animation:
-                particleFly
-                0.9s
+                bubble
+                1.5s
                 ease-out
                 forwards;
 
-            z-index:
-                7;
-
         }
 
-
-        @keyframes particleFly {
+        @keyframes bubble {
 
             0% {
 
@@ -826,11 +1103,14 @@
                         -50%,
                         -50%
                     )
-                    scale(1);
+                    scale(.2);
 
-                opacity:
-                    1;
+                opacity: 0;
 
+            }
+
+            20% {
+                opacity: 1;
             }
 
             100% {
@@ -839,26 +1119,25 @@
                     translate(
                         calc(
                             -50% +
-                            var(--px)
+                            var(--x)
                         ),
                         calc(
                             -50% +
-                            var(--py)
+                            var(--y)
                         )
                     )
-                    scale(0);
+                    scale(1.3);
 
-                opacity:
-                    0;
+                opacity: 0;
 
             }
 
         }
 
 
-        /* =========================
-           TALİMAT
-        ========================= */
+        /* ===============================
+           KÜÇÜK YAZI
+        =============================== */
 
         .hint {
 
@@ -875,218 +1154,33 @@
                 translateX(-50%);
 
             width:
-                calc(
-                    100% - 40px
-                );
+                90%;
 
             text-align:
                 center;
 
             color:
-                #b9798a;
+                #b9788b;
 
             font-size:
                 14px;
 
             z-index:
-                3;
+                40;
 
         }
 
-
-        .hint strong {
+        .hint b {
 
             color:
-                #ff8fa3;
+                #ff9caf;
 
         }
 
 
-        /* =========================
-           PATLAMA YAZISI
-        ========================= */
-
-        .boom {
-
-            position:
-                absolute;
-
-            left:
-                50%;
-
-            top:
-                48%;
-
-            transform:
-                translate(
-                    -50%,
-                    -50%
-                )
-                scale(0);
-
-            color:
-                #ffffff;
-
-            font-size:
-                55px;
-
-            font-weight:
-                900;
-
-            text-shadow:
-                0
-                0
-                20px
-                #35cfff;
-
-            pointer-events:
-                none;
-
-            z-index:
-                20;
-
-            opacity:
-                0;
-
-        }
-
-
-        .boom.show {
-
-            animation:
-                boomAnimation
-                0.8s
-                ease
-                forwards;
-
-        }
-
-
-        @keyframes boomAnimation {
-
-            0% {
-
-                transform:
-                    translate(
-                        -50%,
-                        -50%
-                    )
-                    scale(0);
-
-                opacity:
-                    0;
-
-            }
-
-            30% {
-
-                transform:
-                    translate(
-                        -50%,
-                        -50%
-                    )
-                    scale(1.3);
-
-                opacity:
-                    1;
-
-            }
-
-            70% {
-
-                transform:
-                    translate(
-                        -50%,
-                        -50%
-                    )
-                    scale(1);
-
-                opacity:
-                    1;
-
-            }
-
-            100% {
-
-                transform:
-                    translate(
-                        -50%,
-                        -50%
-                    )
-                    scale(1.4);
-
-                opacity:
-                    0;
-
-            }
-
-        }
-
-
-        /* =========================
-           RESET
-        ========================= */
-
-        .reset-btn {
-
-            position:
-                absolute;
-
-            top:
-                18px;
-
-            right:
-                18px;
-
-            padding:
-                9px 14px;
-
-            border:
-                1px solid
-                rgba(
-                    255,
-                    143,
-                    163,
-                    0.2
-                );
-
-            border-radius:
-                12px;
-
-            background:
-                rgba(
-                    40,
-                    0,
-                    15,
-                    0.7
-                );
-
-            color:
-                #d993a4;
-
-            cursor:
-                pointer;
-
-            z-index:
-                30;
-
-        }
-
-
-        .reset-btn:hover {
-
-            background:
-                #ff4d6d;
-
-            color:
-                white;
-
-        }
-
-
-        /* =========================
+        /* ===============================
            MOBİL
-        ========================= */
+        =============================== */
 
         @media (
             max-width: 600px
@@ -1095,14 +1189,11 @@
             .page {
 
                 padding:
-                    15px
-                    10px
-                    30px;
+                    15px 10px;
 
             }
 
-
-            .game-area {
+            .game {
 
                 min-height:
                     570px;
@@ -1112,19 +1203,7 @@
 
             }
 
-
-            .ball-container {
-
-                width:
-                    230px;
-
-                height:
-                    230px;
-
-            }
-
-
-            .stress-ball {
+            .ball {
 
                 width:
                     180px;
@@ -1133,10 +1212,29 @@
                     180px;
 
                 font-size:
-                    45px;
+                    48px;
 
             }
 
+            .ball-wrap {
+
+                width:
+                    240px;
+
+                height:
+                    240px;
+
+            }
+
+            .hint {
+
+                bottom:
+                    18px;
+
+                font-size:
+                    13px;
+
+            }
 
             .heart {
 
@@ -1145,19 +1243,10 @@
 
             }
 
-
-            .hint {
-
-                bottom:
-                    20px;
-
-            }
-
-
-            .boom {
+            .effect-text {
 
                 font-size:
-                    45px;
+                    34px;
 
             }
 
@@ -1171,103 +1260,46 @@
 <body>
 
 
-    <!-- =========================
-         ARKA PLAN
-    ========================= -->
+    <div class="glow one"></div>
 
-    <div id="background"></div>
+    <div class="glow two"></div>
 
 
     <main class="page">
 
 
-        <h1 class="title">
-
-            💕 Senin İçin 💕
-
+        <h1>
+            💕 Sana Özel 💕
         </h1>
 
 
         <div class="subtitle">
 
-            Biraz stresini atalım... 😌
+            Stresini biraz burada bırakabilirsin... 😌
 
         </div>
 
 
-        <!-- OYUNCULAR -->
+        <section
+            class="game"
+            id="game"
+        >
 
-        <div class="player-bar">
 
-            <div
-                class="player active"
-                id="player1"
-            >
+            <div class="badge">
 
-                <span
-                    class="player-dot"
-                ></span>
-
-                Oyuncu 1
+                💙 Biraz sık bakalım...
 
             </div>
 
 
-            <div
-                class="player"
-                id="player2"
-            >
+            <!-- STRES TOPU -->
 
-                <span
-                    class="player-dot"
-                ></span>
-
-                Oyuncu 2
-
-            </div>
-
-
-            <div
-                class="player"
-                id="player3"
-            >
-
-                <span
-                    class="player-dot"
-                ></span>
-
-                Oyuncu 3
-
-            </div>
-
-        </div>
-
-
-        <!-- =========================
-             OYUN
-        ========================= -->
-
-        <section class="game-area">
-
-
-            <button
-                class="reset-btn"
-                onclick="resetGame()"
-            >
-
-                ↻
-
-            </button>
-
-
-            <div
-                class="ball-container"
-                id="ballContainer"
-            >
+            <div class="ball-wrap">
 
                 <div
-                    class="stress-ball"
-                    id="stressBall"
+                    class="ball"
+                    id="ball"
                 >
 
                     💗
@@ -1277,25 +1309,27 @@
             </div>
 
 
+            <!-- RASTGELE AŞK SÖZÜ -->
+
             <div
-                class="boom"
-                id="boom"
+                class="effect-text"
+                id="effectText"
             >
 
-                BOOM! 💙
+                AŞKIMMM 💕
 
             </div>
 
 
             <div class="hint">
 
-                <strong>Basılı tut</strong>
-                ve stres topunu ez...
+                <b>Basılı tut</b>
+                → topu ez
 
                 <br>
 
-                Bırakınca ne çıkacağını gör
-                💙
+                Bırak
+                → içinden çıkan kalplere dokun 💙
 
             </div>
 
@@ -1308,115 +1342,186 @@
 
     <script>
 
-        /* =========================
-           ELEMENTLER
-        ========================= */
+
+        const game =
+            document.getElementById(
+                "game"
+            );
+
 
         const ball =
             document.getElementById(
-                "stressBall"
+                "ball"
             );
 
 
-        const ballContainer =
+        const effectText =
             document.getElementById(
-                "ballContainer"
+                "effectText"
             );
 
 
-        const gameArea =
-            document.querySelector(
-                ".game-area"
-            );
-
-
-        const boom =
-            document.getElementById(
-                "boom"
-            );
-
-
-        /* =========================
-           BASILI TUTMA
-        ========================= */
-
-        let isPressing =
+        let pressing =
             false;
 
-        let pressTimer =
-            null;
-
-        let hasPopped =
+        let popped =
             false;
 
 
-        function startPress(
-            event
-        ) {
+        /* =================================
+           RASTGELE SÖZLER
+        ================================= */
 
-            event.preventDefault();
+        const loveEffects = [
+
+            {
+                text:
+                    "AŞKIMMM 💕",
+
+                color:
+                    "#ff6f91",
+
+                emojis: [
+                    "💕",
+                    "💗",
+                    "💖"
+                ]
+            },
+
+            {
+                text:
+                    "BALIMMM 🩷",
+
+                color:
+                    "#ff8fc4",
+
+                emojis: [
+                    "🩷",
+                    "💗",
+                    "🌸"
+                ]
+            },
+
+            {
+                text:
+                    "GÜZELİMMM 💗",
+
+                color:
+                    "#ff729e",
+
+                emojis: [
+                    "💗",
+                    "🌷",
+                    "✨"
+                ]
+            },
+
+            {
+                text:
+                    "PRENSESİMMM 👑",
+
+                color:
+                    "#ffd166",
+
+                emojis: [
+                    "👑",
+                    "💛",
+                    "✨"
+                ]
+            },
+
+            {
+                text:
+                    "YAVRUMMM 🥹",
+
+                color:
+                    "#a98cff",
+
+                emojis: [
+                    "🥹",
+                    "💜",
+                    "💙"
+                ]
+            },
+
+            {
+                text:
+                    "ÖMRÜMMM 💙",
+
+                color:
+                    "#51d9ff",
+
+                emojis: [
+                    "💙",
+                    "🩵",
+                    "✨"
+                ]
+            }
+
+        ];
 
 
-            if (isPressing)
-                return;
+        /* =================================
+           TOPA BASMA
+        ================================= */
+
+        ball.addEventListener(
+            "pointerdown",
+            function(event) {
+
+                event.preventDefault();
 
 
-            isPressing =
-                true;
+                if (pressing)
+                    return;
 
 
-            hasPopped =
-                false;
+                pressing =
+                    true;
 
 
-            ball.classList.add(
-                "pressed"
-            );
+                popped =
+                    false;
 
 
-            /*
-             * Biraz basılı tutulduktan
-             * sonra top hazır hale geliyor.
-             */
+                ball.classList.add(
+                    "pressed"
+                );
 
-            pressTimer =
+
                 setTimeout(
                     function() {
 
                         if (
-                            isPressing
+                            pressing
                         ) {
 
-                            ball.style
-                                .filter =
-                                "brightness(1.2)";
+                            ball.classList.add(
+                                "shake"
+                            );
 
                         }
 
                     },
-                    500
+                    400
                 );
 
-        }
+            }
+        );
 
 
-        function endPress(
-            event
-        ) {
+        /* =================================
+           TOPU BIRAKMA
+        ================================= */
 
-            if (
-                !isPressing
-            )
+        function releaseBall() {
+
+            if (!pressing)
                 return;
 
 
-            isPressing =
+            pressing =
                 false;
-
-
-            clearTimeout(
-                pressTimer
-            );
 
 
             ball.classList.remove(
@@ -1424,18 +1529,17 @@
             );
 
 
-            /*
-             * Bırakınca patlat.
-             */
+            ball.classList.remove(
+                "shake"
+            );
 
-            if (
-                !hasPopped
-            ) {
 
-                hasPopped =
+            if (!popped) {
+
+                popped =
                     true;
 
-                popBall();
+                explode();
 
             }
 
@@ -1443,147 +1547,149 @@
 
 
         ball.addEventListener(
-            "pointerdown",
-            startPress
-        );
-
-
-        ball.addEventListener(
             "pointerup",
-            endPress
+            releaseBall
         );
 
 
         ball.addEventListener(
             "pointercancel",
-            endPress
+            releaseBall
         );
 
 
-        ball.addEventListener(
-            "pointerleave",
-            function(event) {
+        /* =================================
+           PATLAMA
+        ================================= */
 
-                /*
-                 * Mouse ile dışarı çıkınca
-                 * bırakılmış sayıyoruz.
-                 */
-
-                if (
-                    event.pointerType ===
-                    "mouse" &&
-                    isPressing
-                ) {
-
-                    endPress(
-                        event
-                    );
-
-                }
-
-            }
-        );
+        function explode() {
 
 
-        /* =========================
-           TOPU PATLAT
-        ========================= */
+            const selected =
+                loveEffects[
+                    Math.floor(
+                        Math.random() *
+                        loveEffects.length
+                    )
+                ];
 
-        function popBall() {
+
+            /* Yazıyı değiştir */
+
+            effectText.textContent =
+                selected.text;
+
+
+            /* Rengini değiştir */
+
+            effectText.style.color =
+                selected.color;
+
+
+            effectText.style.textShadow =
+
+                `
+                0 0 10px ${selected.color},
+                0 0 30px ${selected.color},
+                0 0 60px ${selected.color}
+                `;
+
+
+            /* Animasyonu sıfırla */
+
+            effectText.classList.remove(
+                "show"
+            );
+
+
+            void effectText.offsetWidth;
+
+
+            effectText.classList.add(
+                "show"
+            );
+
+
+            /* Topu patlat */
 
             ball.classList.add(
-                "popping"
+                "pop"
             );
 
 
-            /*
-             * BOOM yazısı
-             */
+            /* Kalpler */
 
-            boom.classList.remove(
-                "show"
+            createHearts(
+                selected
             );
 
 
-            void boom.offsetWidth;
+            /* Parçacıklar */
 
-
-            boom.classList.add(
-                "show"
+            createParticles(
+                selected
             );
 
 
-            /*
-             * Mavi kalpler
-             */
+            /* Baloncuklar */
 
-            createHearts();
+            createBubbles();
 
 
-            /*
-             * Parçacıklar
-             */
+            /* Küçük ekran efekti */
 
-            createParticles();
+            screenFlash(
+                selected.color
+            );
 
 
-            /*
-             * Topu geri getir
-             */
+            /* Top geri gelsin */
 
             setTimeout(
                 function() {
 
                     ball.classList.remove(
-                        "popping"
+                        "pop"
                     );
 
+                    ball.style.animation =
+                        "none";
 
-                    ball.style.filter =
+                    void ball.offsetWidth;
+
+                    ball.style.animation =
                         "";
 
-
-                    ball.classList.add(
-                        "returning"
-                    );
-
-
-                    setTimeout(
-                        function() {
-
-                            ball.classList.remove(
-                                "returning"
-                            );
-
-                        },
-                        600
-                    );
-
                 },
-                550
+                650
             );
 
         }
 
 
-        /* =========================
-           MAVİ KALPLER
-        ========================= */
+        /* =================================
+           KALPLER
+        ================================= */
 
-        function createHearts() {
+        function createHearts(
+            selected
+        ) {
 
-            const count =
-                10 +
+
+            const amount =
+                12 +
                 Math.floor(
-                    Math.random() * 9
+                    Math.random() *
+                    12
                 );
 
 
             for (
                 let i = 0;
-                i < count;
+                i < amount;
                 i++
             ) {
+
 
                 const heart =
                     document.createElement(
@@ -1596,42 +1702,36 @@
 
 
                 heart.textContent =
-                    Math.random() < 0.7
-                        ? "💙"
-                        : "🩵";
+                    selected.emojis[
+                        Math.floor(
+                            Math.random() *
+                            selected.emojis.length
+                        )
+                    ];
 
-
-                /*
-                 * Rastgele yön
-                 */
 
                 const x =
-                    (
-                        Math.random() *
-                        500
-                    ) - 250;
+                    Math.random() *
+                    560 -
+                    280;
 
 
                 const y =
-                    (
-                        Math.random() *
-                        430
-                    ) - 300;
+                    Math.random() *
+                    450 -
+                    310;
 
 
                 const scale =
-                    (
-                        0.7 +
-                        Math.random() *
-                        0.9
-                    );
+                    .6 +
+                    Math.random() *
+                    1;
 
 
                 const rotate =
-                    (
-                        Math.random() *
-                        80
-                    ) - 40;
+                    Math.random() *
+                    100 -
+                    50;
 
 
                 heart.style.setProperty(
@@ -1647,32 +1747,23 @@
 
 
                 heart.style.setProperty(
-                    "--scale",
+                    "--s",
                     scale
                 );
 
 
                 heart.style.setProperty(
-                    "--rotate",
+                    "--r",
                     rotate + "deg"
                 );
 
 
-                heart.style.animationDelay =
-                    (
-                        Math.random() *
-                        0.12
-                    ) + "s";
-
-
-                gameArea.appendChild(
+                game.appendChild(
                     heart
                 );
 
 
-                /*
-                 * Kalbe dokununca ez
-                 */
+                /* Kalbe dokununca ez */
 
                 heart.addEventListener(
                     "pointerdown",
@@ -1680,18 +1771,32 @@
 
                         event.stopPropagation();
 
-                        squishHeart(
-                            heart
+
+                        heart.classList.add(
+                            "squish"
+                        );
+
+
+                        createTinyExplosion(
+                            heart,
+                            selected.color
+                        );
+
+
+                        setTimeout(
+                            function() {
+
+                                heart.remove();
+
+                            },
+                            400
                         );
 
                     }
                 );
 
 
-                /*
-                 * 5 saniye sonra
-                 * kendisi kaybolsun.
-                 */
+                /* Bir süre sonra kaybol */
 
                 setTimeout(
                     function() {
@@ -1700,14 +1805,24 @@
                             heart.isConnected
                         ) {
 
-                            squishHeart(
-                                heart
+                            heart.classList.add(
+                                "squish"
+                            );
+
+
+                            setTimeout(
+                                function() {
+
+                                    heart.remove();
+
+                                },
+                                400
                             );
 
                         }
 
                     },
-                    5000
+                    6000
                 );
 
             }
@@ -1715,82 +1830,70 @@
         }
 
 
-        /* =========================
-           KALP EZME
-        ========================= */
+        /* =================================
+           KALP KÜÇÜK PATLAMA
+        ================================= */
 
-        function squishHeart(
-            heart
+        function createTinyExplosion(
+            heart,
+            color
         ) {
-
-            if (
-                heart.classList.contains(
-                    "squish"
-                )
-            ) {
-
-                return;
-
-            }
-
-
-            heart.classList.add(
-                "squish"
-            );
-
-
-            setTimeout(
-                function() {
-
-                    heart.remove();
-
-                },
-                400
-            );
-
-        }
-
-
-        /* =========================
-           PARÇACIK
-        ========================= */
-
-        function createParticles() {
-
-            const colors = [
-
-                "#48d8ff",
-                "#72e5ff",
-                "#ffffff",
-                "#4da6ff",
-                "#ff8fa3"
-
-            ];
 
 
             for (
                 let i = 0;
-                i < 28;
+                i < 6;
                 i++
             ) {
 
-                const particle =
+
+                const dot =
                     document.createElement(
                         "div"
                     );
 
 
-                particle.className =
-                    "particle";
+                dot.style.position =
+                    "absolute";
 
 
-                particle.style.background =
-                    colors[
-                        Math.floor(
-                            Math.random() *
-                            colors.length
-                        )
-                    ];
+                dot.style.width =
+                    "6px";
+
+
+                dot.style.height =
+                    "6px";
+
+
+                dot.style.borderRadius =
+                    "50%";
+
+
+                dot.style.background =
+                    color;
+
+
+                dot.style.left =
+                    heart.offsetLeft +
+                    "px";
+
+
+                dot.style.top =
+                    heart.offsetTop +
+                    "px";
+
+
+                dot.style.pointerEvents =
+                    "none";
+
+
+                dot.style.zIndex =
+                    "60";
+
+
+                game.appendChild(
+                    dot
+                );
 
 
                 const angle =
@@ -1800,42 +1903,157 @@
 
 
                 const distance =
-                    80 +
+                    15 +
                     Math.random() *
-                    220;
+                    40;
 
 
-                const px =
-                    Math.cos(angle) *
-                    distance;
+                dot.animate(
 
+                    [
 
-                const py =
-                    Math.sin(angle) *
-                    distance;
+                        {
 
+                            transform:
+                                "translate(0,0) scale(1)",
 
-                particle.style.setProperty(
-                    "--px",
-                    px + "px"
-                );
+                            opacity:
+                                1
 
+                        },
 
-                particle.style.setProperty(
-                    "--py",
-                    py + "px"
-                );
+                        {
 
+                            transform:
+                                `
+                                translate(
+                                    ${
+                                        Math.cos(angle)
+                                        * distance
+                                    }px,
+                                    ${
+                                        Math.sin(angle)
+                                        * distance
+                                    }px
+                                )
+                                scale(0)
+                                `,
 
-                gameArea.appendChild(
-                    particle
+                            opacity:
+                                0
+
+                        }
+
+                    ],
+
+                    {
+
+                        duration:
+                            450,
+
+                        easing:
+                            "ease-out"
+
+                    }
+
                 );
 
 
                 setTimeout(
                     function() {
 
-                        particle.remove();
+                        dot.remove();
+
+                    },
+                    500
+                );
+
+            }
+
+        }
+
+
+        /* =================================
+           PARÇACIKLAR
+        ================================= */
+
+        function createParticles(
+            selected
+        ) {
+
+
+            for (
+                let i = 0;
+                i < 35;
+                i++
+            ) {
+
+
+                const p =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                p.className =
+                    "particle";
+
+
+                const angle =
+                    Math.random() *
+                    Math.PI *
+                    2;
+
+
+                const distance =
+                    100 +
+                    Math.random() *
+                    260;
+
+
+                p.style.setProperty(
+                    "--x",
+                    (
+                        Math.cos(angle) *
+                        distance
+                    ) + "px"
+                );
+
+
+                p.style.setProperty(
+                    "--y",
+                    (
+                        Math.sin(angle) *
+                        distance
+                    ) + "px"
+                );
+
+
+                p.style.setProperty(
+                    "--size",
+                    (
+                        4 +
+                        Math.random() *
+                        8
+                    ) + "px"
+                );
+
+
+                p.style.setProperty(
+                    "--color",
+                    selected.color
+                );
+
+
+                game.appendChild(
+                    p
+                );
+
+
+                setTimeout(
+                    function() {
+
+                        p.remove();
 
                     },
                     1000
@@ -1846,11 +2064,182 @@
         }
 
 
-        /* =========================
+        /* =================================
+           BALONCUKLAR
+        ================================= */
+
+        function createBubbles() {
+
+
+            for (
+                let i = 0;
+                i < 12;
+                i++
+            ) {
+
+
+                const bubble =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                bubble.className =
+                    "bubble";
+
+
+                const angle =
+                    Math.random() *
+                    Math.PI *
+                    2;
+
+
+                const distance =
+                    100 +
+                    Math.random() *
+                    250;
+
+
+                bubble.style.setProperty(
+                    "--x",
+                    (
+                        Math.cos(angle) *
+                        distance
+                    ) + "px"
+                );
+
+
+                bubble.style.setProperty(
+                    "--y",
+                    (
+                        Math.sin(angle) *
+                        distance
+                    ) + "px"
+                );
+
+
+                bubble.style.setProperty(
+                    "--size",
+                    (
+                        12 +
+                        Math.random() *
+                        30
+                    ) + "px"
+                );
+
+
+                game.appendChild(
+                    bubble
+                );
+
+
+                setTimeout(
+                    function() {
+
+                        bubble.remove();
+
+                    },
+                    1600
+                );
+
+            }
+
+        }
+
+
+        /* =================================
+           EKRAN PARLAMASI
+        ================================= */
+
+        function screenFlash(
+            color
+        ) {
+
+
+            const flash =
+                document.createElement(
+                    "div"
+                );
+
+
+            flash.style.position =
+                "fixed";
+
+
+            flash.style.inset =
+                "0";
+
+
+            flash.style.background =
+                color;
+
+
+            flash.style.opacity =
+                "0";
+
+
+            flash.style.pointerEvents =
+                "none";
+
+
+            flash.style.zIndex =
+                "100";
+
+
+            document.body.appendChild(
+                flash
+            );
+
+
+            flash.animate(
+
+                [
+
+                    {
+                        opacity: 0
+                    },
+
+                    {
+                        opacity: .12
+                    },
+
+                    {
+                        opacity: 0
+                    }
+
+                ],
+
+                {
+
+                    duration:
+                        450,
+
+                    easing:
+                        "ease-out"
+
+                }
+
+            );
+
+
+            setTimeout(
+                function() {
+
+                    flash.remove();
+
+                },
+                500
+            );
+
+        }
+
+
+        /* =================================
            ARKA PLAN KALPLERİ
-        ========================= */
+        ================================= */
 
         function createBackgroundHeart() {
+
 
             const heart =
                 document.createElement(
@@ -1859,11 +2248,11 @@
 
 
             heart.className =
-                "background-heart";
+                "bg-heart";
 
 
             heart.textContent =
-                Math.random() < 0.5
+                Math.random() < .5
                     ? "♡"
                     : "♥";
 
@@ -1911,49 +2300,26 @@
 
         setInterval(
             createBackgroundHeart,
-            900
+            800
         );
 
 
-        /* =========================
-           RESET
-        ========================= */
+        /* İlk kalpler */
 
-        function resetGame() {
+        for (
+            let i = 0;
+            i < 6;
+            i++
+        ) {
 
-            document
-                .querySelectorAll(
-                    ".heart, .particle"
-                )
-                .forEach(
-                    function(element) {
-
-                        element.remove();
-
-                    }
-                );
-
-
-            ball.classList.remove(
-                "popping",
-                "returning",
-                "pressed"
-            );
-
-
-            ball.style.filter =
-                "";
-
-
-            boom.classList.remove(
-                "show"
+            setTimeout(
+                createBackgroundHeart,
+                i * 500
             );
 
         }
 
-
     </script>
-
 
 </body>
 
