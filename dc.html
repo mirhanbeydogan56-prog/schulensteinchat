@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>💕 D mi C mi?</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            min-height: 100vh;
+
+            font-family: Arial, sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #140008,
+                    #3b0015,
+                    #17000a
+                );
+
+            color: white;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            padding: 20px;
+
+        }
+
+
+        /* =========================
+           ANA CONTAINER
+        ========================= */
+
+        .container {
+
+            width: 100%;
+
+            max-width: 900px;
+
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 20px;
+
+        }
+
+
+        /* =========================
+           KARTLAR
+        ========================= */
+
+        .card {
+
+            background:
+                rgba(30, 0, 12, 0.94);
+
+            border:
+                1px solid
+                rgba(255, 77, 109, 0.3);
+
+            border-radius: 25px;
+
+            padding: 25px;
+
+            box-shadow:
+                0 20px 60px #0008;
+
+        }
+
+
+        .card h2 {
+
+            text-align: center;
+
+            color: #ff8fa3;
+
+            margin-top: 0;
+
+        }
+
+
+        /* =========================
+           CHAT
+        ========================= */
+
+        #messages {
+
+            height: 420px;
+
+            overflow-y: auto;
+
+            padding: 12px;
+
+            border-radius: 15px;
+
+            background:
+                rgba(0, 0, 0, 0.35);
+
+            border:
+                1px solid
+                rgba(255,255,255,0.08);
+
+            margin-bottom: 15px;
+
+        }
+
+
+        .message {
+
+            padding: 10px 14px;
+
+            margin-bottom: 10px;
+
+            background: #3a0c1d;
+
+            border-radius: 12px;
+
+            word-break: break-word;
+
+        }
+
+
+        .message b {
+
+            color: #ff8fa3;
+
+        }
+
+
+        .chat-input {
+
+            display: flex;
+
+            gap: 8px;
+
+        }
+
+
+        #msg {
+
+            flex: 1;
+
+            min-width: 0;
+
+            padding: 14px;
+
+            border-radius: 12px;
+
+            border:
+                1px solid #5c1730;
+
+            background: #18000a;
+
+            color: white;
+
+            outline: none;
+
+            font-size: 15px;
+
+        }
+
+
+        .send-btn {
+
+            width: 90px;
+
+            border: none;
+
+            border-radius: 12px;
+
+            background: #ff4d6d;
+
+            color: white;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+        }
+
+
+        .send-btn:hover {
+
+            background: #ff3158;
+
+        }
+
+
+        /* =========================
+           ÇARK ALANI
+        ========================= */
+
+        .wheel-card {
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+        }
+
+
+        .wheel-wrapper {
+
+            position: relative;
+
+            width: 330px;
+
+            height: 330px;
+
+            margin: 20px auto;
+
+        }
+
+
+        /* ÇARK */
+
+        #wheel {
+
+            width: 100%;
+
+            height: 100%;
+
+            border-radius: 50%;
+
+            border:
+                8px solid #ff8fa3;
+
+            background:
+
+                conic-gradient(
+
+                    #ff4d6d 0deg 180deg,
+
+                    #5c1730 180deg 360deg
+
+                );
+
+            box-shadow:
+
+                0 0 0 5px #25000d,
+
+                0 10px 35px #0009;
+
+            position: relative;
+
+            transition:
+                transform 4s
+                cubic-bezier(
+                    0.12,
+                    0.65,
+                    0.15,
+                    1
+                );
+
+        }
+
+
+        /* D ve C yazıları */
+
+        .letter {
+
+            position: absolute;
+
+            left: 50%;
+
+            top: 50%;
+
+            transform-origin: center;
+
+            font-size: 60px;
+
+            font-weight: bold;
+
+            text-shadow:
+                0 4px 10px #0008;
+
+            pointer-events: none;
+
+        }
+
+
+        .letter-d {
+
+            transform:
+                translate(-50%, -50%)
+                translateY(-75px);
+
+        }
+
+
+        .letter-c {
+
+            transform:
+                translate(-50%, -50%)
+                translateY(75px);
+
+        }
+
+
+        /* MERKEZ */
+
+        .center {
+
+            position: absolute;
+
+            left: 50%;
+
+            top: 50%;
+
+            transform:
+                translate(-50%, -50%);
+
+            width: 70px;
+
+            height: 70px;
+
+            border-radius: 50%;
+
+            background: #ff4d6d;
+
+            border:
+                6px solid #25000d;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            font-size: 25px;
+
+            z-index: 5;
+
+            box-shadow:
+                0 5px 20px #0008;
+
+        }
+
+
+        /* OK */
+
+        .pointer {
+
+            position: absolute;
+
+            top: -17px;
+
+            left: 50%;
+
+            transform:
+                translateX(-50%);
+
+            width: 0;
+
+            height: 0;
+
+            border-left:
+                18px solid transparent;
+
+            border-right:
+                18px solid transparent;
+
+            border-top:
+                35px solid #ff8fa3;
+
+            z-index: 10;
+
+            filter:
+                drop-shadow(
+                    0 4px 5px #0008
+                );
+
+        }
+
+
+        /* =========================
+           ÇEVİR BUTONU
+        ========================= */
+
+        #spinBtn {
+
+            width: 220px;
+
+            padding: 15px;
+
+            border: none;
+
+            border-radius: 14px;
+
+            background: #ff4d6d;
+
+            color: white;
+
+            font-size: 17px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 7px 20px #0006;
+
+            transition: 0.2s;
+
+        }
+
+
+        #spinBtn:hover {
+
+            transform: scale(1.04);
+
+            background: #ff3158;
+
+        }
+
+
+        #spinBtn:disabled {
+
+            opacity: 0.5;
+
+            cursor: not-allowed;
+
+            transform: none;
+
+        }
+
+
+        /* =========================
+           SONUÇ
+        ========================= */
+
+        #result {
+
+            min-height: 40px;
+
+            margin-top: 18px;
+
+            text-align: center;
+
+            font-size: 22px;
+
+            font-weight: bold;
+
+            color: #ff8fa3;
+
+        }
+
+
+        #status {
+
+            text-align: center;
+
+            color: #c98998;
+
+            font-size: 13px;
+
+            margin-top: 8px;
+
+        }
+
+
+        /* =========================
+           GERİ BUTONU
+        ========================= */
+
+        .back-btn {
+
+            position: fixed;
+
+            top: 20px;
+
+            left: 20px;
+
+            width: 55px;
+
+            height: 55px;
+
+            border-radius: 50%;
+
+            border: none;
+
+            background: #ff4d6d;
+
+            color: white;
+
+            font-size: 24px;
+
+            cursor: pointer;
+
+            z-index: 999;
+
+            box-shadow:
+                0 5px 20px #0008;
+
+        }
+
+
+        .back-btn:hover {
+
+            background: #ff3158;
+
+            transform: scale(1.08);
+
+        }
+
+
+        /* =========================
+           TELEFON
+        ========================= */
+
+        @media (max-width: 750px) {
+
+            body {
+
+                padding:
+                    75px 12px 20px;
+
+                align-items:
+                    flex-start;
+
+            }
+
+
+            .container {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .wheel-wrapper {
+
+                width: 280px;
+
+                height: 280px;
+
+            }
+
+
+            #messages {
+
+                height: 300px;
+
+            }
+
+
+            .letter {
+
+                font-size: 50px;
+
+            }
+
+
+            .letter-d {
+
+                transform:
+                    translate(-50%, -50%)
+                    translateY(-65px);
+
+            }
+
+
+            .letter-c {
+
+                transform:
+                    translate(-50%, -50%)
+                    translateY(65px);
+
+            }
+
+        }
+
+
+    </style>
+
+
+    <!-- =========================
+         FIREBASE
+    ========================= -->
+
+    <script type="module">
+
+        import {
+            initializeApp
+        }
+        from
+        "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+
+
+        import {
+            getDatabase,
+            ref,
+            push,
+            onChildAdded,
+            onValue,
+            runTransaction
+        }
+        from
+        "https://www.gstatic.com/firebasejs/10.13.2/firebase-database.js";
+
+
+        /* =========================
+           FIREBASE AYARLARI
+        ========================= */
+
+        const firebaseConfig = {
+
+            apiKey:
+                "AIzaSyDGibvGAFm4CSFMvskXmH1weYn1EyDV3yI",
+
+            authDomain:
+                "teett-b2ca0.firebaseapp.com",
+
+            databaseURL:
+                "https://teett-b2ca0-default-rtdb.europe-west1.firebasedatabase.app",
+
+            projectId:
+                "teett-b2ca0",
+
+            storageBucket:
+                "teett-b2ca0.firebasestorage.app",
+
+            messagingSenderId:
+                "409690180731",
+
+            appId:
+                "1:409690180731:web:f9613a3b7626d318cce6de"
+
+        };
+
+
+        const app =
+            initializeApp(firebaseConfig);
+
+
+        const db =
+            getDatabase(app);
+
+
+        /* =========================
+           KULLANICI
+        ========================= */
+
+        let user =
+            localStorage.getItem("dcUser") || "";
+
+
+        if (!user) {
+
+            const name =
+                prompt(
+                    "Oyuna girmeden önce adını yaz:"
+                );
+
+            if (name && name.trim()) {
+
+                user =
+                    name.trim();
+
+                localStorage.setItem(
+                    "dcUser",
+                    user
+                );
+
+            }
+
+            else {
+
+                user = "Misafir";
+
+            }
+
+        }
+
+
+        document.getElementById(
+            "userName"
+        ).textContent = user;
+
+
+        /* =========================
+           CHAT
+        ========================= */
+
+        const messagesRef =
+            ref(db, "dcChat");
+
+
+        window.sendMessage =
+            function () {
+
+                const input =
+                    document.getElementById(
+                        "msg"
+                    );
+
+
+                const text =
+                    input.value.trim();
+
+
+                if (!text)
+                    return;
+
+
+                push(
+                    messagesRef,
+                    {
+
+                        user: user,
+
+                        text: text,
+
+                        time: Date.now()
+
+                    }
+                );
+
+
+                input.value = "";
+
+                input.focus();
+
+            };
+
+
+        document
+            .getElementById("msg")
+            .addEventListener(
+                "keydown",
+                function (event) {
+
+                    if (
+                        event.key === "Enter"
+                    ) {
+
+                        sendMessage();
+
+                    }
+
+                }
+            );
+
+
+        onChildAdded(
+            messagesRef,
+            (snapshot) => {
+
+                const data =
+                    snapshot.val();
+
+
+                const message =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                message.className =
+                    "message";
+
+
+                const name =
+                    document.createElement(
+                        "b"
+                    );
+
+
+                name.textContent =
+                    data.user + ": ";
+
+
+                const text =
+                    document.createElement(
+                        "span"
+                    );
+
+
+                text.textContent =
+                    data.text;
+
+
+                message.appendChild(
+                    name
+                );
+
+
+                message.appendChild(
+                    text
+                );
+
+
+                const box =
+                    document.getElementById(
+                        "messages"
+                    );
+
+
+                box.appendChild(
+                    message
+                );
+
+
+                box.scrollTop =
+                    box.scrollHeight;
+
+            }
+        );
+
+
+        /* =========================
+           ÇARK
+        ========================= */
+
+        const spinRef =
+            ref(db, "dcGame/spin");
+
+
+        const wheel =
+            document.getElementById(
+                "wheel"
+            );
+
+
+        const spinButton =
+            document.getElementById(
+                "spinBtn"
+            );
+
+
+        const result =
+            document.getElementById(
+                "result"
+            );
+
+
+        const status =
+            document.getElementById(
+                "status"
+            );
+
+
+        let currentRotation = 0;
+
+        let lastSpinId = null;
+
+        let spinning = false;
+
+
+        const SPIN_DURATION = 4000;
+
+
+        /*
+         * D ve C'nin merkezleri:
+         *
+         * D = üst taraf
+         * C = alt taraf
+         *
+         * Pointer üstte olduğu için
+         * sonucu pointer'ın altında
+         * D veya C olarak ayarlıyoruz.
+         */
+
+
+        function spinWheel(
+            spinData
+        ) {
+
+            if (!spinData)
+                return;
+
+
+            if (
+                spinData.id ===
+                lastSpinId
+            ) {
+
+                return;
+
+            }
+
+
+            lastSpinId =
+                spinData.id;
+
+
+            const elapsed =
+                Date.now() -
+                spinData.startedAt;
+
+
+            const remaining =
+                Math.max(
+                    0,
+                    SPIN_DURATION -
+                    elapsed
+                );
+
+
+            spinning = true;
+
+            spinButton.disabled =
+                true;
+
+
+            status.textContent =
+                "🎡 Çark dönüyor...";
+
+
+            /*
+             * Sonucun açıda görünmesi:
+             *
+             * D: 0 derece civarı
+             * C: 180 derece civarı
+             */
+
+            let targetAngle;
+
+
+            if (
+                spinData.result === "D"
+            ) {
+
+                targetAngle = 0;
+
+            }
+
+            else {
+
+                targetAngle = 180;
+
+            }
+
+
+            /*
+             * Her seferinde birkaç tam tur.
+             */
+
+            const extraTurns =
+                5 + Math.floor(
+                    Math.random() * 3
+                );
+
+
+            /*
+             * Aynı spin herkesin ekranında
+             * aynı sonuca gelsin.
+             */
+
+            const targetRotation =
+                currentRotation +
+                (
+                    extraTurns * 360
+                ) +
+                (
+                    targetAngle -
+                    (
+                        currentRotation %
+                        360
+                    ) +
+                    360
+                ) % 360;
+
+
+            currentRotation =
+                targetRotation;
+
+
+            wheel.style.transition =
+                `transform ${
+                    Math.max(
+                        remaining,
+                        100
+                    )
+                }ms cubic-bezier(
+                    0.12,
+                    0.65,
+                    0.15,
+                    1
+                )`;
+
+
+            /*
+             * Eğer olay geç geldiyse
+             * yine sonucu göstereceğiz.
+             */
+
+            requestAnimationFrame(
+                () => {
+
+                    wheel.style.transform =
+                        `rotate(${targetRotation}deg)`;
+
+                }
+            );
+
+
+            setTimeout(
+                () => {
+
+                    spinning = false;
+
+                    spinButton.disabled =
+                        false;
+
+
+                    result.textContent =
+                        spinData.result === "D"
+                            ? "💗 Sonuç: D"
+                            : "❤️ Sonuç: C";
+
+
+                    status.textContent =
+                        `🎯 ${spinData.user} çevirdi`;
+
+                },
+                Math.max(
+                    remaining,
+                    100
+                )
+            );
+
+        }
+
+
+        /* =========================
+           FIREBASE ÇARK DİNLEME
+        ========================= */
+
+        onValue(
+            spinRef,
+            (snapshot) => {
+
+                const data =
+                    snapshot.val();
+
+
+                if (!data)
+                    return;
+
+
+                spinWheel(data);
+
+            }
+        );
+
+
+        /* =========================
+           ÇARKI ÇEVİR
+        ========================= */
+
+        window.spin =
+            async function () {
+
+                if (spinning)
+                    return;
+
+
+                const now =
+                    Date.now();
+
+
+                const spinId =
+                    now +
+                    "_" +
+                    Math.random()
+                        .toString(36)
+                        .substring(2);
+
+
+                try {
+
+                    await runTransaction(
+                        spinRef,
+                        (current) => {
+
+                            /*
+                             * .
+                             */
+
+                            if (
+                                current &&
+                                current.startedAt &&
+                                (
+                                    Date.now() -
+                                    current.startedAt
+                                ) <
+                                SPIN_DURATION + 300
+                            ) {
+
+                                return;
+
+                            }
+
+
+                            /*
+                             * RANDOM SONUÇ
+                             */
+
+                            const randomResult =
+                                Math.random() < 0.5
+                                    ? "D"
+                                    : "C";
+
+
+                            return {
+
+                                id: spinId,
+
+                                user: user,
+
+                                result:
+                                    randomResult,
+
+                                startedAt:
+                                    Date.now()
+
+                            };
+
+                        }
+                    );
+
+
+                }
+
+                catch (error) {
+
+                    console.error(
+                        "Çark hatası:",
+                        error
+                    );
+
+                }
+
+            };
+
+
+        /* =========================
+           GERİ DÖN
+        ========================= */
+
+        window.goBack =
+            function () {
+
+                window.location.href =
+                    "index.html";
+
+            };
+
+
+    </script>
+
+</head>
+
+
+<body>
+
+
+    <!-- GERİ -->
+
+    <button
+        class="back-btn"
+        onclick="goBack()"
+        title="Geri dön">
+
+        ←
+
+    </button>
+
+
+    <div class="container">
+
+
+        <!-- =====================
+             CHAT
+        ====================== -->
+
+        <div class="card">
+
+            <h2>
+                
+            </h2>
+
+
+            <div id="messages"></div>
+
+
+            <div class="chat-input">
+
+                <input
+                    id="msg"
+                    type="text"
+                    maxlength="500"
+                    placeholder="Mesaj yaz..."
+                    autocomplete="off"
+                >
+
+
+                <button
+                    class="send-btn"
+                    onclick="sendMessage()">
+
+                    Gönder
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================
+             ÇARK
+        ====================== -->
+
+        <div class="card wheel-card">
+
+            <h2>
+                🎡 D mi C mi?
+            </h2>
+
+
+            <div
+                style="
+                    text-align:center;
+                    color:#c98998;
+                    font-size:14px;
+                "
+            >
+
+                Oyuncu:
+                <b
+                    id="userName"
+                    style="color:#ff8fa3;"
+                >
+                </b>
+
+            </div>
+
+
+            <div class="wheel-wrapper">
+
+
+                <!-- OK -->
+
+                <div class="pointer"></div>
+
+
+                <!-- ÇARK -->
+
+                <div id="wheel">
+
+
+                    <div
+                        class="letter letter-d"
+                    >
+                        D
+                    </div>
+
+
+                    <div
+                        class="letter letter-c"
+                    >
+                        C
+                    </div>
+
+
+                    <div class="center">
+                        💕
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <button
+                id="spinBtn"
+                onclick="spin()"
+            >
+
+                🎡 ÇARKI ÇEVİR
+
+            </button>
+
+
+            <div id="result">
+
+               
+
+            </div>
+
+
+            <div id="status">
+
+               
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+</body>
+
+</html>
