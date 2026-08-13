@@ -19,12 +19,14 @@
             box-sizing: border-box;
         }
 
+
         html,
         body {
             margin: 0;
             width: 100%;
             min-height: 100%;
         }
+
 
         body {
 
@@ -48,12 +50,99 @@
                     #080003 100%
                 );
 
+            transition:
+                background 0.8s ease,
+                color 0.8s ease;
+
         }
 
 
-        /* ===============================
-           ARKA PLAN IŞIKLARI
-        =============================== */
+        /* ==================================================
+           GÜNDÜZ MODU
+        ================================================== */
+
+        body.day {
+
+            color: #5c1730;
+
+            background:
+
+                radial-gradient(
+                    circle at 50% 20%,
+                    #fff0f5 0%,
+                    #ffd6e3 35%,
+                    #ffb9ce 70%,
+                    #ff9fbb 100%
+                );
+
+        }
+
+
+        /* Gündüz ana oyun */
+
+        body.day .game {
+
+            background:
+                rgba(
+                    255,
+                    245,
+                    248,
+                    .65
+                );
+
+            border:
+                1px solid
+                rgba(
+                    255,
+                    80,
+                    130,
+                    .25
+                );
+
+            box-shadow:
+                0 20px 70px
+                rgba(
+                    130,
+                    20,
+                    60,
+                    .2
+                );
+
+        }
+
+
+        body.day .subtitle {
+
+            color:
+                #8e5066;
+
+        }
+
+
+        body.day .hint {
+
+            color:
+                #8e5066;
+
+        }
+
+
+        body.day .badge {
+
+            background:
+                rgba(
+                    255,
+                    80,
+                    130,
+                    .12
+                );
+
+        }
+
+
+        /* ==================================================
+           IŞIKLAR
+        ================================================== */
 
         .glow {
 
@@ -79,6 +168,7 @@
 
         }
 
+
         .glow.one {
 
             background: #ff174f;
@@ -88,6 +178,7 @@
 
         }
 
+
         .glow.two {
 
             background: #5c4dff;
@@ -95,28 +186,126 @@
             right: -100px;
             bottom: -100px;
 
-            animation-delay: 2s;
+            animation-delay:
+                2s;
 
         }
+
 
         @keyframes glowMove {
 
             0% {
+
                 transform:
                     translate(0, 0);
+
             }
 
             100% {
+
                 transform:
-                    translate(100px, -60px);
+                    translate(
+                        100px,
+                        -60px
+                    );
+
             }
 
         }
 
 
-        /* ===============================
+        /* ==================================================
+           MOD BUTONU
+        ================================================== */
+
+        .theme-btn {
+
+            position: fixed;
+
+            top: 18px;
+
+            right: 18px;
+
+            width: 55px;
+
+            height: 55px;
+
+            border: none;
+
+            border-radius: 50%;
+
+            background:
+                rgba(
+                    255,
+                    77,
+                    109,
+                    .2
+                );
+
+            backdrop-filter:
+                blur(10px);
+
+            border:
+                1px solid
+                rgba(
+                    255,
+                    150,
+                    170,
+                    .3
+                );
+
+            color: white;
+
+            font-size: 26px;
+
+            cursor: pointer;
+
+            z-index: 999;
+
+            box-shadow:
+                0 8px 30px
+                rgba(
+                    0,
+                    0,
+                    0,
+                    .25
+                );
+
+            transition:
+                transform .2s ease,
+                background .3s ease;
+
+        }
+
+
+        .theme-btn:hover {
+
+            transform:
+                scale(1.1)
+                rotate(10deg);
+
+        }
+
+
+        body.day .theme-btn {
+
+            background:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    .55
+                );
+
+            color:
+                #ff4d6d;
+
+        }
+
+
+        /* ==================================================
            ARKA PLAN KALPLERİ
-        =============================== */
+        ================================================== */
 
         .bg-heart {
 
@@ -143,6 +332,7 @@
 
         }
 
+
         @keyframes bgHeart {
 
             0% {
@@ -157,7 +347,9 @@
             }
 
             15% {
+
                 opacity: 1;
+
             }
 
             100% {
@@ -174,9 +366,9 @@
         }
 
 
-        /* ===============================
+        /* ==================================================
            ANA SAYFA
-        =============================== */
+        ================================================== */
 
         .page {
 
@@ -198,6 +390,7 @@
                 25px 15px;
 
         }
+
 
         h1 {
 
@@ -233,6 +426,15 @@
 
         }
 
+
+        body.day h1 {
+
+            color:
+                #e73568;
+
+        }
+
+
         @keyframes titlePulse {
 
             0%,
@@ -264,6 +466,7 @@
 
         }
 
+
         .subtitle {
 
             color:
@@ -280,9 +483,9 @@
         }
 
 
-        /* ===============================
+        /* ==================================================
            OYUN ALANI
-        =============================== */
+        ================================================== */
 
         .game {
 
@@ -331,12 +534,17 @@
             overflow:
                 hidden;
 
+            transition:
+                background .8s ease,
+                border .8s ease,
+                box-shadow .8s ease;
+
         }
 
 
-        /* ===============================
-           ÜST ETİKET
-        =============================== */
+        /* ==================================================
+           ETİKET
+        ================================================== */
 
         .badge {
 
@@ -380,12 +588,15 @@
 
             z-index: 30;
 
+            white-space:
+                nowrap;
+
         }
 
 
-        /* ===============================
+        /* ==================================================
            TOP
-        =============================== */
+        ================================================== */
 
         .ball-wrap {
 
@@ -507,8 +718,6 @@
         }
 
 
-        /* TOP PARLAMASI */
-
         .ball::before {
 
             content: "";
@@ -547,9 +756,9 @@
         }
 
 
-        /* ===============================
+        /* ==================================================
            TOP EZİLME
-        =============================== */
+        ================================================== */
 
         .ball.pressed {
 
@@ -565,35 +774,12 @@
                 43% 58%
                 42% 57%;
 
-            box-shadow:
-
-                inset
-                20px
-                15px
-                35px
-                rgba(
-                    255,
-                    255,
-                    255,
-                    .18
-                ),
-
-                0
-                10px
-                25px
-                rgba(
-                    0,
-                    0,
-                    0,
-                    .5
-                );
-
         }
 
 
-        /* ===============================
+        /* ==================================================
            TOP TİTREME
-        =============================== */
+        ================================================== */
 
         .ball.shake {
 
@@ -605,34 +791,40 @@
 
         }
 
+
         @keyframes shake {
 
             0% {
-                margin-left: -3px;
+                margin-left:
+                    -3px;
             }
 
             25% {
-                margin-left: 3px;
+                margin-left:
+                    3px;
             }
 
             50% {
-                margin-left: -4px;
+                margin-left:
+                    -4px;
             }
 
             75% {
-                margin-left: 4px;
+                margin-left:
+                    4px;
             }
 
             100% {
-                margin-left: 0;
+                margin-left:
+                    0;
             }
 
         }
 
 
-        /* ===============================
+        /* ==================================================
            TOP PATLAMA
-        =============================== */
+        ================================================== */
 
         .ball.pop {
 
@@ -643,6 +835,7 @@
                 forwards;
 
         }
+
 
         @keyframes pop {
 
@@ -689,9 +882,9 @@
         }
 
 
-        /* ===============================
-           AŞKIM YAZISI
-        =============================== */
+        /* ==================================================
+           YAZI
+        ================================================== */
 
         .effect-text {
 
@@ -751,6 +944,7 @@
 
         }
 
+
         .effect-text.show {
 
             animation:
@@ -760,6 +954,7 @@
                 forwards;
 
         }
+
 
         @keyframes effectText {
 
@@ -773,7 +968,8 @@
                     scale(0)
                     rotate(-15deg);
 
-                opacity: 0;
+                opacity:
+                    0;
 
             }
 
@@ -787,7 +983,8 @@
                     scale(1.25)
                     rotate(8deg);
 
-                opacity: 1;
+                opacity:
+                    1;
 
             }
 
@@ -801,7 +998,8 @@
                     scale(1)
                     rotate(0);
 
-                opacity: 1;
+                opacity:
+                    1;
 
             }
 
@@ -814,16 +1012,17 @@
                     )
                     scale(1.5);
 
-                opacity: 0;
+                opacity:
+                    0;
 
             }
 
         }
 
 
-        /* ===============================
-           MAVİ KALPLER
-        =============================== */
+        /* ==================================================
+           KALPLER
+        ================================================== */
 
         .heart {
 
@@ -870,6 +1069,9 @@
                     )
                 );
 
+            transition:
+                filter .2s ease;
+
         }
 
 
@@ -890,7 +1092,10 @@
             }
 
             20% {
-                opacity: 1;
+
+                opacity:
+                    1;
+
             }
 
             100% {
@@ -921,15 +1126,15 @@
         }
 
 
-        /* ===============================
-           KALBE DOKUNMA
-        =============================== */
+        /* ==================================================
+           KALP EZİLME
+        ================================================== */
 
         .heart.squish {
 
             animation:
-                squish
-                .4s
+                heartSquish
+                .45s
                 ease
                 forwards;
 
@@ -938,21 +1143,39 @@
 
         }
 
-        @keyframes squish {
+
+        @keyframes heartSquish {
 
             0% {
 
                 transform:
-                    scale(1);
+                    scale(1)
+                    rotate(0);
 
             }
 
-            30% {
+            20% {
 
                 transform:
                     scale(
-                        1.5,
-                        .35
+                        1.45,
+                        .4
+                    )
+                    rotate(
+                        -10deg
+                    );
+
+            }
+
+            45% {
+
+                transform:
+                    scale(
+                        .8,
+                        1.3
+                    )
+                    rotate(
+                        10deg
                     );
 
             }
@@ -962,16 +1185,203 @@
                 transform:
                     scale(0);
 
-                opacity: 0;
+                opacity:
+                    0;
 
             }
 
         }
 
 
-        /* ===============================
+        /* ==================================================
+           KALP ZIPLAMA
+        ================================================== */
+
+        .heart.bounce {
+
+            animation:
+                bounceHeart
+                .65s
+                ease
+                forwards;
+
+        }
+
+
+        @keyframes bounceHeart {
+
+            0% {
+
+                transform:
+                    translate(
+                        calc(
+                            -50% +
+                            var(--x)
+                        ),
+                        calc(
+                            -50% +
+                            var(--y)
+                        )
+                    )
+                    scale(
+                        var(--s)
+                    );
+
+            }
+
+            25% {
+
+                transform:
+                    translate(
+                        calc(
+                            -50% +
+                            var(--x)
+                        ),
+                        calc(
+                            -50% +
+                            var(--y) -
+                            50px
+                        )
+                    )
+                    scale(1.3);
+
+            }
+
+            50% {
+
+                transform:
+                    translate(
+                        calc(
+                            -50% +
+                            var(--x)
+                        ),
+                        calc(
+                            -50% +
+                            var(--y)
+                        )
+                    )
+                    scale(.85);
+
+            }
+
+            75% {
+
+                transform:
+                    translate(
+                        calc(
+                            -50% +
+                            var(--x)
+                        ),
+                        calc(
+                            -50% +
+                            var(--y) -
+                            22px
+                        )
+                    )
+                    scale(1.1);
+
+            }
+
+            100% {
+
+                transform:
+                    translate(
+                        calc(
+                            -50% +
+                            var(--x)
+                        ),
+                        calc(
+                            -50% +
+                            var(--y)
+                        )
+                    )
+                    scale(1);
+
+            }
+
+        }
+
+
+        /* ==================================================
+           KÜÇÜK KALPLER
+        ================================================== */
+
+        .mini-heart {
+
+            position:
+                absolute;
+
+            left:
+                50%;
+
+            top:
+                50%;
+
+            font-size:
+                17px;
+
+            pointer-events:
+                none;
+
+            z-index:
+                70;
+
+            animation:
+                miniHeart
+                .8s
+                ease-out
+                forwards;
+
+        }
+
+
+        @keyframes miniHeart {
+
+            0% {
+
+                transform:
+                    translate(
+                        -50%,
+                        -50%
+                    )
+                    scale(.2);
+
+                opacity:
+                    1;
+
+            }
+
+            100% {
+
+                transform:
+                    translate(
+                        calc(
+                            -50% +
+                            var(--x)
+                        ),
+                        calc(
+                            -50% +
+                            var(--y)
+                        )
+                    )
+                    rotate(
+                        var(--r)
+                    )
+                    scale(
+                        .8
+                    );
+
+                opacity:
+                    0;
+
+            }
+
+        }
+
+
+        /* ==================================================
            PARÇACIKLAR
-        =============================== */
+        ================================================== */
 
         .particle {
 
@@ -1010,6 +1420,7 @@
 
         }
 
+
         @keyframes particle {
 
             0% {
@@ -1021,7 +1432,8 @@
                     )
                     scale(1);
 
-                opacity: 1;
+                opacity:
+                    1;
 
             }
 
@@ -1040,16 +1452,17 @@
                     )
                     scale(0);
 
-                opacity: 0;
+                opacity:
+                    0;
 
             }
 
         }
 
 
-        /* ===============================
+        /* ==================================================
            BALONCUKLAR
-        =============================== */
+        ================================================== */
 
         .bubble {
 
@@ -1094,6 +1507,7 @@
 
         }
 
+
         @keyframes bubble {
 
             0% {
@@ -1105,12 +1519,16 @@
                     )
                     scale(.2);
 
-                opacity: 0;
+                opacity:
+                    0;
 
             }
 
             20% {
-                opacity: 1;
+
+                opacity:
+                    1;
+
             }
 
             100% {
@@ -1128,16 +1546,17 @@
                     )
                     scale(1.3);
 
-                opacity: 0;
+                opacity:
+                    0;
 
             }
 
         }
 
 
-        /* ===============================
-           KÜÇÜK YAZI
-        =============================== */
+        /* ==================================================
+           HINT
+        ================================================== */
 
         .hint {
 
@@ -1170,6 +1589,7 @@
 
         }
 
+
         .hint b {
 
             color:
@@ -1178,9 +1598,9 @@
         }
 
 
-        /* ===============================
+        /* ==================================================
            MOBİL
-        =============================== */
+        ================================================== */
 
         @media (
             max-width: 600px
@@ -1193,6 +1613,7 @@
 
             }
 
+
             .game {
 
                 min-height:
@@ -1202,6 +1623,7 @@
                     25px;
 
             }
+
 
             .ball {
 
@@ -1216,6 +1638,7 @@
 
             }
 
+
             .ball-wrap {
 
                 width:
@@ -1225,6 +1648,7 @@
                     240px;
 
             }
+
 
             .hint {
 
@@ -1236,6 +1660,7 @@
 
             }
 
+
             .heart {
 
                 font-size:
@@ -1243,10 +1668,31 @@
 
             }
 
+
             .effect-text {
 
                 font-size:
                     34px;
+
+            }
+
+
+            .theme-btn {
+
+                width:
+                    48px;
+
+                height:
+                    48px;
+
+                font-size:
+                    22px;
+
+                top:
+                    12px;
+
+                right:
+                    12px;
 
             }
 
@@ -1263,6 +1709,19 @@
     <div class="glow one"></div>
 
     <div class="glow two"></div>
+
+
+    <!-- GECE / GÜNDÜZ -->
+
+    <button
+        class="theme-btn"
+        id="themeBtn"
+        title="Gece / Gündüz"
+    >
+
+        🌙
+
+    </button>
 
 
     <main class="page">
@@ -1309,7 +1768,7 @@
             </div>
 
 
-            <!-- RASTGELE AŞK SÖZÜ -->
+            <!-- YAZI -->
 
             <div
                 class="effect-text"
@@ -1329,7 +1788,12 @@
                 <br>
 
                 Bırak
-                → içinden çıkan kalplere dokun 💙
+                → kalpler çıksın
+
+                <br>
+
+                💙 Kalplere dokun
+                → ezilsin ve küçük kalplere bölünsün
 
             </div>
 
@@ -1361,16 +1825,23 @@
             );
 
 
+        const themeBtn =
+            document.getElementById(
+                "themeBtn"
+            );
+
+
         let pressing =
             false;
+
 
         let popped =
             false;
 
 
-        /* =================================
-           RASTGELE SÖZLER
-        ================================= */
+        /* ==================================================
+           SEVGİ SÖZLERİ
+        ================================================== */
 
         const loveEffects = [
 
@@ -1386,6 +1857,7 @@
                     "💗",
                     "💖"
                 ]
+
             },
 
             {
@@ -1400,6 +1872,7 @@
                     "💗",
                     "🌸"
                 ]
+
             },
 
             {
@@ -1414,6 +1887,7 @@
                     "🌷",
                     "✨"
                 ]
+
             },
 
             {
@@ -1428,6 +1902,7 @@
                     "💛",
                     "✨"
                 ]
+
             },
 
             {
@@ -1442,6 +1917,7 @@
                     "💜",
                     "💙"
                 ]
+
             },
 
             {
@@ -1456,14 +1932,84 @@
                     "🩵",
                     "✨"
                 ]
+
             }
 
         ];
 
 
-        /* =================================
+        /* ==================================================
+           GECE / GÜNDÜZ
+        ================================================== */
+
+        let savedTheme =
+            localStorage.getItem(
+                "loveTheme"
+            );
+
+
+        if (
+            savedTheme === "day"
+        ) {
+
+            document.body.classList.add(
+                "day"
+            );
+
+            themeBtn.textContent =
+                "☀️";
+
+        }
+
+
+        themeBtn.addEventListener(
+            "click",
+            function() {
+
+                document.body.classList.toggle(
+                    "day"
+                );
+
+
+                const isDay =
+                    document.body.classList.contains(
+                        "day"
+                    );
+
+
+                if (isDay) {
+
+                    themeBtn.textContent =
+                        "☀️";
+
+                    localStorage.setItem(
+                        "loveTheme",
+                        "day"
+                    );
+
+                    createDaySparkles();
+
+                }
+
+                else {
+
+                    themeBtn.textContent =
+                        "🌙";
+
+                    localStorage.setItem(
+                        "loveTheme",
+                        "night"
+                    );
+
+                }
+
+            }
+        );
+
+
+        /* ==================================================
            TOPA BASMA
-        ================================= */
+        ================================================== */
 
         ball.addEventListener(
             "pointerdown",
@@ -1510,9 +2056,9 @@
         );
 
 
-        /* =================================
-           TOPU BIRAKMA
-        ================================= */
+        /* ==================================================
+           BIRAK
+        ================================================== */
 
         function releaseBall() {
 
@@ -1558,9 +2104,9 @@
         );
 
 
-        /* =================================
+        /* ==================================================
            PATLAMA
-        ================================= */
+        ================================================== */
 
         function explode() {
 
@@ -1574,13 +2120,9 @@
                 ];
 
 
-            /* Yazıyı değiştir */
-
             effectText.textContent =
                 selected.text;
 
-
-            /* Rengini değiştir */
 
             effectText.style.color =
                 selected.color;
@@ -1595,8 +2137,6 @@
                 `;
 
 
-            /* Animasyonu sıfırla */
-
             effectText.classList.remove(
                 "show"
             );
@@ -1610,40 +2150,28 @@
             );
 
 
-            /* Topu patlat */
-
             ball.classList.add(
                 "pop"
             );
 
-
-            /* Kalpler */
 
             createHearts(
                 selected
             );
 
 
-            /* Parçacıklar */
-
             createParticles(
                 selected
             );
 
 
-            /* Baloncuklar */
-
             createBubbles();
 
-
-            /* Küçük ekran efekti */
 
             screenFlash(
                 selected.color
             );
 
-
-            /* Top geri gelsin */
 
             setTimeout(
                 function() {
@@ -1652,14 +2180,6 @@
                         "pop"
                     );
 
-                    ball.style.animation =
-                        "none";
-
-                    void ball.offsetWidth;
-
-                    ball.style.animation =
-                        "";
-
                 },
                 650
             );
@@ -1667,9 +2187,9 @@
         }
 
 
-        /* =================================
-           KALPLER
-        ================================= */
+        /* ==================================================
+           KALPLERİ OLUŞTUR
+        ================================================== */
 
         function createHearts(
             selected
@@ -1677,7 +2197,7 @@
 
 
             const amount =
-                12 +
+                14 +
                 Math.floor(
                     Math.random() *
                     12
@@ -1725,7 +2245,7 @@
                 const scale =
                     .6 +
                     Math.random() *
-                    1;
+                    .8;
 
 
                 const rotate =
@@ -1763,40 +2283,72 @@
                 );
 
 
-                /* Kalbe dokununca ez */
+                /* ==================================================
+                   KALBE DOKUNUNCA FİZİK
+                ================================================== */
 
                 heart.addEventListener(
                     "pointerdown",
                     function(event) {
 
+                        event.preventDefault();
+
                         event.stopPropagation();
 
 
-                        heart.classList.add(
-                            "squish"
-                        );
+                        const random =
+                            Math.random();
 
 
-                        createTinyExplosion(
-                            heart,
-                            selected.color
-                        );
+                        /*
+                           %33 ezil
+                        */
+
+                        if (
+                            random < .33
+                        ) {
+
+                            squashHeart(
+                                heart,
+                                selected
+                            );
+
+                        }
 
 
-                        setTimeout(
-                            function() {
+                        /*
+                           %33 zıpla
+                        */
 
-                                heart.remove();
+                        else if (
+                            random < .66
+                        ) {
 
-                            },
-                            400
-                        );
+                            bounceHeart(
+                                heart
+                            );
+
+                        }
+
+
+                        /*
+                           %34 küçük kalplere bölün
+                        */
+
+                        else {
+
+                            splitHeart(
+                                heart,
+                                selected
+                            );
+
+                        }
 
                     }
                 );
 
 
-                /* Bir süre sonra kaybol */
+                /* Uzun süre sonra kaldır */
 
                 setTimeout(
                     function() {
@@ -1805,24 +2357,12 @@
                             heart.isConnected
                         ) {
 
-                            heart.classList.add(
-                                "squish"
-                            );
-
-
-                            setTimeout(
-                                function() {
-
-                                    heart.remove();
-
-                                },
-                                400
-                            );
+                            heart.remove();
 
                         }
 
                     },
-                    6000
+                    7000
                 );
 
             }
@@ -1830,9 +2370,217 @@
         }
 
 
-        /* =================================
-           KALP KÜÇÜK PATLAMA
-        ================================= */
+        /* ==================================================
+           KALP EZ
+        ================================================== */
+
+        function squashHeart(
+            heart,
+            selected
+        ) {
+
+            heart.classList.add(
+                "squish"
+            );
+
+
+            createTinyExplosion(
+                heart,
+                selected.color
+            );
+
+
+            setTimeout(
+                function() {
+
+                    heart.remove();
+
+                },
+                450
+            );
+
+        }
+
+
+        /* ==================================================
+           KALP ZIPLAT
+        ================================================== */
+
+        function bounceHeart(
+            heart
+        ) {
+
+            heart.classList.add(
+                "bounce"
+            );
+
+
+            setTimeout(
+                function() {
+
+                    heart.classList.remove(
+                        "bounce"
+                    );
+
+                },
+                700
+            );
+
+        }
+
+
+        /* ==================================================
+           KALBİ KÜÇÜK KALPLERE BÖL
+        ================================================== */
+
+        function splitHeart(
+            heart,
+            selected
+        ) {
+
+
+            const rect =
+                heart.getBoundingClientRect();
+
+
+            const gameRect =
+                game.getBoundingClientRect();
+
+
+            const left =
+                rect.left -
+                gameRect.left +
+                rect.width / 2;
+
+
+            const top =
+                rect.top -
+                gameRect.top +
+                rect.height / 2;
+
+
+            heart.style.opacity =
+                "0";
+
+
+            heart.style.pointerEvents =
+                "none";
+
+
+            for (
+                let i = 0;
+                i < 6;
+                i++
+            ) {
+
+
+                const mini =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                mini.className =
+                    "mini-heart";
+
+
+                mini.textContent =
+                    selected.emojis[
+                        Math.floor(
+                            Math.random() *
+                            selected.emojis.length
+                        )
+                    ];
+
+
+                mini.style.left =
+                    left + "px";
+
+
+                mini.style.top =
+                    top + "px";
+
+
+                const angle =
+                    (
+                        Math.PI *
+                        2 *
+                        i
+                    ) / 6;
+
+
+                const distance =
+                    40 +
+                    Math.random() *
+                    50;
+
+
+                mini.style.setProperty(
+                    "--x",
+                    (
+                        Math.cos(angle) *
+                        distance
+                    ) + "px"
+                );
+
+
+                mini.style.setProperty(
+                    "--y",
+                    (
+                        Math.sin(angle) *
+                        distance
+                    ) + "px"
+                );
+
+
+                mini.style.setProperty(
+                    "--r",
+                    (
+                        Math.random() *
+                        100 -
+                        50
+                    ) + "deg"
+                );
+
+
+                game.appendChild(
+                    mini
+                );
+
+
+                setTimeout(
+                    function() {
+
+                        mini.remove();
+
+                    },
+                    850
+                );
+
+            }
+
+
+            createTinyExplosion(
+                heart,
+                selected.color
+            );
+
+
+            setTimeout(
+                function() {
+
+                    heart.remove();
+
+                },
+                300
+            );
+
+        }
+
+
+        /* ==================================================
+           KÜÇÜK PATLAMA
+        ================================================== */
 
         function createTinyExplosion(
             heart,
@@ -1840,9 +2588,29 @@
         ) {
 
 
+            const rect =
+                heart.getBoundingClientRect();
+
+
+            const gameRect =
+                game.getBoundingClientRect();
+
+
+            const x =
+                rect.left -
+                gameRect.left +
+                rect.width / 2;
+
+
+            const y =
+                rect.top -
+                gameRect.top +
+                rect.height / 2;
+
+
             for (
                 let i = 0;
-                i < 6;
+                i < 8;
                 i++
             ) {
 
@@ -1855,6 +2623,14 @@
 
                 dot.style.position =
                     "absolute";
+
+
+                dot.style.left =
+                    x + "px";
+
+
+                dot.style.top =
+                    y + "px";
 
 
                 dot.style.width =
@@ -1873,22 +2649,12 @@
                     color;
 
 
-                dot.style.left =
-                    heart.offsetLeft +
-                    "px";
-
-
-                dot.style.top =
-                    heart.offsetTop +
-                    "px";
-
-
                 dot.style.pointerEvents =
                     "none";
 
 
                 dot.style.zIndex =
-                    "60";
+                    "80";
 
 
                 game.appendChild(
@@ -1905,7 +2671,7 @@
                 const distance =
                     15 +
                     Math.random() *
-                    40;
+                    45;
 
 
                 dot.animate(
@@ -1917,8 +2683,7 @@
                             transform:
                                 "translate(0,0) scale(1)",
 
-                            opacity:
-                                1
+                            opacity: 1
 
                         },
 
@@ -1939,8 +2704,7 @@
                                 scale(0)
                                 `,
 
-                            opacity:
-                                0
+                            opacity: 0
 
                         }
 
@@ -1973,9 +2737,9 @@
         }
 
 
-        /* =================================
+        /* ==================================================
            PARÇACIKLAR
-        ================================= */
+        ================================================== */
 
         function createParticles(
             selected
@@ -2064,9 +2828,9 @@
         }
 
 
-        /* =================================
+        /* ==================================================
            BALONCUKLAR
-        ================================= */
+        ================================================== */
 
         function createBubbles() {
 
@@ -2147,9 +2911,9 @@
         }
 
 
-        /* =================================
+        /* ==================================================
            EKRAN PARLAMASI
-        ================================= */
+        ================================================== */
 
         function screenFlash(
             color
@@ -2234,9 +2998,130 @@
         }
 
 
-        /* =================================
+        /* ==================================================
+           GÜNDÜZ MODU PARILTILARI
+        ================================================== */
+
+        function createDaySparkles() {
+
+
+            for (
+                let i = 0;
+                i < 18;
+                i++
+            ) {
+
+
+                const sparkle =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                sparkle.textContent =
+                    Math.random() < .5
+                        ? "✨"
+                        : "🌸";
+
+
+                sparkle.style.position =
+                    "fixed";
+
+
+                sparkle.style.left =
+                    Math.random() *
+                    100 +
+                    "vw";
+
+
+                sparkle.style.top =
+                    Math.random() *
+                    100 +
+                    "vh";
+
+
+                sparkle.style.fontSize =
+                    (
+                        15 +
+                        Math.random() *
+                        25
+                    ) +
+                    "px";
+
+
+                sparkle.style.pointerEvents =
+                    "none";
+
+
+                sparkle.style.zIndex =
+                    "150";
+
+
+                document.body.appendChild(
+                    sparkle
+                );
+
+
+                sparkle.animate(
+
+                    [
+
+                        {
+                            transform:
+                                "scale(0) rotate(0deg)",
+
+                            opacity: 0
+
+                        },
+
+                        {
+                            transform:
+                                "scale(1.5) rotate(180deg)",
+
+                            opacity: 1
+
+                        },
+
+                        {
+                            transform:
+                                "scale(0) rotate(360deg)",
+
+                            opacity: 0
+
+                        }
+
+                    ],
+
+                    {
+
+                        duration:
+                            1000,
+
+                        easing:
+                            "ease-out"
+
+                    }
+
+                );
+
+
+                setTimeout(
+                    function() {
+
+                        sparkle.remove();
+
+                    },
+                    1100
+                );
+
+            }
+
+        }
+
+
+        /* ==================================================
            ARKA PLAN KALPLERİ
-        ================================= */
+        ================================================== */
 
         function createBackgroundHeart() {
 
@@ -2320,6 +3205,7 @@
         }
 
     </script>
+
 
 </body>
 
