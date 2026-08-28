@@ -4,7 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Azra'nın Yıldızı ✨</title>
+
+  <title>Azra ✦ Bizim Yıldızımız</title>
 
   <style>
     * {
@@ -13,16 +14,23 @@
       box-sizing: border-box;
     }
 
-    body {
-      min-height: 100vh;
-      overflow-x: hidden;
-      background:
-        radial-gradient(circle at 50% 35%, #17204a 0%, #090d25 35%, #030510 75%);
-      color: white;
-      font-family: Georgia, "Times New Roman", serif;
+    html {
+      scroll-behavior: smooth;
     }
 
-    /* Yıldızlar */
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 50% 15%, #202a62 0%, #0d1234 28%, #050719 62%, #02030c 100%);
+      color: white;
+      font-family: Georgia, "Times New Roman", serif;
+      overflow-x: hidden;
+    }
+
+    /* =========================
+       YILDIZLAR
+    ========================== */
+
     .stars,
     .stars::before,
     .stars::after {
@@ -30,11 +38,23 @@
       inset: 0;
       content: "";
       pointer-events: none;
+      z-index: 0;
+
       background-image:
-        radial-gradient(circle, rgba(255,255,255,.9) 1px, transparent 1.5px),
-        radial-gradient(circle, rgba(255,255,255,.7) 1px, transparent 1.5px);
-      background-size: 90px 90px, 150px 150px;
-      background-position: 10px 20px, 50px 70px;
+        radial-gradient(circle, rgba(255,255,255,.95) 1px, transparent 1.5px),
+        radial-gradient(circle, rgba(255,255,255,.7) 1px, transparent 1.5px),
+        radial-gradient(circle, rgba(255,230,150,.8) 1px, transparent 1.5px);
+
+      background-size:
+        90px 90px,
+        150px 150px,
+        230px 230px;
+
+      background-position:
+        10px 20px,
+        50px 70px,
+        100px 30px;
+
       animation: twinkle 5s infinite alternate;
     }
 
@@ -45,197 +65,628 @@
     }
 
     .stars::after {
-      opacity: .2;
+      opacity: .18;
       transform: scale(1.5);
-      animation-duration: 9s;
+      animation-duration: 10s;
     }
 
     @keyframes twinkle {
-      from { opacity: .35; }
-      to { opacity: .9; }
+      from {
+        opacity: .25;
+      }
+
+      to {
+        opacity: .9;
+      }
     }
+
+    /* =========================
+       ANA YAPI
+    ========================== */
 
     main {
       position: relative;
       z-index: 2;
+    }
+
+    section {
+      width: 100%;
       min-height: 100vh;
+      padding: 80px 20px;
       display: flex;
       flex-direction: column;
-      align-items: center;
       justify-content: center;
-      padding: 60px 20px;
+      align-items: center;
       text-align: center;
     }
 
-    .small {
+    /* =========================
+       GİRİŞ
+    ========================== */
+
+    .hero {
+      min-height: 100vh;
+    }
+
+    .small-title {
       font-family: Arial, sans-serif;
       letter-spacing: 5px;
       text-transform: uppercase;
       font-size: 11px;
-      color: #bfc9ff;
-      margin-bottom: 18px;
+      color: #bec8ff;
+      margin-bottom: 20px;
     }
 
     h1 {
-      font-size: clamp(55px, 13vw, 125px);
+      font-size: clamp(65px, 15vw, 140px);
       font-weight: normal;
       line-height: .9;
-      letter-spacing: 4px;
+      letter-spacing: 5px;
+
       text-shadow:
         0 0 10px #fff,
-        0 0 25px #aebaff,
-        0 0 60px #7385ff;
-      animation: glow 3s ease-in-out infinite alternate;
+        0 0 25px #b5c0ff,
+        0 0 65px #7184ff;
+
+      animation: nameGlow 3s ease-in-out infinite alternate;
     }
 
-    @keyframes glow {
+    @keyframes nameGlow {
       from {
         text-shadow:
-          0 0 8px #fff,
-          0 0 20px #aebaff,
-          0 0 40px #7385ff;
+          0 0 8px white,
+          0 0 20px #aab5ff,
+          0 0 40px #7184ff;
       }
+
       to {
         text-shadow:
-          0 0 12px #fff,
-          0 0 35px #c9d0ff,
-          0 0 75px #667cff;
+          0 0 15px white,
+          0 0 40px #cbd2ff,
+          0 0 85px #667bff;
       }
     }
 
-    .subtitle {
-      margin-top: 20px;
-      max-width: 600px;
-      color: #d9ddf8;
-      font-size: 19px;
-      line-height: 1.7;
+    .hero-text {
+      max-width: 650px;
+      margin-top: 25px;
+      color: #dfe2fa;
+      font-size: 20px;
+      line-height: 1.8;
     }
 
-    .star {
-      width: 130px;
-      height: 130px;
-      margin: 45px auto 35px;
+    /* =========================
+       YILDIZ
+    ========================== */
+
+    .star-container {
+      width: 170px;
+      height: 170px;
       position: relative;
-      display: grid;
-      place-items: center;
-      animation: float 4s ease-in-out infinite;
+      margin: 55px auto 35px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      animation: floatingStar 4s ease-in-out infinite;
     }
 
-    .star::before {
+    .star-container::before {
       content: "★";
-      position: absolute;
-      font-size: 110px;
-      color: #fff9c7;
+      font-size: 140px;
+      color: #fff7b0;
+
       text-shadow:
         0 0 10px white,
         0 0 30px #fff3a0,
-        0 0 70px #ffe96b,
-        0 0 120px #fff1a1;
+        0 0 65px #ffe76b,
+        0 0 120px #fff1a0;
     }
 
-    @keyframes float {
-      0%, 100% { transform: translateY(0) rotate(-3deg); }
-      50% { transform: translateY(-14px) rotate(3deg); }
+    .star-name {
+      position: absolute;
+      font-size: 13px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #6c6570;
+      margin-top: 10px;
+      font-family: Arial, sans-serif;
     }
+
+    @keyframes floatingStar {
+      0%, 100% {
+        transform: translateY(0) rotate(-3deg);
+      }
+
+      50% {
+        transform: translateY(-15px) rotate(3deg);
+      }
+    }
+
+    .scroll-button {
+      margin-top: 25px;
+      color: #cbd2ff;
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-decoration: none;
+      opacity: .7;
+      animation: scrollPulse 2s infinite;
+    }
+
+    @keyframes scrollPulse {
+      50% {
+        opacity: .3;
+      }
+    }
+
+    /* =========================
+       KART
+    ========================== */
 
     .card {
-      width: min(90%, 480px);
+      width: min(92%, 520px);
       padding: 30px;
-      border: 1px solid rgba(255,255,255,.16);
-      border-radius: 25px;
+
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 28px;
+
       background: rgba(255,255,255,.055);
-      backdrop-filter: blur(12px);
-      box-shadow: 0 20px 70px rgba(0,0,0,.35);
+      backdrop-filter: blur(14px);
+
+      box-shadow:
+        0 30px 100px rgba(0,0,0,.35),
+        inset 0 1px rgba(255,255,255,.08);
     }
 
     .photo {
       width: 100%;
       aspect-ratio: 1 / 1;
       object-fit: cover;
-      border-radius: 18px;
-      display: block;
-      margin-bottom: 25px;
-      border: 1px solid rgba(255,255,255,.2);
-      box-shadow: 0 0 35px rgba(133,149,255,.2);
+
+      border-radius: 20px;
+      margin-bottom: 28px;
+
+      border: 1px solid rgba(255,255,255,.18);
+
+      box-shadow:
+        0 0 40px rgba(130,145,255,.18);
     }
 
     .message {
-      font-size: 19px;
-      line-height: 1.8;
-      color: #f2f3ff;
+      color: #f0f1ff;
+      font-size: 18px;
+      line-height: 1.9;
     }
 
-    .highlight {
-      color: #fff1a1;
-      text-shadow: 0 0 12px rgba(255,239,135,.5);
+    .gold {
+      color: #fff0a4;
+      text-shadow: 0 0 15px rgba(255,236,125,.5);
     }
 
     .signature {
-      margin-top: 25px;
-      color: #bfc9ff;
-      font-size: 14px;
+      margin-top: 28px;
+      color: #aeb9ee;
+      font-size: 13px;
       letter-spacing: 2px;
     }
 
-    .button {
-      margin-top: 35px;
-      padding: 14px 28px;
-      border: 1px solid rgba(255,255,255,.3);
-      border-radius: 50px;
+    /* =========================
+       GELECEK BÖLÜMÜ
+    ========================== */
+
+    .future-section {
+      justify-content: flex-start;
+      padding-top: 100px;
+    }
+
+    .section-label {
+      font-family: Arial, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      font-size: 11px;
+      color: #aeb9ee;
+      margin-bottom: 15px;
+    }
+
+    .section-title {
+      font-size: clamp(40px, 9vw, 70px);
+      font-weight: normal;
+
+      text-shadow:
+        0 0 20px rgba(130,145,255,.6);
+    }
+
+    .section-description {
+      max-width: 620px;
+      margin-top: 20px;
+      color: #c8cbea;
+      line-height: 1.7;
+      font-size: 17px;
+    }
+
+    .todo-wrapper {
+      width: min(94%, 650px);
+      margin-top: 45px;
+    }
+
+    /* İlerleme */
+
+    .progress-box {
+      padding: 20px;
+      margin-bottom: 20px;
+
+      border-radius: 20px;
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.1);
+    }
+
+    .progress-text {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 12px;
+
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+      color: #d8dcff;
+    }
+
+    .progress-bar {
+      height: 8px;
+      border-radius: 20px;
       background: rgba(255,255,255,.08);
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+
+      border-radius: 20px;
+
+      background: linear-gradient(
+        90deg,
+        #7184ff,
+        #c5caff,
+        #fff0a0
+      );
+
+      box-shadow:
+        0 0 15px rgba(130,145,255,.8);
+
+      transition: width .5s ease;
+    }
+
+    /* Input */
+
+    .add-box {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .add-input {
+      flex: 1;
+      min-width: 0;
+
+      padding: 15px 17px;
+
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 14px;
+
+      outline: none;
+
+      background: rgba(255,255,255,.07);
       color: white;
-      font-family: inherit;
+
+      font-family: Georgia, serif;
       font-size: 15px;
+    }
+
+    .add-input::placeholder {
+      color: rgba(255,255,255,.4);
+    }
+
+    .add-input:focus {
+      border-color: rgba(180,190,255,.6);
+      box-shadow: 0 0 20px rgba(110,130,255,.12);
+    }
+
+    .add-button {
+      padding: 0 20px;
+
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 14px;
+
+      background: rgba(255,255,255,.1);
+      color: white;
+
       cursor: pointer;
+      font-size: 20px;
+
+      transition: .25s;
+    }
+
+    .add-button:hover {
+      background: rgba(255,255,255,.2);
+      transform: translateY(-2px);
+    }
+
+    /* Liste */
+
+    .todo-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .todo-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      padding: 16px;
+
+      border-radius: 17px;
+
+      background: rgba(255,255,255,.055);
+      border: 1px solid rgba(255,255,255,.1);
+
+      text-align: left;
+
       transition: .3s;
     }
 
-    .button:hover {
-      background: rgba(255,255,255,.18);
-      transform: translateY(-2px);
-      box-shadow: 0 0 25px rgba(150,165,255,.35);
+    .todo-item:hover {
+      background: rgba(255,255,255,.085);
+      transform: translateY(-1px);
     }
 
-    #secret {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height .8s ease, margin .8s ease;
+    .todo-check {
+      appearance: none;
+
+      width: 22px;
+      height: 22px;
+      min-width: 22px;
+
+      border: 1px solid rgba(255,255,255,.35);
+      border-radius: 50%;
+
+      cursor: pointer;
+
+      position: relative;
     }
 
-    #secret.show {
-      max-height: 200px;
-      margin-top: 25px;
+    .todo-check:checked {
+      background: #8d9aff;
+      border-color: #cbd2ff;
+      box-shadow: 0 0 15px rgba(140,155,255,.5);
     }
 
-    .secret-text {
-      color: #ffeeb0;
-      line-height: 1.8;
+    .todo-check:checked::after {
+      content: "✓";
+
+      position: absolute;
+      left: 50%;
+      top: 50%;
+
+      transform: translate(-50%, -53%);
+
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+      color: white;
+    }
+
+    .todo-text {
+      flex: 1;
+
+      color: #eeeeff;
+      font-size: 16px;
+      line-height: 1.4;
+
+      word-break: break-word;
+    }
+
+    .todo-item.completed .todo-text {
+      text-decoration: line-through;
+      opacity: .45;
+    }
+
+    .delete-button {
+      border: none;
+      background: transparent;
+      color: rgba(255,255,255,.35);
+
+      cursor: pointer;
       font-size: 18px;
+
+      transition: .2s;
     }
+
+    .delete-button:hover {
+      color: #ff9baf;
+      transform: scale(1.15);
+    }
+
+    .empty-message {
+      padding: 35px 20px;
+
+      color: rgba(255,255,255,.4);
+      line-height: 1.7;
+
+      border: 1px dashed rgba(255,255,255,.13);
+      border-radius: 18px;
+    }
+
+    /* =========================
+       GERİ SAYIM
+    ========================== */
+
+    .countdown-section {
+      min-height: auto;
+      padding-top: 50px;
+      padding-bottom: 100px;
+    }
+
+    .countdown-card {
+      width: min(92%, 650px);
+
+      padding: 40px 25px;
+
+      border-radius: 28px;
+
+      background: rgba(255,255,255,.045);
+      border: 1px solid rgba(255,255,255,.1);
+
+      box-shadow: 0 25px 80px rgba(0,0,0,.25);
+    }
+
+    .countdown-title {
+      font-size: 30px;
+      font-weight: normal;
+      margin-bottom: 25px;
+    }
+
+    .countdown-input {
+      padding: 12px;
+
+      background: rgba(255,255,255,.08);
+      color: white;
+
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 10px;
+
+      font-family: Arial, sans-serif;
+    }
+
+    .save-date {
+      margin-left: 7px;
+      padding: 12px 18px;
+
+      border: none;
+      border-radius: 10px;
+
+      background: rgba(255,255,255,.12);
+      color: white;
+
+      cursor: pointer;
+    }
+
+    .countdown {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+
+      gap: 12px;
+
+      margin-top: 30px;
+    }
+
+    .time-box {
+      min-width: 80px;
+
+      padding: 18px 12px;
+
+      border-radius: 16px;
+
+      background: rgba(255,255,255,.07);
+    }
+
+    .time-number {
+      font-size: 30px;
+      color: #fff0a0;
+    }
+
+    .time-label {
+      margin-top: 5px;
+
+      font-family: Arial, sans-serif;
+      font-size: 9px;
+      letter-spacing: 2px;
+
+      color: #aeb9ee;
+    }
+
+    /* =========================
+       ALT
+    ========================== */
 
     footer {
-      margin-top: 55px;
+      position: relative;
+      z-index: 2;
+
+      padding: 40px 20px 50px;
+
+      text-align: center;
+
       font-family: Arial, sans-serif;
-      font-size: 11px;
-      letter-spacing: 2px;
-      color: rgba(255,255,255,.35);
+      font-size: 10px;
+      letter-spacing: 3px;
+
+      color: rgba(255,255,255,.3);
     }
 
-    /* Uçuşan kalpler */
+    /* =========================
+       KALPLER
+    ========================== */
+
     .heart {
       position: fixed;
       bottom: -30px;
-      font-size: 15px;
-      opacity: .6;
-      animation: rise linear forwards;
+
       pointer-events: none;
       z-index: 1;
+
+      opacity: .55;
+
+      animation: rise linear forwards;
     }
 
     @keyframes rise {
       to {
-        transform: translateY(-110vh) rotate(360deg);
+        transform:
+          translateY(-110vh)
+          rotate(360deg);
+
         opacity: 0;
+      }
+    }
+
+    /* =========================
+       MOBİL
+    ========================== */
+
+    @media (max-width: 550px) {
+
+      section {
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+
+      .card {
+        padding: 20px;
+      }
+
+      .add-box {
+        flex-direction: row;
+      }
+
+      .add-button {
+        padding: 0 16px;
+      }
+
+      .todo-item {
+        padding: 14px;
+      }
+
+      .countdown-input {
+        width: 100%;
+        margin-bottom: 10px;
+      }
+
+      .save-date {
+        margin-left: 0;
       }
     }
   </style>
@@ -246,84 +697,725 @@
   <div class="stars"></div>
 
   <main>
-    <div class="small">Gökyüzündeki milyarlarca yıldızın arasında</div>
 
-    <h1>Azra</h1>
+    <!-- =====================================
+         GİRİŞ
+    ====================================== -->
 
-    <p class="subtitle">
-      Bazı yıldızlar gökyüzünde parlar,<br>
-      bazılarıysa bir insanın hayatında.
-    </p>
+    <section class="hero">
 
-    <div class="star"></div>
-
-    <div class="card">
-
-      <!-- Fotoğrafını aynı klasöre "image.jpg" adıyla koy -->
-      <img src="image.jpg" alt="Azra" class="photo">
-
-      <div class="message">
-        Gökyüzünde bir yıldız gördüm ve ona bir isim verdim.
-        <br><br>
-
-        <span class="highlight">Azra.</span>
-        <br><br>
-
-        Çünkü bana göre o yıldızın bir adı olacaksa,
-        dünyanın en güzel isimlerinden biri olmalıydı.
-        <br><br>
-
-        Belki milyarlarca yıldız var...
-        Ama benim gökyüzümde yalnızca bir tanesinin
-        <span class="highlight">adı Azra.</span>
+      <div class="small-title">
+        Gökyüzündeki milyarlarca yıldızın arasında
       </div>
 
-      <button class="button" onclick="showSecret()">
-        Sana bir şey daha söyleyeyim ✨
-      </button>
+      <h1>Azra</h1>
 
-      <div id="secret">
-        <p class="secret-text">
-          Seni gökyüzündeki bir yıldıza benzetmedim.
-          <br>
-          Yıldızın kendisine bir isim verdim:
+      <p class="hero-text">
+        Bazı yıldızlar gökyüzünde parlar...
+        <br>
+        bazılarıysa bir insanın hayatında.
+      </p>
+
+      <div class="star-container">
+        <span class="star-name">AZRA</span>
+      </div>
+
+      <a href="#hikaye" class="scroll-button">
+        HİKÂYEMİZİ KEŞFET ↓
+      </a>
+
+    </section>
+
+
+    <!-- =====================================
+         HİKAYE
+    ====================================== -->
+
+    <section id="hikaye">
+
+      <div class="card">
+
+        <!--
+          FOTOĞRAFINI BURAYA KOY:
+          image.jpg dosyası index.html ile aynı klasörde olmalı.
+        -->
+
+        <img
+          src="image.jpg"
+          alt="Azra ile bizim fotoğrafımız"
+          class="photo"
+        >
+
+        <div class="message">
+
+          Gökyüzünde bir yıldız gördüm
+          ve ona bir isim verdim.
+
           <br><br>
-          <strong>Azra. ❤️</strong>
-        </p>
+
+          <span class="gold">Azra.</span>
+
+          <br><br>
+
+          Çünkü bana göre bir yıldızın
+          bir adı olacaksa,
+          dünyanın en güzel isimlerinden biri olmalıydı.
+
+          <br><br>
+
+          Belki gökyüzünde milyarlarca yıldız var...
+
+          <br><br>
+
+          Ama benim gökyüzümde
+          yalnızca bir tanesinin adı
+          <span class="gold">Azra.</span>
+
+        </div>
+
+        <div class="signature">
+          Sen benim en güzel yıldızımsın. ✦
+        </div>
+
       </div>
 
-      <div class="signature">
-        Sen benim en güzel yıldızımsın.
+    </section>
+
+
+    <!-- =====================================
+         GELECEKTE YAPACAKLARIMIZ
+    ====================================== -->
+
+    <section class="future-section">
+
+      <div class="section-label">
+        Birlikte yaşayacağımız anılar
       </div>
 
-    </div>
+      <h2 class="section-title">
+        Bizim Geleceğimiz
+      </h2>
 
-    <footer>
-      AZRA ✦ BİR YILDIZIN HİKÂYESİ
-    </footer>
+      <p class="section-description">
+        Daha yaşamadığımız ama bir gün yaşayacağımız
+        bütün güzel şeyleri buraya yazalım.
+        <br>
+        Her gerçekleştirdiğimiz hayalin yanına bir ✓ koyalım.
+      </p>
+
+
+      <div class="todo-wrapper">
+
+        <!-- İLERLEME -->
+
+        <div class="progress-box">
+
+          <div class="progress-text">
+            <span id="progressText">
+              0 hayalimiz var
+            </span>
+
+            <span id="progressPercent">
+              %0
+            </span>
+          </div>
+
+          <div class="progress-bar">
+            <div
+              class="progress-fill"
+              id="progressFill">
+            </div>
+          </div>
+
+        </div>
+
+
+        <!-- EKLEME -->
+
+        <div class="add-box">
+
+          <input
+            type="text"
+            id="todoInput"
+            class="add-input"
+            placeholder="Birlikte yapacağımız bir şey yaz..."
+            maxlength="150"
+          >
+
+          <button
+            class="add-button"
+            onclick="addTodo()"
+            aria-label="Hayal ekle">
+            +
+          </button>
+
+        </div>
+
+
+        <!-- LİSTE -->
+
+        <div
+          id="todoList"
+          class="todo-list">
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================
+         BULUŞMA GERİ SAYIMI
+    ====================================== -->
+
+    <section class="countdown-section">
+
+      <div class="countdown-card">
+
+        <div class="section-label">
+          Bir sonraki güzel gün
+        </div>
+
+        <h2 class="countdown-title">
+          Bir sonraki buluşmamıza kalan
+        </h2>
+
+        <div>
+
+          <input
+            type="datetime-local"
+            id="dateInput"
+            class="countdown-input"
+          >
+
+          <button
+            class="save-date"
+            onclick="saveDate()">
+            Kaydet
+          </button>
+
+        </div>
+
+
+        <div
+          class="countdown"
+          id="countdown">
+
+          <div class="time-box">
+            <div class="time-number" id="days">
+              0
+            </div>
+
+            <div class="time-label">
+              GÜN
+            </div>
+          </div>
+
+          <div class="time-box">
+            <div class="time-number" id="hours">
+              0
+            </div>
+
+            <div class="time-label">
+              SAAT
+            </div>
+          </div>
+
+          <div class="time-box">
+            <div class="time-number" id="minutes">
+              0
+            </div>
+
+            <div class="time-label">
+              DAKİKA
+            </div>
+          </div>
+
+          <div class="time-box">
+            <div class="time-number" id="seconds">
+              0
+            </div>
+
+            <div class="time-label">
+              SANİYE
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
   </main>
 
+
+  <footer>
+    AZRA ✦ BİR YILDIZIN HİKÂYESİ ✦ BİZİM GELECEĞİMİZ
+  </footer>
+
+
   <script>
-    function showSecret() {
-      const secret = document.getElementById("secret");
-      secret.classList.toggle("show");
+
+    /* =====================================================
+       GELECEKTE YAPILACAKLAR
+    ====================================================== */
+
+    const defaultTodos = [
+      {
+        text: "Birlikte gün batımını izlemek 🌅",
+        completed: false
+      },
+
+      {
+        text: "Birlikte tatile çıkmak 🌊",
+        completed: false
+      },
+
+      {
+        text: "Aynı yerde kahvaltı yapmak ☕",
+        completed: false
+      },
+
+      {
+        text: "Birlikte yıldızları izlemek ✨",
+        completed: false
+      },
+
+      {
+        text: "Birlikte bir şehirde kaybolmak 🗺️",
+        completed: false
+      }
+    ];
+
+
+    let todos =
+      JSON.parse(
+        localStorage.getItem("azra_todos")
+      ) || defaultTodos;
+
+
+    function saveTodos() {
+
+      localStorage.setItem(
+        "azra_todos",
+        JSON.stringify(todos)
+      );
+
     }
 
-    function createHeart() {
-      const heart = document.createElement("div");
-      heart.className = "heart";
-      heart.innerHTML = Math.random() > .5 ? "♡" : "✦";
 
-      heart.style.left = Math.random() * 100 + "vw";
-      heart.style.animationDuration = (5 + Math.random() * 7) + "s";
-      heart.style.fontSize = (10 + Math.random() * 14) + "px";
+    function renderTodos() {
+
+      const list =
+        document.getElementById("todoList");
+
+      list.innerHTML = "";
+
+
+      if (todos.length === 0) {
+
+        list.innerHTML = `
+          <div class="empty-message">
+            Henüz hiçbir hayal yazmadınız.
+            <br>
+            İlk hayalinizi yukarıdan ekleyin. ✨
+          </div>
+        `;
+
+        updateProgress();
+
+        return;
+      }
+
+
+      todos.forEach((todo, index) => {
+
+        const item =
+          document.createElement("div");
+
+        item.className =
+          "todo-item" +
+          (todo.completed ? " completed" : "");
+
+
+        item.innerHTML = `
+
+          <input
+            type="checkbox"
+            class="todo-check"
+            ${todo.completed ? "checked" : ""}
+            onchange="toggleTodo(${index})"
+          >
+
+          <div class="todo-text">
+            ${escapeHtml(todo.text)}
+          </div>
+
+          <button
+            class="delete-button"
+            onclick="deleteTodo(${index})"
+            aria-label="Sil">
+            ×
+          </button>
+
+        `;
+
+
+        list.appendChild(item);
+
+      });
+
+
+      updateProgress();
+
+    }
+
+
+    function addTodo() {
+
+      const input =
+        document.getElementById("todoInput");
+
+      const text =
+        input.value.trim();
+
+
+      if (!text) {
+
+        input.focus();
+
+        return;
+      }
+
+
+      todos.push({
+
+        text: text,
+
+        completed: false
+
+      });
+
+
+      saveTodos();
+
+      renderTodos();
+
+      input.value = "";
+
+      input.focus();
+
+    }
+
+
+    function toggleTodo(index) {
+
+      todos[index].completed =
+        !todos[index].completed;
+
+
+      saveTodos();
+
+      renderTodos();
+
+    }
+
+
+    function deleteTodo(index) {
+
+      const confirmed =
+        confirm("Bu hayali listeden silmek istiyor musunuz?");
+
+
+      if (!confirmed) return;
+
+
+      todos.splice(index, 1);
+
+      saveTodos();
+
+      renderTodos();
+
+    }
+
+
+    function updateProgress() {
+
+      const total =
+        todos.length;
+
+      const completed =
+        todos.filter(
+          todo => todo.completed
+        ).length;
+
+
+      let percentage = 0;
+
+      if (total > 0) {
+
+        percentage =
+          Math.round(
+            (completed / total) * 100
+          );
+
+      }
+
+
+      document.getElementById("progressFill")
+        .style.width =
+        percentage + "%";
+
+
+      document.getElementById("progressPercent")
+        .textContent =
+        "%" + percentage;
+
+
+      document.getElementById("progressText")
+        .textContent =
+        completed +
+        " / " +
+        total +
+        " hayal gerçekleştirildi";
+
+    }
+
+
+    function escapeHtml(text) {
+
+      const div =
+        document.createElement("div");
+
+      div.textContent = text;
+
+      return div.innerHTML;
+
+    }
+
+
+    /* Enter ile hayal ekleme */
+
+    document
+      .getElementById("todoInput")
+      .addEventListener("keydown", function(event) {
+
+        if (event.key === "Enter") {
+
+          addTodo();
+
+        }
+
+      });
+
+
+    /* =====================================================
+       GERİ SAYIM
+    ====================================================== */
+
+    let targetDate =
+      localStorage.getItem(
+        "azra_meeting_date"
+      );
+
+
+    if (targetDate) {
+
+      document.getElementById("dateInput")
+        .value = targetDate;
+
+    }
+
+
+    function saveDate() {
+
+      const input =
+        document.getElementById("dateInput");
+
+      if (!input.value) {
+
+        alert("Önce bir tarih seçmelisin.");
+
+        return;
+
+      }
+
+
+      targetDate = input.value;
+
+
+      localStorage.setItem(
+        "azra_meeting_date",
+        targetDate
+      );
+
+
+      updateCountdown();
+
+    }
+
+
+    function updateCountdown() {
+
+      if (!targetDate) return;
+
+
+      const target =
+        new Date(targetDate).getTime();
+
+      const now =
+        new Date().getTime();
+
+      let difference =
+        target - now;
+
+
+      if (difference <= 0) {
+
+        document.getElementById("days")
+          .textContent = "❤️";
+
+        document.getElementById("hours")
+          .textContent = "❤️";
+
+        document.getElementById("minutes")
+          .textContent = "❤️";
+
+        document.getElementById("seconds")
+          .textContent = "❤️";
+
+        return;
+
+      }
+
+
+      const days =
+        Math.floor(
+          difference /
+          (1000 * 60 * 60 * 24)
+        );
+
+
+      difference %= 
+        (1000 * 60 * 60 * 24);
+
+
+      const hours =
+        Math.floor(
+          difference /
+          (1000 * 60 * 60)
+        );
+
+
+      difference %=
+        (1000 * 60 * 60);
+
+
+      const minutes =
+        Math.floor(
+          difference /
+          (1000 * 60)
+        );
+
+
+      difference %=
+        (1000 * 60);
+
+
+      const seconds =
+        Math.floor(
+          difference /
+          1000
+        );
+
+
+      document.getElementById("days")
+        .textContent = days;
+
+      document.getElementById("hours")
+        .textContent = hours;
+
+      document.getElementById("minutes")
+        .textContent = minutes;
+
+      document.getElementById("seconds")
+        .textContent = seconds;
+
+    }
+
+
+    /* =====================================================
+       UÇUŞAN YILDIZLAR / KALPLER
+    ====================================================== */
+
+    function createHeart() {
+
+      const heart =
+        document.createElement("div");
+
+      heart.className = "heart";
+
+
+      const symbols = [
+        "♡",
+        "✦",
+        "✧",
+        "⋆"
+      ];
+
+
+      heart.innerHTML =
+        symbols[
+          Math.floor(
+            Math.random() *
+            symbols.length
+          )
+        ];
+
+
+      heart.style.left =
+        Math.random() * 100 + "vw";
+
+
+      heart.style.animationDuration =
+        (5 + Math.random() * 7) + "s";
+
+
+      heart.style.fontSize =
+        (10 + Math.random() * 14) + "px";
+
 
       document.body.appendChild(heart);
 
-      setTimeout(() => heart.remove(), 12000);
+
+      setTimeout(
+        () => heart.remove(),
+        12000
+      );
+
     }
 
-    setInterval(createHeart, 900);
+
+    setInterval(
+      createHeart,
+      900
+    );
+
+
+    /* =====================================================
+       BAŞLANGIÇ
+    ====================================================== */
+
+    renderTodos();
+
+    updateCountdown();
+
+    setInterval(
+      updateCountdown,
+      1000
+    );
+
   </script>
 
 </body>
