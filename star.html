@@ -1,0 +1,331 @@
+```html
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Azra'nın Yıldızı ✨</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      overflow-x: hidden;
+      background:
+        radial-gradient(circle at 50% 35%, #17204a 0%, #090d25 35%, #030510 75%);
+      color: white;
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    /* Yıldızlar */
+    .stars,
+    .stars::before,
+    .stars::after {
+      position: fixed;
+      inset: 0;
+      content: "";
+      pointer-events: none;
+      background-image:
+        radial-gradient(circle, rgba(255,255,255,.9) 1px, transparent 1.5px),
+        radial-gradient(circle, rgba(255,255,255,.7) 1px, transparent 1.5px);
+      background-size: 90px 90px, 150px 150px;
+      background-position: 10px 20px, 50px 70px;
+      animation: twinkle 5s infinite alternate;
+    }
+
+    .stars::before {
+      opacity: .35;
+      transform: scale(1.2);
+      animation-duration: 7s;
+    }
+
+    .stars::after {
+      opacity: .2;
+      transform: scale(1.5);
+      animation-duration: 9s;
+    }
+
+    @keyframes twinkle {
+      from { opacity: .35; }
+      to { opacity: .9; }
+    }
+
+    main {
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .small {
+      font-family: Arial, sans-serif;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      font-size: 11px;
+      color: #bfc9ff;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      font-size: clamp(55px, 13vw, 125px);
+      font-weight: normal;
+      line-height: .9;
+      letter-spacing: 4px;
+      text-shadow:
+        0 0 10px #fff,
+        0 0 25px #aebaff,
+        0 0 60px #7385ff;
+      animation: glow 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from {
+        text-shadow:
+          0 0 8px #fff,
+          0 0 20px #aebaff,
+          0 0 40px #7385ff;
+      }
+      to {
+        text-shadow:
+          0 0 12px #fff,
+          0 0 35px #c9d0ff,
+          0 0 75px #667cff;
+      }
+    }
+
+    .subtitle {
+      margin-top: 20px;
+      max-width: 600px;
+      color: #d9ddf8;
+      font-size: 19px;
+      line-height: 1.7;
+    }
+
+    .star {
+      width: 130px;
+      height: 130px;
+      margin: 45px auto 35px;
+      position: relative;
+      display: grid;
+      place-items: center;
+      animation: float 4s ease-in-out infinite;
+    }
+
+    .star::before {
+      content: "★";
+      position: absolute;
+      font-size: 110px;
+      color: #fff9c7;
+      text-shadow:
+        0 0 10px white,
+        0 0 30px #fff3a0,
+        0 0 70px #ffe96b,
+        0 0 120px #fff1a1;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(-3deg); }
+      50% { transform: translateY(-14px) rotate(3deg); }
+    }
+
+    .card {
+      width: min(90%, 480px);
+      padding: 30px;
+      border: 1px solid rgba(255,255,255,.16);
+      border-radius: 25px;
+      background: rgba(255,255,255,.055);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 20px 70px rgba(0,0,0,.35);
+    }
+
+    .photo {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: 18px;
+      display: block;
+      margin-bottom: 25px;
+      border: 1px solid rgba(255,255,255,.2);
+      box-shadow: 0 0 35px rgba(133,149,255,.2);
+    }
+
+    .message {
+      font-size: 19px;
+      line-height: 1.8;
+      color: #f2f3ff;
+    }
+
+    .highlight {
+      color: #fff1a1;
+      text-shadow: 0 0 12px rgba(255,239,135,.5);
+    }
+
+    .signature {
+      margin-top: 25px;
+      color: #bfc9ff;
+      font-size: 14px;
+      letter-spacing: 2px;
+    }
+
+    .button {
+      margin-top: 35px;
+      padding: 14px 28px;
+      border: 1px solid rgba(255,255,255,.3);
+      border-radius: 50px;
+      background: rgba(255,255,255,.08);
+      color: white;
+      font-family: inherit;
+      font-size: 15px;
+      cursor: pointer;
+      transition: .3s;
+    }
+
+    .button:hover {
+      background: rgba(255,255,255,.18);
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px rgba(150,165,255,.35);
+    }
+
+    #secret {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .8s ease, margin .8s ease;
+    }
+
+    #secret.show {
+      max-height: 200px;
+      margin-top: 25px;
+    }
+
+    .secret-text {
+      color: #ffeeb0;
+      line-height: 1.8;
+      font-size: 18px;
+    }
+
+    footer {
+      margin-top: 55px;
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: rgba(255,255,255,.35);
+    }
+
+    /* Uçuşan kalpler */
+    .heart {
+      position: fixed;
+      bottom: -30px;
+      font-size: 15px;
+      opacity: .6;
+      animation: rise linear forwards;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    @keyframes rise {
+      to {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="stars"></div>
+
+  <main>
+    <div class="small">Gökyüzündeki milyarlarca yıldızın arasında</div>
+
+    <h1>Azra</h1>
+
+    <p class="subtitle">
+      Bazı yıldızlar gökyüzünde parlar,<br>
+      bazılarıysa bir insanın hayatında.
+    </p>
+
+    <div class="star"></div>
+
+    <div class="card">
+
+      <!-- Fotoğrafını aynı klasöre "image.jpg" adıyla koy -->
+      <img src="image.jpg" alt="Azra" class="photo">
+
+      <div class="message">
+        Gökyüzünde bir yıldız gördüm ve ona bir isim verdim.
+        <br><br>
+
+        <span class="highlight">Azra.</span>
+        <br><br>
+
+        Çünkü bana göre o yıldızın bir adı olacaksa,
+        dünyanın en güzel isimlerinden biri olmalıydı.
+        <br><br>
+
+        Belki milyarlarca yıldız var...
+        Ama benim gökyüzümde yalnızca bir tanesinin
+        <span class="highlight">adı Azra.</span>
+      </div>
+
+      <button class="button" onclick="showSecret()">
+        Sana bir şey daha söyleyeyim ✨
+      </button>
+
+      <div id="secret">
+        <p class="secret-text">
+          Seni gökyüzündeki bir yıldıza benzetmedim.
+          <br>
+          Yıldızın kendisine bir isim verdim:
+          <br><br>
+          <strong>Azra. ❤️</strong>
+        </p>
+      </div>
+
+      <div class="signature">
+        Sen benim en güzel yıldızımsın.
+      </div>
+
+    </div>
+
+    <footer>
+      AZRA ✦ BİR YILDIZIN HİKÂYESİ
+    </footer>
+  </main>
+
+  <script>
+    function showSecret() {
+      const secret = document.getElementById("secret");
+      secret.classList.toggle("show");
+    }
+
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.innerHTML = Math.random() > .5 ? "♡" : "✦";
+
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = (5 + Math.random() * 7) + "s";
+      heart.style.fontSize = (10 + Math.random() * 14) + "px";
+
+      document.body.appendChild(heart);
+
+      setTimeout(() => heart.remove(), 12000);
+    }
+
+    setInterval(createHeart, 900);
+  </script>
+
+</body>
+</html>
+```
