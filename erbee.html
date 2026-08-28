@@ -1,6 +1,5 @@
-from pathlib import Path
 
-html = r'''<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
@@ -189,8 +188,3 @@ html = r'''<!DOCTYPE html>
   </script>
 </body>
 </html>
-'''
-
-path = Path("/mnt/data/bizim_hikayemiz.html")
-path.write_text(html, encoding="utf-8")
-print(f"Site hazır: {path}")
