@@ -1,0 +1,196 @@
+from pathlib import Path
+
+html = r'''<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bizim Günlerimiz ❤️</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      font-family: Georgia, "Times New Roman", serif;
+      background: #fff7f7;
+      color: #3f2a2a;
+    }
+
+    .card {
+      width: min(720px, 100%);
+      background: rgba(255,255,255,.94);
+      border: 1px solid #f2dcdc;
+      border-radius: 28px;
+      padding: 38px 28px 32px;
+      box-shadow: 0 18px 50px rgba(90, 45, 45, .10);
+      text-align: center;
+    }
+
+    .heart {
+      font-size: 42px;
+      margin-bottom: 6px;
+      animation: beat 1.7s infinite;
+    }
+
+    @keyframes beat {
+      0%, 100% { transform: scale(1); }
+      12% { transform: scale(1.08); }
+      24% { transform: scale(1); }
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(30px, 6vw, 48px);
+      font-weight: 500;
+    }
+
+    .date {
+      margin-top: 9px;
+      color: #9a6b6b;
+      font-size: 15px;
+    }
+
+    .days {
+      margin: 30px 0 25px;
+      font-size: 22px;
+    }
+
+    .days strong {
+      font-size: 38px;
+      color: #b65c68;
+    }
+
+    .track {
+      position: relative;
+      height: 8px;
+      background: #f1dddd;
+      border-radius: 99px;
+      margin: 38px 8px 12px;
+    }
+
+    .progress {
+      height: 100%;
+      width: 0%;
+      background: #c86b77;
+      border-radius: inherit;
+      transition: width .8s ease;
+      position: relative;
+    }
+
+    .progress::after {
+      content: "♥";
+      position: absolute;
+      right: -13px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 27px;
+      height: 27px;
+      line-height: 27px;
+      border-radius: 50%;
+      background: #c86b77;
+      color: white;
+      font-size: 13px;
+      box-shadow: 0 4px 12px rgba(200,107,119,.3);
+    }
+
+    .labels {
+      display: flex;
+      justify-content: space-between;
+      color: #a77b7b;
+      font-size: 12px;
+      margin: 0 8px 34px;
+    }
+
+    .message {
+      margin: 0 auto;
+      max-width: 560px;
+      line-height: 1.75;
+      font-size: 18px;
+    }
+
+    .small {
+      margin-top: 25px;
+      color: #a77b7b;
+      font-size: 13px;
+    }
+
+    .today {
+      display: inline-block;
+      margin-top: 22px;
+      padding: 9px 15px;
+      border-radius: 999px;
+      background: #fff0f1;
+      color: #a95561;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="heart">❤️</div>
+    <h1>Bizim Hikâyemiz</h1>
+    <div class="date">7 Ağustos 2026'dan beri</div>
+
+    <div class="days">
+      <strong id="dayCount">0</strong><br>
+      gündür beraberiz.
+    </div>
+
+    <div class="track">
+      <div class="progress" id="progress"></div>
+    </div>
+
+    <div class="labels">
+      <span>7 Ağustos</span>
+      <span>Her gün biraz daha ❤️</span>
+    </div>
+
+    <p class="message">
+      Bazen kaç gün geçtiğini sayıyorum da, asıl güzel olan sayının kendisi değil.
+      O günlerden beri hayatımda senin olman. Birlikte güldüğümüz, saçma sapan
+      şeylere takıldığımız, özlediğimiz ve güzel anılar biriktirdiğimiz her gün
+      benim için ayrı bir yerde.
+      <br><br>
+      Daha yolun başındayız belki ama ben bu hikâyenin devamını gerçekten
+      merak ediyorum. İyi ki o gün “biz” olduk. ❤️
+    </p>
+
+    <div class="today" id="todayText"></div>
+    <div class="small">Bu çizgi, birlikte geçirdiğimiz günler arttıkça ilerlemeye devam edecek.</div>
+  </main>
+
+  <script>
+    const startDate = new Date(2026, 7, 7); // 7 Ağustos 2026
+
+    function update() {
+      const now = new Date();
+      const start = new Date(startDate);
+      const diffMs = now - start;
+      const days = Math.max(0, Math.floor(diffMs / 86400000));
+
+      document.getElementById("dayCount").textContent = days;
+
+      // Çizginin görsel olarak hiçbir zaman tamamen kaybolmaması için
+      // gün sayısına göre yavaşça ilerleyen bir yüzde.
+      const progress = Math.min(96, 8 + days * 2.4);
+      document.getElementById("progress").style.width = progress + "%";
+
+      const options = { day: "numeric", month: "long", year: "numeric" };
+      document.getElementById("todayText").textContent =
+        "Bugün: " + now.toLocaleDateString("tr-TR", options);
+    }
+
+    update();
+    setInterval(update, 60000);
+  </script>
+</body>
+</html>
+'''
+
+path = Path("/mnt/data/bizim_hikayemiz.html")
+path.write_text(html, encoding="utf-8")
+print(f"Site hazır: {path}")
