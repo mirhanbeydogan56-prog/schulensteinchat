@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Senin İçin — 20 Işık</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Great+Vibes&display=swap');
+
+:root{--gold:#d8a85c;--gold2:#ffcf82;--bg:#050505;--panel:#090909}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(circle at 50% 15%,#21150a 0,#080604 32%,#030303 75%);color:#e7c995;font-family:'Cormorant Garamond',serif;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.18;background-image:radial-gradient(#fff 1px,transparent 1px);background-size:90px 90px;mask-image:linear-gradient(to bottom,black,transparent 80%)}
+.hero{min-height:72vh;position:relative;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden;border-bottom:1px solid #3b2916}
+.curtain{position:absolute;top:-5%;width:25%;height:115%;background:linear-gradient(90deg,#090303,#35120d 35%,#100504 75%);filter:drop-shadow(0 0 35px #000);z-index:1}
+.curtain.left{left:-4%;transform:skewX(9deg)} .curtain.right{right:-4%;transform:skewX(-9deg)}
+.spot{position:absolute;width:40vw;height:40vw;top:-18vw;left:calc(50% - 20vw);background:radial-gradient(circle,#d49b42 0,rgba(212,155,66,.15) 28%,transparent 68%);filter:blur(8px);animation:breathe 4s ease-in-out infinite}
+@keyframes breathe{50%{transform:scale(1.12);opacity:.75}}
+.hero-content{position:relative;z-index:2;max-width:720px;padding:40px}
+.heart{font-size:42px;opacity:.8;animation:pulse 2.2s infinite}
+@keyframes pulse{50%{transform:scale(1.12);text-shadow:0 0 30px #d99c4c}}
+.kicker{letter-spacing:8px;font-size:16px;margin-top:10px}
+h1{font-size:clamp(48px,8vw,92px);font-weight:500;letter-spacing:7px;margin:8px 0;text-shadow:0 0 35px rgba(220,166,84,.4)}
+.sub{font-size:20px;line-height:1.5;opacity:.8}
+.btn{border:1px solid #9e6d35;background:rgba(20,12,5,.55);color:#e8bf7b;padding:15px 30px;border-radius:6px;font:inherit;font-size:17px;letter-spacing:2px;cursor:pointer;transition:.35s;box-shadow:inset 0 0 20px rgba(181,119,47,.06)}
+.btn:hover{background:#5b3513;box-shadow:0 0 30px rgba(208,151,67,.18);transform:translateY(-2px)}
+.section{padding:70px 6vw;background:linear-gradient(#070707,#030303)}
+.section-title{text-align:center;font-size:40px;letter-spacing:3px;margin:0 0 10px}
+.divider{width:100px;height:1px;background:#8f6130;margin:15px auto 45px;position:relative}.divider:after{content:"♥";position:absolute;left:42px;top:-11px;background:#050505;padding:0 8px;color:#b57d3c}
+.grid{max-width:1200px;margin:auto;display:grid;grid-template-columns:repeat(10,1fr);gap:30px 18px}
+.candle-card{position:relative;min-height:145px;display:flex;flex-direction:column;align-items:center;justify-content:end;cursor:pointer;transition:.4s}
+.candle-card:hover{transform:translateY(-7px)}
+.candle{width:48px;height:67px;border-radius:8px 8px 5px 5px;background:linear-gradient(90deg,#17130e,#4a3826 48%,#17130e);position:relative;box-shadow:0 14px 25px #000}
+.candle:before{content:"";position:absolute;left:50%;top:-5px;transform:translateX(-50%);width:34px;height:9px;border-radius:50%;background:#56402a;box-shadow:0 2px 8px #000}
+.wick{position:absolute;left:50%;top:-13px;width:2px;height:12px;background:#19130c;transform:translateX(-50%)}
+.flame{position:absolute;left:50%;top:-44px;width:18px;height:30px;transform:translateX(-50%) rotate(2deg) scale(0);opacity:0;background:linear-gradient(#fff8bb 5%,#ffd15b 45%,#f0781f);border-radius:55% 45% 55% 45%;filter:blur(.2px);box-shadow:0 0 14px #ff9c32,0 0 45px #d87520;transition:transform .5s,opacity .4s;animation:flicker .16s infinite alternate}
+@keyframes flicker{to{transform:translateX(-50%) rotate(-3deg) scale(1.04)}}
+.candle-card.lit .flame{opacity:1;transform:translateX(-50%) rotate(2deg) scale(1)}
+.candle-card.lit .candle{box-shadow:0 14px 35px #000,0 0 35px rgba(235,142,47,.35)}
+.num{margin-top:18px;font-size:18px;opacity:.75}.candle-card.lit .num{color:var(--gold2);text-shadow:0 0 12px #c77925}
+.message{display:none;min-height:65vh;padding:80px 8vw;align-items:center;justify-content:center;position:relative;overflow:hidden;background:radial-gradient(circle at 25% 50%,#351b08 0,transparent 38%),#050505;border-top:1px solid #402a15}
+.message.show{display:flex;animation:reveal 1.1s ease both}
+@keyframes reveal{from{opacity:0;transform:translateY(30px);filter:blur(8px)}to{opacity:1;transform:none;filter:none}}
+.message-inner{max-width:850px;text-align:center}
+.big-candle{width:150px;height:180px;margin:0 auto 50px;border-radius:18px 18px 10px 10px;background:linear-gradient(90deg,#25160b,#a95d18 48%,#2a180a);box-shadow:0 25px 60px #000,0 0 90px rgba(226,119,25,.3);position:relative}
+.big-candle:before{content:"";position:absolute;left:50%;top:-9px;transform:translateX(-50%);width:112px;height:20px;border-radius:50%;background:#bd712a}
+.big-wick{position:absolute;left:50%;top:-35px;width:4px;height:30px;background:#17100a;transform:translateX(-50%)}
+.big-flame{position:absolute;left:50%;top:-125px;width:65px;height:105px;transform:translateX(-50%);background:linear-gradient(#fffbd0,#ffd24c 45%,#e95f18);border-radius:60% 40% 55% 45%;box-shadow:0 0 35px #ffad38,0 0 110px #dc6b1b;animation:bigflicker .14s infinite alternate}
+@keyframes bigflicker{to{transform:translateX(-50%) rotate(2deg) scale(1.05)}}
+.message .label{letter-spacing:5px;font-size:19px}.message h2{font-family:'Great Vibes',cursive;font-size:clamp(52px,8vw,90px);font-weight:400;color:#d9a45b;margin:8px 0 18px}.message p{font-size:22px;line-height:1.65;max-width:700px;margin:0 auto 30px;color:#d9bd8b}
+.toast{position:fixed;left:50%;top:25px;transform:translate(-50%,-120px);z-index:20;background:rgba(10,7,4,.92);border:1px solid #9d6a32;padding:14px 24px;border-radius:5px;transition:.5s;box-shadow:0 10px 50px #000}.toast.show{transform:translate(-50%,0)}
+.progress{position:fixed;right:22px;top:50%;transform:translateY(-50%);z-index:10;display:flex;flex-direction:column;gap:10px}.dot{width:7px;height:7px;border:1px solid #76502a;border-radius:50%}.dot.active{background:#ffd084;box-shadow:0 0 10px #ffb64c}
+@media(max-width:800px){.grid{grid-template-columns:repeat(4,1fr);gap:24px 10px}.grid .candle-card:nth-child(n+17){display:none}.curtain{width:30%}.progress{display:none}.section{padding:60px 20px}.message{padding:70px 20px}.big-candle{width:110px;height:140px}}
+</style>
+</head>
+<body>
+<div class="toast" id="toast"></div>
+<div class="progress" id="progress"></div>
+
+<section class="hero" id="home">
+  <div class="curtain left"></div><div class="curtain right"></div><div class="spot"></div>
+  <div class="hero-content">
+    <div class="heart">♡</div>
+    <div class="kicker">SENİN İÇİN</div>
+    <h1>20 IŞIK</h1>
+    <p class="sub">Her mum, sana söylemek istediğim güzel bir şeyi saklıyor.<br>Birini seç ve sadece senin için yansın.</p>
+    <button class="btn" onclick="document.getElementById('candles').scrollIntoView()">MUMUNU SEÇ</button>
+  </div>
+</section>
+
+<section class="section" id="candles">
+  <h2 class="section-title">MUMUNU SEÇ</h2>
+  <div class="divider"></div>
+  <div class="grid" id="grid"></div>
+</section>
+
+<section class="message" id="message">
+  <div class="message-inner">
+    <div class="big-candle"><div class="big-wick"></div><div class="big-flame"></div></div>
+    <div class="label" id="messageLabel"></div>
+    <h2 id="messageTitle"></h2>
+    <p id="messageText"></p>
+    <button class="btn" onclick="document.getElementById('candles').scrollIntoView()">BAŞKA BİR MUM SEÇ</button>
+  </div>
+</section>
+
+<script>
+const messages = [
+ ["1. Mum","Gülüşün","Sen gülümsediğinde, en sıradan an bile güzelleşiyor. İyi ki o güzel gülüşün hayatımda."],
+ ["2. Mum","Gözlerin","Gözlerine baktığımda kelimelere ihtiyacım kalmıyor. Sanki bütün güzel şeyler orada saklı."],
+ ["3. Mum","Kalbin","Dünyanın en güzel yerlerinden biri, güzel kalbinin yanı. İyi ki bu kadar güzel seviyorsun."],
+ ["4. Mum","Sesin","Sesini duyduğumda içimde garip bir huzur oluyor. Sanki her şey olması gerektiği yere dönüyor."],
+ ["5. Mum","Güzelliğin","Güzelliğin sadece dışarıdan görünen bir şey değil. Seni tanıdıkça daha da güzelleşiyorsun."],
+ ["6. Mum","Neşen","Senin neşen bulaşıcı. Yanında olduğumda dünyanın biraz daha hafif olduğunu hissediyorum."],
+ ["7. Mum","Masumiyetin","İçindeki o güzel, saf tarafına hayranım. Seni sen yapan en özel şeylerden biri bu."],
+ ["8. Mum","Güçlü oluşun","Zor şeylerin karşısında bile dimdik duruşuna hayranım. Sandığından çok daha güçlüsün."],
+ ["9. Mum","Şefkatin","Sevdiğin insanlara verdiğin değer, kalbinin ne kadar güzel olduğunu gösteriyor."],
+ ["10. Mum","Küçük detayların","Farkında olmadan yaptığın minicik şeyler bile seni benim gözümde çok özel yapıyor."],
+ ["11. Mum","Heyecanın","Bir şeye heyecanlandığında gözlerinin parlamasını izlemek, en sevdiğim şeylerden biri."],
+ ["12. Mum","Sabırın","Her şeye rağmen sakin kalabilmen ve anlayışın beni sana her gün biraz daha hayran bırakıyor."],
+ ["13. Mum","Sıcacık kalbin","Yanında insan kendini evinde gibi hissediyor. Bence bu, herkeste olmayan çok özel bir şey."],
+ ["14. Mum","Kahkahan","Kahkahanı duyduğumda benim de gülmemek için hiçbir sebebim kalmıyor."],
+ ["15. Mum","Hayallerin","Hayallerini anlatırken gözlerindeki ışığı seviyorum. Umarım hepsini gerçekleştirdiğini görürüm."],
+ ["16. Mum","Cesaretin","Korksan bile devam edebilmen, seni düşündüğünden çok daha cesur biri yapıyor."],
+ ["17. Mum","Zarafetin","Hareketlerin, konuşman, insanlara yaklaşımın... Sende anlatması zor bir zarafet var."],
+ ["18. Mum","Bana hissettirdiklerin","Seninle birlikteyken kendimi daha mutlu, daha huzurlu ve daha çok kendim gibi hissediyorum."],
+ ["19. Mum","Varlığın","Bazen hiçbir şey yapmana gerek yok. Sadece var olman bile günümü güzelleştirmeye yetiyor."],
+ ["20. Mum","Sen","Ve son mum... Bütün bu güzel sözlerin özeti sensin. İyi ki varsın, iyi ki hayatımdasın. ♡"]
+];
+
+const grid=document.getElementById("grid"), progress=document.getElementById("progress");
+messages.forEach((m,i)=>{
+  const card=document.createElement("div");
+  card.className="candle-card";
+  card.innerHTML=`<div class="candle"><div class="wick"></div><div class="flame"></div></div><div class="num">${i+1}</div>`;
+  card.onclick=()=>selectCandle(i,card);
+  grid.appendChild(card);
+  const dot=document.createElement("div"); dot.className="dot"; dot.id="dot"+i; progress.appendChild(dot);
+});
+
+function selectCandle(i,card){
+  document.querySelectorAll(".candle-card").forEach(c=>c.classList.remove("lit"));
+  document.querySelectorAll(".dot").forEach(d=>d.classList.remove("active"));
+  card.classList.add("lit"); document.getElementById("dot"+i).classList.add("active");
+  const [label,title,text]=messages[i];
+  document.getElementById("messageLabel").textContent=label;
+  document.getElementById("messageTitle").textContent=title;
+  document.getElementById("messageText").textContent=text;
+  const sec=document.getElementById("message");
+  sec.classList.remove("show"); void sec.offsetWidth; sec.classList.add("show");
+  document.getElementById("toast").textContent=`${label} senin için yandı ♡`;
+  document.getElementById("toast").classList.add("show");
+  setTimeout(()=>document.getElementById("toast").classList.remove("show"),2200);
+  setTimeout(()=>sec.scrollIntoView({behavior:"smooth"}),180);
+}
+</script>
+</body>
+</html>
