@@ -2,251 +2,378 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#090204">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <title>Sana Bir Özür Borçluyum ❤️</title>
 <style>
-  * { box-sizing: border-box; }
+  * {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    margin: 0;
+    padding: 0;
+  }
+
   html, body {
     background: #090204;
     color: #fff2f3;
     font-family: "Courier New", monospace;
-    overflow:hidden;
+    overflow: hidden;
+    height: 100%;
+    height: 100dvh;
+    width: 100%;
+    touch-action: manipulation;
   }
 
   #matrix {
-    position:fixed;
-    inset:0;
-    z-index:0;
-    opacity:.34;
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.32;
   }
 
   .scanlines {
-    position:fixed;
-    inset:0;
-    z-index:1;
-    pointer-events:none;
-    background:repeating-linear-gradient(
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: repeating-linear-gradient(
       to bottom,
-      rgba(255,255,255,.018) 0px,
-      rgba(255,255,255,.018) 1px,
+      rgba(255,255,255,0.018) 0px,
+      rgba(255,255,255,0.018) 1px,
       transparent 2px,
       transparent 5px
     );
   }
 
   .vignette {
-    position:fixed;
-    inset:0;
-    z-index:2;
-    pointer-events:none;
-    background:radial-gradient(circle, rgba(105,8,24,.10) 0%, rgba(0,0,0,.72) 100%);
+    position: fixed;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background: radial-gradient(circle, rgba(105,8,24,0.12) 0%, rgba(0,0,0,0.78) 100%);
+  }
+
+  .code-stream {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    opacity: 0.5;
+    transform: rotate(-2deg) scale(1.1);
+  }
+
+  .code-stream span {
+    display: block;
+    width: max-content;
+    color: #a51e38;
+    font-size: clamp(13px, 3.2vw, 18px);
+    letter-spacing: 3px;
+    white-space: nowrap;
+    text-shadow: 0 0 10px rgba(180,30,55,0.6);
+    animation: slideCode 16s linear infinite;
+  }
+
+  .code-stream span:nth-child(2) {
+    animation-duration: 21s;
+    animation-direction: reverse;
+    color: #d23b54;
+  }
+  .code-stream span:nth-child(3) {
+    animation-duration: 18s;
+  }
+  .code-stream span:nth-child(4) {
+    animation-duration: 24s;
+    animation-direction: reverse;
+    color: #7e172c;
+  }
+
+  @keyframes slideCode {
+    from { transform: translateX(-40vw); }
+    to   { transform: translateX(115vw); }
   }
 
   .screen {
-    position:relative;
-    z-index:3;
-    min-height:100vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:24px;
+    position: relative;
+    z-index: 3;
+    min-height: 100%;
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    padding-top: max(16px, env(safe-area-inset-top));
+    padding-bottom: max(16px, env(safe-area-inset-bottom));
   }
 
   .card {
-    width:min(760px, 94vw);
-    min-height:480px;
-    padding:42px 34px;
-    border:1px solid rgba(180,36,60,.62);
-    border-radius:22px;
-    background:rgba(22,4,8,.88);
-    box-shadow:0 0 50px rgba(130,8,30,.22), inset 0 0 35px rgba(180,30,55,.05);
-    backdrop-filter:blur(7px);
-    text-align:center;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    animation:appear .8s ease;
+    width: min(720px, 100%);
+    max-height: calc(100dvh - 32px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 28px 20px;
+    border: 1px solid rgba(180,36,60,0.65);
+    border-radius: 20px;
+    background: rgba(22,4,8,0.92);
+    box-shadow:
+      0 0 40px rgba(130,8,30,0.28),
+      inset 0 0 30px rgba(180,30,55,0.06);
+    backdrop-filter: blur(8px);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    animation: appear 0.7s ease;
   }
 
   @keyframes appear {
-    from { opacity:0; transform:translateY(20px) scale(.98); }
-    to { opacity:1; transform:none; }
+    from { opacity: 0; transform: translateY(18px) scale(0.97); }
+    to   { opacity: 1; transform: none; }
   }
 
-  .heart { font-size:56px; filter:drop-shadow(0 0 15px #a51e38); animation:pulse 1.5s infinite; }
-  @keyframes pulse { 50% { transform:scale(1.08); } }
+  .heart {
+    font-size: clamp(42px, 12vw, 56px);
+    filter: drop-shadow(0 0 14px #a51e38);
+    animation: pulse 1.5s infinite;
+    line-height: 1;
+  }
+
+  @keyframes pulse {
+    50% { transform: scale(1.1); }
+  }
 
   h1 {
-    margin:16px 0 12px;
-    color:#ffb2bb;
-    text-shadow:0 0 14px #9f1832;
-    font-size:clamp(28px, 6vw, 50px);
+    margin: 14px 0 12px;
+    color: #ffb2bb;
+    text-shadow: 0 0 12px #9f1832;
+    font-size: clamp(22px, 6.5vw, 36px);
+    line-height: 1.25;
   }
 
-  p { line-height:1.7; color:#f7dfe2; }
+  p {
+    line-height: 1.65;
+    color: #f7dfe2;
+    font-size: clamp(14px, 3.8vw, 16px);
+  }
+
   .note {
-    margin:24px auto;
-    max-width:620px;
-    padding:22px;
-    border-left:3px solid #a51e38;
-    background:rgba(145,15,38,.09);
-    text-align:left;
-    font-size:17px;
+    margin: 18px auto;
+    max-width: 100%;
+    padding: 16px 14px;
+    border-left: 3px solid #a51e38;
+    background: rgba(145,15,38,0.12);
+    text-align: left;
+    font-size: clamp(14px, 3.9vw, 16px);
+    border-radius: 0 10px 10px 0;
   }
 
-  .question { font-size:clamp(22px,4vw,34px); margin:16px 0 30px; }
-  .buttons { position:relative; height:120px; display:flex; gap:22px; justify-content:center; align-items:center; }
+  .question {
+    font-size: clamp(20px, 6vw, 30px);
+    margin: 12px 0 22px;
+    color: #ffc0c8;
+    text-shadow: 0 0 10px rgba(165,30,56,0.5);
+  }
+
+  .buttons {
+    position: relative;
+    height: 130px;
+    width: 100%;
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    align-items: center;
+    margin: 8px 0;
+  }
+
   button {
-    border:0;
-    border-radius:999px;
-    padding:14px 30px;
-    font:700 17px "Courier New", monospace;
-    cursor:pointer;
-    transition:transform .15s, box-shadow .15s;
-  }
-  button:hover { transform:scale(1.06); }
-  #yes {
-    color:#fff;
-    background:#8f1832;
-    box-shadow:0 0 22px rgba(160,25,50,.42);
-  }
-  #no {
-    color:#fff;
-    background:#241014;
-    border:1px solid #71313e;
-    position:relative;
+    border: 0;
+    border-radius: 999px;
+    padding: 16px 28px;
+    min-height: 52px;
+    min-width: 120px;
+    font: 700 16px "Courier New", monospace;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    -webkit-user-select: none;
+    user-select: none;
   }
 
-  .hidden { display:none !important; }
+  button:active {
+    transform: scale(0.96);
+  }
+
+  #yes {
+    color: #fff;
+    background: #8f1832;
+    box-shadow: 0 0 20px rgba(160,25,50,0.45);
+    z-index: 2;
+  }
+
+  #no {
+    color: #fff;
+    background: #241014;
+    border: 1px solid #71313e;
+    position: relative;
+    z-index: 1;
+  }
+
+  #continue {
+    align-self: center;
+    color: #fff;
+    background: #8f1832;
+    box-shadow: 0 0 18px rgba(160,25,50,0.4);
+    margin-top: 8px;
+    min-width: 160px;
+  }
+
+  .hidden {
+    display: none !important;
+  }
 
   .final {
-    font-size:clamp(22px,4vw,34px);
-    color:#ff9eaa;
-    text-shadow:0 0 14px #a51e38;
-    margin:18px 0;
+    font-size: clamp(20px, 5.5vw, 30px);
+    color: #ff9eaa;
+    text-shadow: 0 0 12px #a51e38;
+    margin: 14px 0;
   }
 
   .love {
-    font-size:clamp(30px,7vw,64px);
-    font-weight:bold;
-    color:#fff;
-    text-shadow:0 0 8px #ff526c, 0 0 30px #9f1832;
-    animation:glow 1.2s ease-in-out infinite alternate;
+    font-size: clamp(26px, 8vw, 48px);
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 0 0 8px #ff526c, 0 0 24px #9f1832;
+    animation: glow 1.3s ease-in-out infinite alternate;
+    margin: 12px 0;
+    line-height: 1.2;
   }
-  @keyframes glow { from { opacity:.75; } to { opacity:1; } }
 
-  .small { opacity:.65; font-size:13px; margin-top:20px; }
+  @keyframes glow {
+    from { opacity: 0.78; }
+    to   { opacity: 1; }
+  }
 
-  .cursor { animation:blink 1s steps(1) infinite; }
-  @keyframes blink { 50% { opacity:0; } }
-  .code-stream {
-    position:fixed;
-    inset:0;
-    z-index:1;
-    pointer-events:none;
-    overflow:hidden;
-    display:flex;
-    flex-direction:column;
-    justify-content:space-around;
-    opacity:.55;
-    transform:rotate(-2deg) scale(1.08);
+  .small {
+    opacity: 0.65;
+    font-size: 12px;
+    margin-top: 16px;
+    line-height: 1.4;
   }
-  .code-stream span {
-    display:block;
-    width:max-content;
-    color:#a51e38;
-    font-size:clamp(14px,2vw,22px);
-    letter-spacing:4px;
-    white-space:nowrap;
-    text-shadow:0 0 12px rgba(180,30,55,.65);
-    animation:slideCode 14s linear infinite;
+
+  .cursor {
+    animation: blink 1s steps(1) infinite;
   }
-  .code-stream span:nth-child(2) { animation-duration:19s; animation-direction:reverse; color:#d23b54; }
-  .code-stream span:nth-child(3) { animation-duration:16s; }
-  .code-stream span:nth-child(4) { animation-duration:22s; animation-direction:reverse; color:#7e172c; }
-  @keyframes slideCode {
-    from { transform:translateX(-35vw); }
-    to { transform:translateX(110vw); }
+
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+
+  /* Daha küçük ekranlar için ekstra ayar */
+  @media (max-height: 700px) {
+    .card {
+      padding: 20px 16px;
+    }
+    .note {
+      margin: 12px auto;
+      padding: 12px;
+    }
+    .buttons {
+      height: 110px;
+    }
+  }
+
+  @media (max-width: 380px) {
+    button {
+      padding: 14px 22px;
+      min-width: 105px;
+      font-size: 15px;
+    }
   }
 </style>
 </head>
 <body>
-<div class="code-stream" aria-hidden="true">
-      <span>0101 // SENİ SEVİYORUM // I LOVE YOU // 0101</span>
-      <span>♡ özür dilerim ♡ seni seviyorum ♡</span>
-      <span>I LOVE YOU  •  SENİ ÇOK SEVİYORUM  •  I LOVE YOU</span>
-      <span>010101  ♡  143  ♡  010101  ♡  FOREVER</span>
-    </div>
-    <canvas id="matrix"></canvas>
-<div class="scanlines"></div>
-<div class="vignette"></div>
+  <div class="code-stream" aria-hidden="true">
+    <span>0101 // SENİ SEVİYORUM // I LOVE YOU // 0101</span>
+    <span>♡ özür dilerim ♡ seni seviyorum ♡</span>
+    <span>I LOVE YOU  •  SENİ ÇOK SEVİYORUM  •  I LOVE YOU</span>
+    <span>010101  ♡  143  ♡  010101  ♡  FOREVER</span>
+  </div>
 
-<main class="screen">
-  <section class="card" id="step1">
-    <div class="heart">❤️</div>
-    <h1>Sana söylemem gereken bir şey var...<span class="cursor">_</span></h1>
-    <div class="note">
-      <strong>Özür dilerim.</strong><br><br>
-      Seni kırdıysam, üzdüysem veya istemeden kalbini incittiysem
-      gerçekten çok özür dilerim. Bazen yanlış yapabiliyorum ama
-      seni ne kadar çok sevdiğimi ve hayatımdaki yerini hiçbir zaman
-      unutmanı istemiyorum.
-      <br><br>
-      Bu küçük siteyi de sana “özür dilerim” demenin biraz daha
-      güzel bir yolu olsun diye yaptım.
-    </div>
-    <p>Şimdi senden minicik bir cevap istiyorum...</p>
-    <button id="continue" style="align-self:center;color:#fff;background:#8f1832;box-shadow:0 0 20px rgba(160,25,50,.35)">
-      Devam et ❤️
-    </button>
-  </section>
+  <canvas id="matrix"></canvas>
+  <div class="scanlines"></div>
+  <div class="vignette"></div>
 
-  <section class="card hidden" id="step2">
-    <div class="heart">🥺</div>
-    <div class="question">Beni affeder misin?</div>
-    <p>Bir tane “evet” bütün günümü güzelleştirir...</p>
-    <div class="buttons" id="buttons">
-      <button id="yes">EVET ❤️</button>
-      <button id="no">HAYIR 😤</button>
-    </div>
-    <div class="small">Not: “Hayır” butonu biraz utangaç olabilir. 👀</div>
-  </section>
+  <main class="screen">
+    <!-- Adım 1 -->
+    <section class="card" id="step1">
+      <div class="heart">❤️</div>
+      <h1>Sana söylemem gereken bir şey var...<span class="cursor">_</span></h1>
+      <div class="note">
+        <strong>Özür dilerim.</strong><br><br>
+        Seni kırdıysam, üzdüysem veya istemeden kalbini incittiysem
+        gerçekten çok özür dilerim. Bazen yanlış yapabiliyorum ama
+        seni ne kadar çok sevdiğimi ve hayatımdaki yerini hiçbir zaman
+        unutmanı istemiyorum.
+        <br><br>
+        Bu küçük siteyi de sana “özür dilerim” demenin biraz daha
+        güzel bir yolu olsun diye yaptım.
+      </div>
+      <p>Şimdi senden minicik bir cevap istiyorum...</p>
+      <button id="continue">Devam et ❤️</button>
+    </section>
 
-  <section class="card hidden" id="step3">
-    <div class="heart">😭❤️</div>
-    <div class="final">BİLİYODUMMM! 🥹</div>
-    <p>
-      Bana kıyamayacağını biliyordum.<br>
-      İyi ki varsın, iyi ki hayatımdasın.
-    </p>
-    <div class="love">SENİ ÇOK SEVİYORUM ❤️</div>
-    <p>
-      Ne olursa olsun kalbimdeki yerin çok ayrı.<br>
-      Bir daha seni üzmemek için daha çok dikkat edeceğim.
-    </p>
-    <div class="small">∞ seni seviyorum ∞ seni seviyorum ∞ seni seviyorum ∞</div>
-  </section>
-</main>
+    <!-- Adım 2 -->
+    <section class="card hidden" id="step2">
+      <div class="heart">🥺</div>
+      <div class="question">Beni affeder misin?</div>
+      <p>Bir tane “evet” bütün günümü güzelleştirir...</p>
+      <div class="buttons" id="buttons">
+        <button id="yes">EVET ❤️</button>
+        <button id="no">HAYIR 😤</button>
+      </div>
+      <div class="small">Not: “Hayır” butonu biraz utangaç olabilir. 👀</div>
+    </section>
+
+    <!-- Adım 3 -->
+    <section class="card hidden" id="step3">
+      <div class="heart">😭❤️</div>
+      <div class="final">BİLİYODUMMM! 🥹</div>
+      <p>
+        Bana kıyamayacağını biliyordum.<br>
+        İyi ki varsın, iyi ki hayatımdasın.
+      </p>
+      <div class="love">SENİ ÇOK SEVİYORUM ❤️</div>
+      <p>
+        Ne olursa olsun kalbimdeki yerin çok ayrı.<br>
+        Bir daha seni üzmemek için daha çok dikkat edeceğim.
+      </p>
+      <div class="small">∞ seni seviyorum ∞ seni seviyorum ∞ seni seviyorum ∞</div>
+    </section>
+  </main>
 
 <script>
-  // Bordo arka plan parıltısı; kodlar yatay olarak CSS ile akar.
   const canvas = document.getElementById("matrix");
   const ctx = canvas.getContext("2d");
+
   function resize() {
-    canvas.width = innerWidth;
-    canvas.height = innerHeight;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     const g = ctx.createRadialGradient(
-      canvas.width * .5, canvas.height * .5, 0,
-      canvas.width * .5, canvas.height * .5, Math.max(canvas.width, canvas.height) * .7
+      canvas.width * 0.5, canvas.height * 0.5, 0,
+      canvas.width * 0.5, canvas.height * 0.5, Math.max(canvas.width, canvas.height) * 0.7
     );
-    g.addColorStop(0, "rgba(130,10,30,.12)");
+    g.addColorStop(0, "rgba(130,10,30,0.13)");
     g.addColorStop(1, "rgba(0,0,0,0)");
     ctx.fillStyle = g;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
   }
   resize();
-  addEventListener("resize", resize);
+  window.addEventListener("resize", resize);
+  window.addEventListener("orientationchange", () => setTimeout(resize, 100));
 
   const step1 = document.getElementById("step1");
   const step2 = document.getElementById("step2");
@@ -263,24 +390,46 @@
 
   function moveNo() {
     const area = buttons.getBoundingClientRect();
-    const maxX = Math.max(0, area.width - no.offsetWidth - 10);
-    const maxY = Math.max(0, area.height - no.offsetHeight - 10);
-    const x = Math.random() * maxX - maxX/2;
-    const y = Math.random() * maxY - maxY/2;
+    const btnW = no.offsetWidth;
+    const btnH = no.offsetHeight;
+
+    // Güvenli sınırlar
+    const maxX = Math.max(0, area.width - btnW - 12);
+    const maxY = Math.max(0, area.height - btnH - 12);
+
+    const x = (Math.random() * maxX) - (maxX / 2);
+    const y = (Math.random() * maxY) - (maxY / 2);
+
     no.style.position = "absolute";
     no.style.left = "50%";
     no.style.top = "50%";
     no.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
   }
 
+  // Hem mouse hem touch için
   no.addEventListener("mouseenter", moveNo);
-  no.addEventListener("touchstart", (e) => { e.preventDefault(); moveNo(); });
-  no.addEventListener("click", moveNo);
+  no.addEventListener("touchstart", (e) => {
+    e.preventDefault();
+    moveNo();
+  }, { passive: false });
+
+  // Bazı telefonlarda click de tetiklenir
+  no.addEventListener("click", (e) => {
+    e.preventDefault();
+    moveNo();
+  });
 
   yes.addEventListener("click", () => {
     step2.classList.add("hidden");
     step3.classList.remove("hidden");
   });
+
+  // Sayfa kaymasını engelle (özellikle iOS)
+  document.body.addEventListener("touchmove", (e) => {
+    if (e.target.closest(".card") === null) {
+      e.preventDefault();
+    }
+  }, { passive: false });
 </script>
 </body>
 </html>
