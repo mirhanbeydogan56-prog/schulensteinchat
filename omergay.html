@@ -1,0 +1,1474 @@
+```html
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Ömer & Arkadaşları 🚀</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    min-height:100vh;
+    background:
+        radial-gradient(circle at 20% 15%,#35206b 0 2px,transparent 3px),
+        radial-gradient(circle at 75% 25%,#6d4aff 0 1px,transparent 2px),
+        radial-gradient(circle at 40% 70%,#4be7ff 0 1px,transparent 2px),
+        radial-gradient(circle at 90% 80%,#ffffff 0 1px,transparent 2px),
+        radial-gradient(circle at top,#171a4d,#090d25 55%,#030510);
+    color:white;
+    font-family:Arial,sans-serif;
+}
+
+.container{
+    width:min(1100px,95%);
+    margin:25px auto;
+}
+
+.header{
+    text-align:center;
+    margin-bottom:18px;
+}
+
+.header h1{
+    margin:0;
+    color:#7ee7ff;
+    font-size:clamp(25px,5vw,38px);
+}
+
+.header p{
+    color:#ad9aa4;
+}
+
+.card{
+    overflow:hidden;
+    background:rgba(10,15,40,.92);
+    border:1px solid #6d7cff33;
+    border-radius:22px;
+    box-shadow:0 20px 70px #0009;
+}
+
+/* VIDEO */
+
+.video{
+    width:100%;
+    aspect-ratio:16/9;
+    background:#000;
+}
+
+#player{
+    width:100%;
+    height:100%;
+}
+
+/* URL */
+
+.controls{
+    display:flex;
+    gap:8px;
+    padding:14px;
+    background:rgba(13,20,48,.96);
+}
+
+.controls input{
+    flex:1;
+    min-width:0;
+    padding:14px;
+    border:1px solid #34477d;
+    border-radius:11px;
+    outline:none;
+    background:#060a1b;
+    color:white;
+}
+
+button{
+    border:none;
+    border-radius:11px;
+    padding:12px 17px;
+    background:#5865f2;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#7c6cff;
+}
+
+.buttons{
+    display:flex;
+    gap:8px;
+    padding:0 14px 14px;
+    background:rgba(13,20,48,.96);
+}
+
+.status{
+    padding:9px 14px;
+    background:#070b1d;
+    color:#aaa;
+    font-size:12px;
+}
+
+#statusText{
+    color:#6fffd2;
+}
+
+/* CHAT */
+
+.chat{
+    padding:18px;
+}
+
+.chat-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:12px;
+}
+
+.chat-title h2{
+    margin:0;
+    color:#8de8ff;
+}
+
+#userText{
+    color:#a9b8df;
+    font-size:12px;
+}
+
+#messages{
+    height:300px;
+    overflow-y:auto;
+    padding:12px;
+    border-radius:14px;
+    background:#050817;
+    border:1px solid #ffffff0b;
+}
+
+.message{
+    max-width:85%;
+    margin-bottom:10px;
+    padding:9px 12px;
+    border-radius:13px;
+    background:#151d45;
+    word-break:break-word;
+}
+
+.message.mine{
+    margin-left:auto;
+    background:#3b3f9e;
+}
+
+.message-name{
+    display:block;
+    color:#9c8cff;
+    font-size:11px;
+    font-weight:bold;
+    margin-bottom:4px;
+}
+
+.message-text{
+    font-size:14px;
+}
+
+.message-time{
+    display:block;
+    margin-top:4px;
+    color:#bcaab2;
+    font-size:9px;
+}
+
+.chat-input{
+    display:flex;
+    gap:8px;
+    margin-top:10px;
+}
+
+.chat-input input{
+    flex:1;
+    min-width:0;
+    padding:14px;
+    border:1px solid #34477d;
+    border-radius:11px;
+    outline:none;
+    background:#060a1b;
+    color:white;
+}
+
+/* LOGIN */
+
+#loginScreen{
+    position:fixed;
+    inset:0;
+    z-index:1000;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    background:#020412f2;
+}
+
+.login-box{
+    width:min(400px,100%);
+    padding:30px;
+    border-radius:22px;
+    background:#0c1230;
+    text-align:center;
+    box-shadow:0 25px 80px #000;
+}
+
+.login-box .heart{
+    font-size:45px;
+}
+
+.login-box h2{
+    color:#7ee7ff;
+}
+
+.login-box p{
+    color:#a9959f;
+    font-size:13px;
+}
+
+.login-box input{
+    width:100%;
+    padding:14px;
+    margin:10px 0;
+    border:1px solid #34477d;
+    border-radius:11px;
+    outline:none;
+    background:#050817;
+    color:white;
+    text-align:center;
+}
+
+.login-box button{
+    width:100%;
+}
+
+#loginError{
+    min-height:18px;
+    margin-top:8px;
+    color:#ff6b9d;
+    font-size:12px;
+}
+
+@media(max-width:600px){
+
+    .container{
+        width:100%;
+        margin:0;
+    }
+
+    .card{
+        border-radius:0;
+    }
+
+    .header{
+        padding:20px 10px 10px;
+    }
+
+    .controls{
+        flex-wrap:wrap;
+    }
+
+    .controls input{
+        flex-basis:100%;
+    }
+
+    .controls button{
+        flex:1;
+    }
+
+    .chat{
+        padding:12px;
+    }
+
+    #messages{
+        height:280px;
+    }
+}
+</style>
+
+<!--
+    ÖNEMLİ:
+    YouTube API callback fonksiyonunu
+    API scriptinden ÖNCE tanımlıyoruz.
+-->
+<script>
+window.youtubeReady = false;
+window.youtubePlayer = null;
+
+window.onYouTubeIframeAPIReady = function(){
+
+    console.log("YouTube API hazır.");
+
+    window.youtubePlayer = new YT.Player("player",{
+
+        width:"100%",
+        height:"100%",
+
+        videoId:"",
+
+        playerVars:{
+            autoplay:0,
+            controls:1,
+            rel:0,
+            modestbranding:1,
+            playsinline:1
+        },
+
+        events:{
+
+            onReady:function(){
+
+                window.youtubeReady = true;
+
+                console.log("YouTube player hazır.");
+
+                if(window.setStatus){
+                    window.setStatus("YouTube hazır");
+                }
+
+            },
+
+            onStateChange:function(event){
+
+                /*
+                    Firebase'den gelen hareketi
+                    tekrar Firebase'e göndermiyoruz.
+                */
+
+                if(window.applyingRemote){
+                    return;
+                }
+
+                if(!window.currentUser){
+                    return;
+                }
+
+                if(
+                    event.data ===
+                    YT.PlayerState.PLAYING
+                ){
+
+                    window.sendVideoState("playing");
+
+                }
+
+                else if(
+                    event.data ===
+                    YT.PlayerState.PAUSED
+                ){
+
+                    window.sendVideoState("paused");
+
+                }
+
+            }
+        }
+    });
+};
+</script>
+
+<!--
+    Callback yukarıda tanımlandıktan sonra
+    YouTube API yükleniyor.
+-->
+<script src="https://www.youtube.com/iframe_api"></script>
+
+</head>
+
+<body>
+
+<!-- LOGIN -->
+
+<div id="loginScreen">
+
+    <div class="login-box">
+
+        <div class="heart">🚀</div>
+
+        <h2>Ömer & Arkadaşları</h2>
+
+        <p>Uzay film odasına giriş yap</p>
+
+        <input
+            id="loginCode"
+            type="password"
+            placeholder="Giriş kodu"
+            autocomplete="off"
+        >
+
+        <button id="loginButton">
+            Giriş Yap
+        </button>
+
+        <div id="loginError"></div>
+
+    </div>
+
+</div>
+
+
+<div class="container">
+
+    <div class="header">
+
+        <h1>🚀 Ömer & Arkadaşları 🌌</h1>
+
+        <p>Birlikte Film İzle • Galaksinin içinde</p>
+
+    </div>
+
+
+    <div class="card">
+
+        <!-- VIDEO -->
+
+        <div class="video">
+
+            <div id="player"></div>
+
+        </div>
+
+
+        <!-- YOUTUBE LİNKİ -->
+
+        <div class="controls">
+
+            <input
+                id="youtubeUrl"
+                placeholder="YouTube linkini yapıştır..."
+            >
+
+            <button id="loadButton">
+                Videoyu Aç
+            </button>
+
+        </div>
+
+
+        <!-- KONTROLLER -->
+
+        <div class="buttons">
+
+            <button id="playButton">
+                ▶ Oynat
+            </button>
+
+            <button id="pauseButton">
+                ⏸ Durdur
+            </button>
+
+            <button id="syncButton">
+                🔄 Senkronla
+            </button>
+
+        </div>
+
+
+        <div class="status">
+
+            Durum:
+            <span id="statusText">
+                YouTube yükleniyor...
+            </span>
+
+        </div>
+
+
+        <!-- CHAT -->
+
+        <div class="chat">
+
+            <div class="chat-title">
+
+                <h2>💬 Chat</h2>
+
+                <span id="userText"></span>
+
+            </div>
+
+
+            <div id="messages"></div>
+
+
+            <div class="chat-input">
+
+                <input
+                    id="messageInput"
+                    placeholder="Mesaj yaz..."
+                    maxlength="500"
+                    autocomplete="off"
+                >
+
+                <button id="sendButton">
+                    Gönder
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- FIREBASE -->
+
+<script type="module">
+
+import {
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+
+import {
+    getDatabase,
+    ref,
+    set,
+    push,
+    onValue,
+    onChildAdded
+} from "https://www.gstatic.com/firebasejs/10.13.2/firebase-database.js";
+
+
+/* FIREBASE */
+
+const firebaseConfig = {
+    apiKey: "AIzaSyDLkF1H1Gt7ifl-FVfJeBKULRzG_7LAUmM",
+    authDomain: "dcchat-7fa9a.firebaseapp.com",
+    databaseURL: "https://dcchat-7fa9a-default-rtdb.firebaseio.com",
+    projectId: "dcchat-7fa9a",
+    storageBucket: "dcchat-7fa9a.firebasestorage.app",
+    messagingSenderId: "993124998740",
+    appId: "1:993124998740:web:64557a034dbd7e9ea797c1",
+    measurementId: "G-37XFCTWM8N"
+};
+
+
+const app =
+    initializeApp(firebaseConfig);
+
+const db =
+    getDatabase(app);
+
+// Firebase Analytics
+// (Only runs in browsers where Analytics is supported.)
+import { getAnalytics, isSupported } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-analytics.js";
+isSupported().then((supported) => {
+    if (supported) getAnalytics(app);
+});
+
+
+/* =========================
+   GLOBAL DEĞİŞKENLER
+========================= */
+
+window.currentUser = null;
+
+window.applyingRemote = false;
+
+let currentVideoId = "";
+
+let remoteVideo = null;
+
+let lastFirebaseWrite = 0;
+
+
+/* =========================
+   DURUM
+========================= */
+
+window.setStatus = function(text){
+
+    document
+        .getElementById("statusText")
+        .textContent = text;
+
+};
+
+
+/* =========================
+   LOGIN
+========================= */
+
+const users = {
+    omer123:"Ömer",
+    aptal123:"Arkadaş"
+};
+
+
+function login(){
+
+    const code =
+        document
+            .getElementById("loginCode")
+            .value
+            .trim()
+            .toLowerCase();
+
+
+    if(!users[code]){
+
+        document
+            .getElementById("loginError")
+            .textContent =
+            "Hatalı giriş kodu.";
+
+        return;
+
+    }
+
+
+    window.currentUser =
+        users[code];
+
+
+    localStorage.setItem(
+        "film_user",
+        window.currentUser
+    );
+
+
+    document
+        .getElementById("loginScreen")
+        .style.display = "none";
+
+
+    document
+        .getElementById("userText")
+        .textContent =
+        "👤 " + window.currentUser;
+
+
+    setStatus(
+        "Bağlandı"
+    );
+
+}
+
+
+document
+    .getElementById("loginButton")
+    .addEventListener(
+        "click",
+        login
+    );
+
+
+document
+    .getElementById("loginCode")
+    .addEventListener(
+        "keydown",
+        function(e){
+
+            if(e.key === "Enter"){
+                login();
+            }
+
+        }
+    );
+
+
+/* Kayıtlı kullanıcı */
+
+const savedUser =
+    localStorage.getItem("film_user");
+
+
+if(
+    savedUser === "Ömer" ||
+    savedUser === "Ali" ||
+    savedUser === "Can" ||
+    savedUser === "Mert"
+){
+
+    window.currentUser =
+        savedUser;
+
+    document
+        .getElementById("loginScreen")
+        .style.display = "none";
+
+    document
+        .getElementById("userText")
+        .textContent =
+        "👤 " + savedUser;
+
+}
+
+
+/* =========================
+   CHAT
+========================= */
+
+const messagesRef =
+    ref(
+        db,
+        "rooms/omer-arkadaslari/messages"
+    );
+
+
+async function sendMessage(){
+
+    const input =
+        document
+            .getElementById(
+                "messageInput"
+            );
+
+
+    const text =
+        input.value.trim();
+
+
+    if(
+        !text ||
+        !window.currentUser
+    ){
+
+        return;
+
+    }
+
+
+    await push(
+        messagesRef,
+        {
+
+            user:
+                window.currentUser,
+
+            text:
+                text,
+
+            timestamp:
+                Date.now()
+
+        }
+    );
+
+
+    input.value = "";
+
+    input.focus();
+
+}
+
+
+document
+    .getElementById("sendButton")
+    .addEventListener(
+        "click",
+        sendMessage
+    );
+
+
+document
+    .getElementById("messageInput")
+    .addEventListener(
+        "keydown",
+        function(e){
+
+            if(e.key === "Enter"){
+
+                sendMessage();
+
+            }
+
+        }
+    );
+
+
+onChildAdded(
+    messagesRef,
+    function(snapshot){
+
+        const data =
+            snapshot.val();
+
+
+        if(!data){
+            return;
+        }
+
+
+        const wrapper =
+            document.createElement(
+                "div"
+            );
+
+
+        wrapper.className =
+            "message";
+
+
+        if(
+            data.user ===
+            window.currentUser
+        ){
+
+            wrapper.classList.add(
+                "mine"
+            );
+
+        }
+
+
+        const name =
+            document.createElement(
+                "span"
+            );
+
+
+        name.className =
+            "message-name";
+
+
+        name.textContent =
+            data.user;
+
+
+        const text =
+            document.createElement(
+                "span"
+            );
+
+
+        text.className =
+            "message-text";
+
+
+        text.textContent =
+            data.text;
+
+
+        const time =
+            document.createElement(
+                "span"
+            );
+
+
+        time.className =
+            "message-time";
+
+
+        if(data.timestamp){
+
+            time.textContent =
+                new Date(
+                    data.timestamp
+                ).toLocaleTimeString(
+                    "tr-TR",
+                    {
+                        hour:"2-digit",
+                        minute:"2-digit"
+                    }
+                );
+
+        }
+
+
+        wrapper.appendChild(name);
+
+        wrapper.appendChild(text);
+
+        wrapper.appendChild(time);
+
+
+        const messages =
+            document.getElementById(
+                "messages"
+            );
+
+
+        messages.appendChild(
+            wrapper
+        );
+
+
+        messages.scrollTop =
+            messages.scrollHeight;
+
+    }
+);
+
+
+/* =========================
+   YOUTUBE ID
+========================= */
+
+function getYoutubeId(url){
+
+    try{
+
+        const parsed =
+            new URL(url);
+
+
+        if(
+            parsed.hostname
+                .includes("youtu.be")
+        ){
+
+            return parsed
+                .pathname
+                .replace("/","");
+
+        }
+
+
+        if(
+            parsed.hostname
+                .includes("youtube.com")
+        ){
+
+            const v =
+                parsed
+                    .searchParams
+                    .get("v");
+
+            if(v){
+                return v;
+            }
+
+
+            if(
+                parsed.pathname
+                    .startsWith("/shorts/")
+            ){
+
+                return parsed
+                    .pathname
+                    .split("/")[2];
+
+            }
+
+        }
+
+    }
+    catch(error){
+
+        return null;
+
+    }
+
+
+    return null;
+
+}
+
+
+/* =========================
+   VİDEO AÇ
+========================= */
+
+async function loadVideo(){
+
+    if(!window.youtubeReady){
+
+        alert(
+            "YouTube henüz hazır değil. Birkaç saniye bekle."
+        );
+
+        return;
+
+    }
+
+
+    if(!window.youtubePlayer){
+
+        alert(
+            "YouTube oynatıcı oluşturulamadı."
+        );
+
+        return;
+
+    }
+
+
+    const url =
+        document
+            .getElementById(
+                "youtubeUrl"
+            )
+            .value
+            .trim();
+
+
+    const videoId =
+        getYoutubeId(url);
+
+
+    if(!videoId){
+
+        alert(
+            "Geçerli bir YouTube linki gir."
+        );
+
+        return;
+
+    }
+
+
+    /*
+        Aynı videoyu tekrar yükleme.
+    */
+
+    if(
+        currentVideoId ===
+        videoId
+    ){
+
+        return;
+
+    }
+
+
+    currentVideoId =
+        videoId;
+
+
+    window.applyingRemote =
+        true;
+
+
+    window.youtubePlayer
+        .cueVideoById(
+            videoId
+        );
+
+
+    setTimeout(
+        function(){
+
+            window.applyingRemote =
+                false;
+
+
+            sendVideoState(
+                "paused"
+            );
+
+        },
+        700
+    );
+
+}
+
+
+document
+    .getElementById("loadButton")
+    .addEventListener(
+        "click",
+        loadVideo
+    );
+
+
+/* =========================
+   PLAY
+========================= */
+
+document
+    .getElementById("playButton")
+    .addEventListener(
+        "click",
+        function(){
+
+            if(
+                !window.youtubeReady ||
+                !window.youtubePlayer
+            ){
+
+                return;
+
+            }
+
+
+            window.youtubePlayer
+                .playVideo();
+
+        }
+    );
+
+
+/* =========================
+   PAUSE
+========================= */
+
+document
+    .getElementById("pauseButton")
+    .addEventListener(
+        "click",
+        function(){
+
+            if(
+                !window.youtubeReady ||
+                !window.youtubePlayer
+            ){
+
+                return;
+
+            }
+
+
+            window.youtubePlayer
+                .pauseVideo();
+
+        }
+    );
+
+
+/* =========================
+   FIREBASE'E VİDEO YAZ
+========================= */
+
+window.sendVideoState =
+async function(state){
+
+    if(
+        !window.youtubeReady ||
+        !window.youtubePlayer ||
+        !window.currentUser ||
+        window.applyingRemote
+    ){
+
+        return;
+
+    }
+
+
+    const now =
+        Date.now();
+
+
+    /*
+        Aşırı Firebase isteğini engelle.
+    */
+
+    if(
+        now - lastFirebaseWrite <
+        500
+    ){
+
+        return;
+
+    }
+
+
+    lastFirebaseWrite =
+        now;
+
+
+    const videoData =
+        window.youtubePlayer
+            .getVideoData();
+
+
+    if(
+        !videoData ||
+        !videoData.video_id
+    ){
+
+        return;
+
+    }
+
+
+    currentVideoId =
+        videoData.video_id;
+
+
+    await set(
+        ref(
+            db,
+            "rooms/omer-arkadaslari/video"
+        ),
+        {
+
+            videoId:
+                videoData.video_id,
+
+            time:
+                window.youtubePlayer
+                    .getCurrentTime(),
+
+            state:
+                state,
+
+            updatedAt:
+                Date.now(),
+
+            updatedBy:
+                window.currentUser
+
+        }
+    );
+
+};
+
+
+/* =========================
+   FIREBASE VIDEO DİNLE
+========================= */
+
+const videoRef =
+    ref(
+        db,
+        "rooms/omer-arkadaslari/video"
+    );
+
+
+onValue(
+    videoRef,
+    function(snapshot){
+
+        const data =
+            snapshot.val();
+
+
+        if(!data){
+            return;
+        }
+
+
+        remoteVideo =
+            data;
+
+
+        if(
+            !window.youtubeReady ||
+            !window.youtubePlayer
+        ){
+
+            return;
+
+        }
+
+
+        if(!data.videoId){
+
+            return;
+
+        }
+
+
+        /*
+            FARKLI VİDEOYSA SADECE BİR KEZ
+            YÜKLE.
+        */
+
+        if(
+            currentVideoId !==
+            data.videoId
+        ){
+
+            currentVideoId =
+                data.videoId;
+
+
+            window.applyingRemote =
+                true;
+
+
+            window.youtubePlayer
+                .cueVideoById(
+                    data.videoId
+                );
+
+
+            setTimeout(
+                function(){
+
+                    applyRemoteState(
+                        data
+                    );
+
+                },
+                800
+            );
+
+
+            return;
+
+        }
+
+
+        /*
+            Aynı videoysa tekrar yükleme.
+        */
+
+        applyRemoteState(
+            data
+        );
+
+    }
+);
+
+
+/* =========================
+   UZAK DURUM
+========================= */
+
+function applyRemoteState(data){
+
+    if(
+        !window.youtubeReady ||
+        !window.youtubePlayer
+    ){
+
+        return;
+
+    }
+
+
+    window.applyingRemote =
+        true;
+
+
+    const targetTime =
+        Number(
+            data.time || 0
+        );
+
+
+    const localTime =
+        window.youtubePlayer
+            .getCurrentTime();
+
+
+    /*
+        2 saniyeden fazla fark varsa
+        senkronla.
+    */
+
+    if(
+        Math.abs(
+            localTime -
+            targetTime
+        ) > 2
+    ){
+
+        window.youtubePlayer
+            .seekTo(
+                targetTime,
+                true
+            );
+
+    }
+
+
+    if(
+        data.state ===
+        "playing"
+    ){
+
+        window.youtubePlayer
+            .playVideo();
+
+    }
+
+
+    else if(
+        data.state ===
+        "paused"
+    ){
+
+        window.youtubePlayer
+            .pauseVideo();
+
+    }
+
+
+    setTimeout(
+        function(){
+
+            window.applyingRemote =
+                false;
+
+        },
+        600
+    );
+
+}
+
+
+/* =========================
+   MANUEL SENKRON
+========================= */
+
+document
+    .getElementById("syncButton")
+    .addEventListener(
+        "click",
+        function(){
+
+            if(
+                !remoteVideo ||
+                !window.youtubeReady
+            ){
+
+                return;
+
+            }
+
+
+            applyRemoteState(
+                remoteVideo
+            );
+
+        }
+    );
+
+
+/* =========================
+   HER 5 SANİYEDE SENKRON
+========================= */
+
+setInterval(
+    function(){
+
+        if(
+            !window.youtubeReady ||
+            !window.youtubePlayer ||
+            !window.currentUser ||
+            window.applyingRemote
+        ){
+
+            return;
+
+        }
+
+
+        const state =
+            window.youtubePlayer
+                .getPlayerState();
+
+
+        if(
+            state ===
+            YT.PlayerState.PLAYING
+        ){
+
+            sendVideoState(
+                "playing"
+            );
+
+        }
+
+    },
+    5000
+);
+
+</script>
+
+</body>
+</html>
+```
