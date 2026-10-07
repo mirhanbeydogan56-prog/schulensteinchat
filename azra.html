@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Gladio DDNet E-Spor Ekibi">
+    <meta name="keywords" content="worlwide,automation">
+    <meta name="author" content="ismet inönü">
+
+    <title>Ad Soyad Sorgu - AndreiHUB</title>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,700,800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/plugins/font-awesome/css/all.min.css" rel="stylesheet">
+    <link href="../assets/plugins/perfectscroll/perfect-scrollbar.css" rel="stylesheet">
+    <link href="../assets/plugins/pace/pace.css" rel="stylesheet">
+    <link href="../assets/plugins/DataTables/datatables.min.css" rel="stylesheet">
+
+    <link rel="apple-touch-icon" href="/ac88f39b2a10b3faa9cbbe617e6b3c4a.jpg">
+    <link rel="icon" type="image/jpeg" href="/ac88f39b2a10b3faa9cbbe617e6b3c4a.jpg">
+    <meta name="theme-color" content="#03050c">
+
+    <link href="../assets/css/main.min.css" rel="stylesheet">
+    <link href="../assets/css/custom.css" rel="stylesheet">
+    <!-- EVREN 2026 GLOBAL CYBER THEME INJECTION -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700&family=Space+Grotesk:wght@600;700&display=swap');
+        
+        body, html {
+            background-color: #050505 !important;
+            background-image: radial-gradient(circle at 10% 10%, rgba(0, 242, 254, 0.03), transparent 40%),
+                              radial-gradient(circle at 90% 90%, rgba(139, 92, 246, 0.03), transparent 40%) !important;
+            color: #94a3b8 !important;
+            font-family: 'Plus Jakarta Sans', sans-serif !important;
+        }
+        
+        /* Typography Overrides */
+        h1, h2, h3, h4, h5, h6, .card-title {
+            color: #ffffff !important;
+            font-family: 'Space Grotesk', sans-serif !important;
+            letter-spacing: 0.5px;
+        }
+
+        /* Global Card Override */
+        .card {
+            background: rgba(9, 9, 11, 0.95) !important;
+            backdrop-filter: blur(20px) !important;
+            border: 1px solid rgba(0, 242, 254, 0.15) !important;
+            border-radius: 16px !important;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8) !important;
+            margin-bottom: 24px !important;
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            border-color: rgba(0, 242, 254, 0.4) !important;
+            box-shadow: 0 10px 40px rgba(0, 242, 254, 0.1) !important;
+        }
+        .card-body {
+            padding: 24px !important;
+        }
+
+        /* Form Controls */
+        .form-control, .form-select {
+            background: #121215 !important;
+            border: 1px solid #27272a !important;
+            color: #ffffff !important;
+            border-radius: 10px !important;
+            padding: 12px 16px !important;
+            box-shadow: none !important;
+            transition: all 0.3s ease;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: #00f2fe !important;
+            box-shadow: 0 0 0 3px rgba(0, 242, 254, 0.2) !important;
+            outline: none !important;
+        }
+        .form-control::placeholder {
+            color: #52525b !important;
+        }
+
+        /* Global Button Overrides */
+        .btn {
+            border-radius: 10px !important;
+            padding: 10px 20px !important;
+            font-weight: 700 !important;
+            font-family: 'Space Grotesk', sans-serif !important;
+            transition: all 0.3s ease !important;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .btn-primary, .btn-info {
+            background: #00f2fe !important;
+            color: #000 !important;
+            border: none !important;
+        }
+        .btn-primary:hover, .btn-info:hover {
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.5) !important;
+            transform: translateY(-2px) !important;
+        }
+        .btn-danger {
+            background: transparent !important;
+            border: 1px solid #ef4444 !important;
+            color: #ef4444 !important;
+        }
+        .btn-danger:hover {
+            background: #ef4444 !important;
+            color: #fff !important;
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.4) !important;
+        }
+        .btn-warning {
+            background: rgba(245, 158, 11, 0.1) !important;
+            border: 1px solid #f59e0b !important;
+            color: #f59e0b !important;
+        }
+
+        /* Tables Override */
+        .table, .table th, .table td {
+            color: #e2e8f0 !important;
+            border-color: #27272a !important;
+            vertical-align: middle;
+        }
+        .table thead th {
+            background: #0d0d11 !important;
+            color: #00f2fe !important;
+            font-family: 'Space Grotesk', monospace !important;
+            border-bottom: 2px solid #00f2fe !important;
+            letter-spacing: 1px;
+        }
+        .table-hover tbody tr:hover {
+            background-color: rgba(0, 242, 254, 0.05) !important;
+        }
+
+        /* Nav Tabs */
+        .nav-tabs {
+            border-bottom: 1px solid #27272a !important;
+        }
+        .nav-tabs .nav-link {
+            color: #94a3b8 !important;
+            border: none !important;
+            font-family: 'Space Grotesk', sans-serif !important;
+            font-weight: 700;
+        }
+        .nav-tabs .nav-link.active {
+            background: rgba(0, 242, 254, 0.1) !important;
+            color: #00f2fe !important;
+            border-bottom: 2px solid #00f2fe !important;
+        }
+
+        /* SweetAlert2 Dark Theme Integration */
+        .swal2-popup {
+            background: rgba(10, 15, 26, 0.95) !important;
+            border: 1px solid #00f2fe !important;
+            backdrop-filter: blur(10px);
+            border-radius: 16px !important;
+            color: #fff !important;
+        }
+        .swal2-title { color: #fff !important; font-family: 'Space Grotesk', sans-serif !important; }
+        .swal2-html-container { color: #94a3b8 !important; }
+        
+        /* Loader/Pace Theme override */
+        .pace .pace-progress {
+            background: #00f2fe !important;
+            height: 3px !important;
+        }
+    </style>
+</head>
+<body class=""><style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap');
+
+.evren-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 270px;
+    background: #0a0f1a;
+    border-right: 1px solid rgba(0, 242, 254, 0.15);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    z-index: 1050;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+.evren-sidebar::-webkit-scrollbar { display: none; }
+
+.page-content {
+    margin-left: 270px;
+    padding: 25px;
+}
+
+.evren-brand {
+    padding: 24px 20px 20px;
+    border-bottom: 1px solid rgba(0, 242, 254, 0.15);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.evren-brand img {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    object-fit: cover;
+    border: 2px solid #00f2fe;
+    box-shadow: 0 0 15px rgba(0, 242, 254, 0.5);
+    flex-shrink: 0;
+}
+
+.evren-brand-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    background: linear-gradient(135deg, #ffffff 0%, #00f2fe 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1.2;
+}
+
+.evren-status {
+    font-size: 10px;
+    color: #00f2fe;
+    font-weight: 700;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 2px;
+}
+
+.evren-dot {
+    width: 6px;
+    height: 6px;
+    background: #00e676;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #00e676;
+}
+
+.evren-section {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    color: rgba(0, 242, 254, 0.6);
+    padding: 18px 22px 6px;
+    text-transform: uppercase;
+}
+
+.evren-menu {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 10px;
+}
+
+.evren-menu > li { list-style: none; }
+
+.evren-menu a {
+    display: flex;
+    align-items: center;
+    color: #94a3b8;
+    font-weight: 600;
+    font-size: 13.5px;
+    text-decoration: none;
+    padding: 12px 18px;
+    margin: 3px 14px;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    min-height: 44px;
+    cursor: pointer;
+}
+
+.evren-menu a i.evren-icon {
+    width: 24px;
+    font-size: 16px;
+    margin-right: 10px;
+    color: #00f2fe;
+    flex-shrink: 0;
+}
+
+.evren-menu a:hover {
+    background: rgba(0, 242, 254, 0.08);
+    color: #ffffff;
+    border-color: rgba(0, 242, 254, 0.25);
+}
+
+.evren-menu li.evren-active > a {
+    background: linear-gradient(90deg, rgba(0, 242, 254, 0.2) 0%, rgba(121, 40, 202, 0.15) 100%);
+    color: #ffffff;
+    border-color: rgba(0, 242, 254, 0.4);
+    box-shadow: inset 3px 0 0 #00f2fe;
+}
+
+.evren-sub {
+    list-style: none;
+    margin: 4px 14px 6px 24px;
+    padding: 6px 0;
+    background: rgba(0, 0, 0, 0.3);
+    border-left: 1px dashed rgba(0, 242, 254, 0.25);
+    border-radius: 8px;
+    display: none;
+}
+
+.evren-menu li.evren-open > .evren-sub { display: block; }
+
+.evren-sub a {
+    display: block;
+    color: #cbd5e1;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 9px 16px 9px 24px;
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    min-height: 40px;
+}
+
+.evren-sub a:hover {
+    color: #00f2fe;
+    background: rgba(0, 242, 254, 0.08);
+}
+
+.evren-arrow {
+    margin-left: auto;
+    font-size: 12px;
+    opacity: 0.7;
+    transition: transform 0.2s ease;
+}
+.evren-menu li.evren-open > a .evren-arrow { transform: rotate(90deg); }
+
+.evren-footer {
+    padding: 14px;
+    margin: 16px 14px 24px;
+    background: rgba(15, 23, 42, 0.8);
+    border: 1px solid rgba(0, 242, 254, 0.25);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.evren-footer img {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 1px solid #00f2fe;
+    flex-shrink: 0;
+}
+
+/* ===== MOBİL ===== */
+.evren-topbar {
+    display: none;
+    background: #0a0f1a;
+    border-bottom: 1px solid rgba(0, 242, 254, 0.15);
+    padding: 12px 18px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1040;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.evren-topbar button {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 22px;
+    padding: 10px;
+    margin: 0;
+    line-height: 1;
+}
+
+.evren-topbar span {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: #fff;
+}
+
+.evren-topbar img {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    border: 1px solid #00f2fe;
+}
+
+.evren-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1045;
+}
+.evren-overlay.evren-show { display: block; }
+
+@media (max-width: 991px) {
+    .evren-topbar { display: flex; }
+    .evren-sidebar { left: -290px; transition: left 0.25s ease; }
+    .evren-sidebar.evren-show { left: 0; box-shadow: 8px 0 30px rgba(0,0,0,0.6); }
+    .page-content { margin-left: 0 !important; padding: 12px !important; padding-top: 75px !important; }
+    .page-header { display: none !important; } /* Çift başlık çakışmasını engelle */
+}
+
+@supports (padding: env(safe-area-inset-top)) {
+    @media (max-width: 991px) {
+        .page-content { padding-top: calc(75px + env(safe-area-inset-top)) !important; }
+        .evren-topbar { padding-top: calc(10px + env(safe-area-inset-top)); }
+    }
+}
+
+/* ===== EVREN GENEL MOBİL UYUMLULUK VE TAŞMA ENGELLEME (TÜM SAYFALAR İÇİN) ===== */
+@media (max-width: 768px) {
+    /* Sabit 180px inline butonların ekrandan taşmasını engelle */
+    center button[style*="width: 180px"],
+    center button[style*="width:180px"],
+    center a[style*="width: 180px"],
+    center a[style*="width:180px"],
+    center input[style*="width: 180px"],
+    button[style*="width: 180px"],
+    button[style*="width:180px"],
+    center button[style*="width: 150px"],
+    center a[style*="width: 150px"] {
+        width: 100% !important;
+        margin: 6px 0 !important;
+        display: block !important;
+    }
+
+    /* Tablo ve Kart Taşmalarını Sıfırla */
+    .table-responsive {
+        -webkit-overflow-scrolling: touch;
+        overflow-x: auto !important;
+        margin-bottom: 1rem;
+        border: none !important;
+    }
+    .table {
+        font-size: 13px !important;
+    }
+    .table th, .table td {
+        padding: 8px 10px !important;
+        white-space: nowrap;
+    }
+
+    /* Kart Başlıkları ve Buton Grupları Mobilde Kırılsın */
+    .evren-card-header,
+    .edituser-header,
+    .ihbar-header,
+    .hud-header,
+    .card-header {
+        flex-wrap: wrap !important;
+        gap: 12px !important;
+        padding: 16px !important;
+    }
+
+    /* İç İçe Aşırı Dolguları Azalt */
+    .hud-panel,
+    .evren-terminal-wrapper,
+    .adduser-container,
+    .card-body {
+        padding: 14px !important;
+    }
+
+    /* Market Sayfası Mobilde Taşmasın */
+    .card-monthly {
+        transform: none !important;
+    }
+    .card-monthly:hover {
+        transform: none !important;
+    }
+    .market-title {
+        font-size: 24px !important;
+    }
+
+    /* Flex İki Buton Yan Yana Sıkışmasın */
+    .edituser-action-group,
+    .btn-cyber-action-group {
+        flex-direction: column !important;
+    }
+    .edituser-action-group .btn,
+    .edituser-action-group button {
+        width: 100% !important;
+    }
+
+    /* Grid Kolon Sıkışmalarını Çöz */
+    .col-md-6, .col-lg-6 {
+        width: 100% !important;
+    }
+}
+
+body.evren-locked { overflow: hidden; }
+</style>
+
+<div class="evren-topbar">
+    <div style="display:flex;align-items:center;gap:12px;">
+        <button type="button" id="evrenToggle" aria-label="Menü">&#9776;</button>
+        <span>EVREN SYSTEM</span>
+    </div>
+    <img src="/ac88f39b2a10b3faa9cbbe617e6b3c4a.jpg" alt="Logo">
+</div>
+<div class="evren-overlay" id="evrenOverlay"></div>
+
+<div class="evren-sidebar" id="evrenSidebar">
+    <div class="evren-brand">
+        <img src="/ac88f39b2a10b3faa9cbbe617e6b3c4a.jpg" alt="EVREN">
+        <div>
+            <div class="evren-brand-title">EVREN</div>
+            <div class="evren-status"><span class="evren-dot"></span> SİSTEM AKTİF</div>
+        </div>
+    </div>
+
+
+    <div class="evren-section">Genel Bakış</div>
+    <ul class="evren-menu" id="evrenMenu">
+        <li>
+            <a href="index.php"><i class="fa-solid fa-gauge-high evren-icon"></i>Dashboard</a>
+        </li>
+        <li>
+            <a href="market.php" style="color:#ff0080;font-weight:bold;"><i class="fa-solid fa-store evren-icon" style="color:#ff0080;"></i>Market &amp; VIP Al</a>
+        </li>
+
+        <div class="evren-section">Ücretsiz Araçlar</div>
+        <li>
+            <a class="evren-parent"><i class="fa-solid fa-gift evren-icon" style="color:#22c55e;"></i>Free Modüller<i class="fas fa-chevron-right evren-arrow"></i></a>
+            <ul class="evren-sub">
+                <li><a href="adsoyad.php">Ad Soyad</a></li>
+                            </ul>
+        </li>
+
+        <div class="evren-section" style="color:#00f2fe;">VIP Premium Modüller</div>
+        <li>
+            <a class="evren-parent"><i class="fa-solid fa-crown evren-icon" style="color:#f59e0b;"></i>Şahıs &amp; Kimlik<i class="fas fa-chevron-right evren-arrow"></i></a>
+            <ul class="evren-sub">
+                <li><a href="market.php">TC Sorgu</a></li>
+                <li><a href="market.php">Ad Soyad PRO</a></li>
+                <li><a href="market.php">Aile Sorgu</a></li>
+                <li><a href="market.php">Soy Ağacı Sorgu</a></li>
+                <li><a href="market.php">Sülale Sorgu</a></li>
+                                <li><a href="market.php">Adli Sicil Kaydı Sorgu</a></li>
+                                <li><a href="market.php">Seri No Sorgu</a></li>
+                                <li><a href="market.php">Aile Sorgu</a></li>
+                                <li><a href="market.php">Otel Kayıtları Sorgu</a></li>
+                                <li><a href="market.php">Otel Kayıtları Sorgu</a></li>
+                            </ul>
+        </li>
+        <li>
+            <a class="evren-parent"><i class="fa-solid fa-mobile-retro evren-icon"></i>İletişim<i class="fas fa-chevron-right evren-arrow"></i></a>
+            <ul class="evren-sub">
+                <li><a href="market.php">TC'den GSM</a></li>
+                <li><a href="market.php">GSM'den TC</a></li>
+                <li><a href="market.php">WhatsApp Sızma</a></li>
+                <li><a href="market.php">Anlık Konum Takip</a></li>
+                <li><a href="market.php">SMS Gönderici</a></li>
+                                <li><a href="market.php">Vodafone GSM Sorgu (Numaradan Bilgi)</a></li>
+                            </ul>
+        </li>
+        <li>
+            <a class="evren-parent"><i class="fa-solid fa-camera evren-icon"></i>Vesika Verileri<i class="fas fa-chevron-right evren-arrow"></i></a>
+            <ul class="evren-sub">
+                <li><a href="market.php">Vesika Sorgu (+18 / -18)</a></li>
+                            </ul>
+        </li>
+        <li>
+            <a class="evren-parent"><i class="fa-solid fa-location-dot evren-icon"></i>Adres &amp; Konum Sorguları<i class="fas fa-chevron-right evren-arrow"></i></a>
+            <ul class="evren-sub">
+                <li><a href="market.php" style="color:#00f2fe;font-weight:700;">📍 Anlık Konum Takip</a></li>
+                <li><a href="market.php">Mahalle Sorgu</a></li>
+                <li><a href="market.php">Cadde Sorgu</a></li>
+                <li><a href="market.php">Kapı No Sorgu</a></li>
+                <li><a href="market.php">Daire No Sorgu</a></li>
+                <li><a href="market.php">Adres Detay</a></li>
+                            </ul>
+        </li>
+        <li>
+            <a class="evren-parent"><i class="fa-solid fa-box evren-icon"></i>Diğer VIP Araçlar<i class="fas fa-chevron-right evren-arrow"></i></a>
+            <ul class="evren-sub">
+                <li><a href="market.php">Anlık Konum Takip</a></li>
+                <li><a href="market.php">Instagram Sızma</a></li>
+                <li><a href="market.php">IP &amp; Lokasyon Sorgu</a></li>
+                <li><a href="market.php">Discord ID Sorgu</a></li>
+                <li><a href="market.php">Kimlik Simülatörü</a></li>
+                <li><a href="market.php">İhbar Portalı</a></li>
+                <li><a href="market.php">Kargo İşlemleri</a></li>
+                <li><a href="market.php">IBAN Çözümleme</a></li>
+                                <li><a href="market.php">Sahte Yemek Siparişi</a></li>
+                                <li><a href="market.php">Güncel Tapu Sorgu</a></li>
+                                <li><a href="market.php">Güncel Plaka Sorgu</a></li>
+                                <li><a href="market.php">Sağlık Bilgileri</a></li>
+                            </ul>
+        </li>
+
+            </ul>
+
+    <div class="evren-footer">
+        <img src="/ac88f39b2a10b3faa9cbbe617e6b3c4a.jpg" alt="Profil">
+        <div style="overflow:hidden;">
+            <div style="color:#fff;font-weight:700;font-size:13px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;">Ücretsiz Üye</div>
+            <div style="color:#38bdf8;font-size:11px;">
+                Ücretsiz Üye            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+(function() {
+    var sidebar = document.getElementById('evrenSidebar');
+    var overlay = document.getElementById('evrenOverlay');
+    var toggle  = document.getElementById('evrenToggle');
+    var menu    = document.getElementById('evrenMenu');
+
+    // ----- Akordeon: parent başlığa tıkla → alt menü aç/kapa. Ekran OYNAMAZ. -----
+    menu.addEventListener('click', function(e) {
+        var parent = e.target.closest('a.evren-parent');
+        if (!parent) return;
+        e.preventDefault();
+
+        var li = parent.parentElement;
+        var isOpen = li.classList.contains('evren-open');
+
+        // diğer açık menüleri kapat
+        var openItems = menu.querySelectorAll('li.evren-open');
+        for (var i = 0; i < openItems.length; i++) {
+            openItems[i].classList.remove('evren-open');
+        }
+
+        if (!isOpen) li.classList.add('evren-open');
+    });
+
+    // Parent başlıkların "#" davranışını tamamen yok et (sayfa zıplamasın)
+    var parents = menu.querySelectorAll('a.evren-parent');
+    for (var p = 0; p < parents.length; p++) {
+        parents[p].removeAttribute('href');
+        parents[p].style.userSelect = 'none';
+    }
+
+    // ----- Mobil sidebar aç/kapa -----
+    function openSidebar() {
+        sidebar.classList.add('evren-show');
+        overlay.classList.add('evren-show');
+        document.body.classList.add('evren-locked');
+    }
+    function closeSidebar() {
+        sidebar.classList.remove('evren-show');
+        overlay.classList.remove('evren-show');
+        document.body.classList.remove('evren-locked');
+    }
+
+    toggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        if (sidebar.classList.contains('evren-show')) closeSidebar();
+        else openSidebar();
+    });
+
+    overlay.addEventListener('click', closeSidebar);
+
+    // Gerçek bir sayfa linkine tıklanınca sidebar kapansın (mobilde)
+    menu.addEventListener('click', function(e) {
+        var link = e.target.closest('a');
+        if (!link || link.classList.contains('evren-parent')) return;
+        if (window.innerWidth <= 991) closeSidebar();
+    });
+
+    // ESC
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeSidebar();
+    });
+
+    // Ekran büyüyünce mobil durumunu sıfırla
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 991) closeSidebar();
+    });
+})();
+</script><style>
+/* HUD Header Styling */
+.page-header {
+    background: rgba(10, 15, 26, 0.9) !important;
+    backdrop-filter: blur(20px) !important;
+    border-bottom: 1px solid rgba(0, 242, 254, 0.15) !important;
+    padding: 14px 24px !important;
+    margin-bottom: 25px !important;
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.5) !important;
+}
+
+.header-title-box {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.header-title-box h5 {
+    color: #ffffff !important;
+    font-family: 'Space Grotesk', sans-serif !important;
+    font-weight: 700 !important;
+    font-size: 19px !important;
+    margin: 0 !important;
+    letter-spacing: 0.5px;
+}
+
+.profile-avatar-top {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    object-fit: cover;
+    border: 2px solid #00f2fe;
+    box-shadow: 0 0 12px rgba(0, 242, 254, 0.4);
+    transition: transform 0.25s ease;
+}
+
+.profile-avatar-top:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 20px rgba(0, 242, 254, 0.7);
+}
+
+.hud-dropdown-menu {
+    background: rgba(10, 15, 26, 0.98) !important;
+    backdrop-filter: blur(25px) !important;
+    border: 1px solid rgba(0, 242, 254, 0.25) !important;
+    border-radius: 12px !important;
+    padding: 8px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8) !important;
+    margin-top: 10px !important;
+}
+
+.hud-dropdown-menu .dropdown-item {
+    color: #cbd5e1 !important;
+    font-size: 13.5px !important;
+    font-weight: 600 !important;
+    padding: 10px 16px !important;
+    border-radius: 8px !important;
+    transition: all 0.2s ease !important;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.hud-dropdown-menu .dropdown-item:hover {
+    background: rgba(0, 242, 254, 0.12) !important;
+    color: #00f2fe !important;
+    transform: translateX(4px);
+}
+</style>
+
+<div class="page-content">
+    <div class="page-header">
+        <nav class="navbar navbar-expand-lg d-flex justify-content-between p-0">
+            <div class="header-title-box flex-fill">
+                <a href="#" id="sidebar-toggle" class="text-white opacity-75 fs-5 d-none d-lg-block"><i class="fa-solid fa-bars-staggered"></i></a>
+                <h5>Ad Soyad Sorgu</h5>
+            </div>
+            <div class="flex-fill d-flex justify-content-end" id="headerNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link profile-dropdown p-0" href="#" id="profileDropDown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="/ac88f39b2a10b3faa9cbbe617e6b3c4a.jpg" class="profile-avatar-top" alt="Profil Resmi">
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end hud-dropdown-menu" aria-labelledby="profileDropDown">
+                            <a class="dropdown-item" href="#"><i class="fa-solid fa-user text-info"></i> Ücretsiz Üye</a>
+                            <a class="dropdown-item" href="üyeler.php"><i class="fa-solid fa-users text-primary"></i> Üyeler</a>
+                            <div class="dropdown-divider border-secondary opacity-25"></div>
+                            <a class="dropdown-item text-danger" href="logout.php"><i class="fa-solid fa-power-off text-danger"></i> Çıkış Yap</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+<style>
+/* EVREN 2026 - DATA TERMINAL UI */
+.evren-terminal-wrapper {
+    background: #050505;
+    min-height: calc(100vh - 100px);
+    padding: 20px;
+}
+.cyber-panel {
+    background: rgba(9, 9, 11, 0.95);
+    border: 1px solid #18181b;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0, 242, 254, 0.05);
+    overflow: hidden;
+    position: relative;
+}
+.cyber-panel::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, #00f2fe, transparent);
+    opacity: 0.5;
+}
+.cyber-header {
+    background: rgba(0, 242, 254, 0.03);
+    border-bottom: 1px solid rgba(0, 242, 254, 0.1);
+    padding: 25px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.cyber-header-icon {
+    width: 50px; height: 50px;
+    background: rgba(0, 242, 254, 0.1);
+    border: 1px solid rgba(0, 242, 254, 0.3);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    color: #00f2fe; font-size: 24px;
+    box-shadow: 0 0 20px rgba(0, 242, 254, 0.2);
+}
+.cyber-input-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+.cyber-input {
+    width: 100%;
+    background: #0d0d11 !important;
+    border: 1px solid #27272a !important;
+    border-radius: 12px !important;
+    padding: 16px 20px 16px 50px !important;
+    color: #fff !important;
+    font-size: 15px;
+    transition: all 0.3s ease;
+}
+.cyber-input:focus {
+    border-color: #00f2fe !important;
+    box-shadow: 0 0 20px rgba(0, 242, 254, 0.1) !important;
+    outline: none;
+}
+.cyber-input-icon {
+    position: absolute;
+    left: 18px; top: 50%;
+    transform: translateY(-50%);
+    color: #52525b;
+    font-size: 18px;
+    transition: color 0.3s ease;
+}
+.cyber-input:focus + .cyber-input-icon { color: #00f2fe; }
+
+.btn-cyber-action {
+    background: #00f2fe; color: #000;
+    border: none; border-radius: 12px;
+    padding: 16px 32px; font-weight: bold; font-size: 16px;
+    font-family: 'Space Grotesk', sans-serif;
+    letter-spacing: 1px; transition: all 0.3s ease;
+    box-shadow: 0 0 20px rgba(0, 242, 254, 0.3);
+}
+.btn-cyber-action:hover { transform: translateY(-3px); box-shadow: 0 0 30px rgba(0, 242, 254, 0.6); }
+
+.btn-cyber-danger {
+    background: transparent; color: #ef4444;
+    border: 1px solid #ef4444; border-radius: 12px;
+    padding: 16px 32px; font-weight: bold; font-size: 16px;
+    transition: all 0.3s ease;
+}
+.btn-cyber-danger:hover { background: #ef4444; color: #fff; box-shadow: 0 0 20px rgba(239, 68, 68, 0.4); transform: translateY(-3px); }
+
+/* Table Styling Override for Cyber Panel */
+.cyber-table-wrapper {
+    background: #09090b;
+    border-radius: 12px;
+    border: 1px solid #27272a;
+    padding: 15px;
+    margin-top: 30px;
+}
+#zero-conf { color: #fff; border-collapse: collapse; width: 100%; }
+#zero-conf th { background: #121215; color: #00f2fe; padding: 15px; border-bottom: 2px solid #27272a; font-family: monospace; letter-spacing: 1px; }
+#zero-conf td { padding: 15px; border-bottom: 1px solid #18181b; }
+#zero-conf tbody tr:hover { background: rgba(0, 242, 254, 0.05); }
+</style>
+
+<div class="evren-terminal-wrapper">
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-xl-12">
+                <div class="cyber-panel">
+                    
+                    <div class="cyber-header">
+                        <div class="cyber-header-icon">
+                            <i class="fa-solid fa-id-card-clip"></i>
+                        </div>
+                        <div>
+                            <h3 class="mb-1 text-white fw-bold" style="font-family: 'Space Grotesk';">AD SOYAD SORGULAMA</h3>
+                            <span class="text-secondary small">Ücretsiz Mernis Kimlik Sorgu (Ad ve Soyad zorunludur)</span>
+                        </div>
+                        <div class="ms-auto text-end d-none d-md-block">
+                            <span class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-25 px-3 py-2">MODÜL AKTİF</span>
+                        </div>
+                    </div>
+
+                    <div class="p-4 p-md-5">
+                        <div class="row g-4 mb-5">
+                            <div class="col-md-6">
+                                <div class="cyber-input-group">
+                                    <input type="text" id="first" class="cyber-input" placeholder="Aranacak Ad" maxlength="30" required>
+                                    <i class="fas fa-user cyber-input-icon"></i>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="cyber-input-group">
+                                    <input type="text" id="last" class="cyber-input" placeholder="Aranacak Soyad (Zorunlu)" maxlength="30" required>
+                                    <i class="fas fa-user-tag cyber-input-icon"></i>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="cyber-input-group">
+                                    <input type="text" id="adresil" class="cyber-input" placeholder="İl (Opsiyonel)" maxlength="30">
+                                    <i class="fas fa-map-marker-alt cyber-input-icon"></i>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="cyber-input-group">
+                                    <input type="text" id="adresilce" class="cyber-input" placeholder="İlçe (Opsiyonel)" maxlength="30">
+                                    <i class="fas fa-map-pin cyber-input-icon"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex flex-wrap gap-3 justify-content-center border-top border-secondary border-opacity-25 pt-4">
+                            <button onclick="checkNumber()" id="sorgula" class="btn-cyber-action">
+                                <i class="fas fa-fingerprint me-2"></i> VERİLERİ ÇEK
+                            </button>
+                            <button onclick="clearResults()" class="btn-cyber-danger">
+                                <i class="fas fa-times me-2"></i> TEMİZLE
+                            </button>
+                            <button onclick="printTable()" class="btn-cyber-danger" style="border-color: #f59e0b; color: #f59e0b;">
+                                <i class="fas fa-file-pdf me-2"></i> ÇIKTI AL
+                            </button>
+                        </div>
+
+                        <!-- Data Table Result -->
+                        <div class="cyber-table-wrapper table-responsive">
+                            <table id="zero-conf" class="table">
+                                <thead>
+                                    <tr>
+                                        <th>TC NO</th>
+                                        <th>AD</th>
+                                        <th>SOYAD</th>
+                                        <th>DOĞUM TARİHİ</th>
+                                        <th>ANNE ADI</th>
+                                        <th>ANNE TC</th>
+                                        <th>BABA ADI</th>
+                                        <th>BABA TC</th>
+                                        <th>İL</th>
+                                        <th>İLÇE</th>
+                                        <th>UYRUK</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="jojjoojj">
+                                    <tr>
+                                        <td colspan="11" class="text-center text-muted py-4">
+                                            <i class="fas fa-database fs-3 mb-2 opacity-50"></i><br>
+                                            <small>Sorgulama bekleniyor...</small>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    document.getElementById('first').addEventListener("keyup", function() { this.value = this.value.toLocaleUpperCase("tr-TR"); });
+    document.getElementById('last').addEventListener("keyup", function() { this.value = this.value.toLocaleUpperCase("tr-TR"); });
+    document.getElementById('adresil').addEventListener("keyup", function() { this.value = this.value.toLocaleUpperCase("tr-TR"); });
+    document.getElementById('adresilce').addEventListener("keyup", function() { this.value = this.value.toLocaleUpperCase("tr-TR"); });
+
+    function clearResults() {
+        $("#jojjoojj").html('<tr><td colspan="11" class="text-center text-muted py-4"><i class="fas fa-database fs-3 mb-2 opacity-50"></i><br><small>Sorgulama bekleniyor...</small></td></tr>');
+        $("#first").val(""); $("#last").val(""); $("#adresil").val(""); $("#adresilce").val("");
+    }
+
+    function checkNumber() {
+        var first = $("#first").val().trim();
+        var last = $("#last").val().trim();
+
+        if (first === "" || last === "") {
+            return Swal.fire({ icon: 'warning', title: 'Eksik Bilgi', text: 'Ücretsiz sorgulamada hem Ad hem de Soyad girilmesi zorunludur.', background: '#0d0d11', color: '#fff' });
+        }
+
+        Swal.fire({
+            title: 'Veri Çekiliyor...',
+            html: 'Lütfen bekleyin, Mernis düğümlerine bağlanılıyor.',
+            timerProgressBar: true,
+            background: '#0d0d11',
+            color: '#fff',
+            didOpen: () => { Swal.showLoading() }
+        });
+
+        $.ajax({
+            url: "../api/proadsoyad/api.php",
+            type: "POST",
+            data: {
+                ad: first,
+                soyad: last,
+                il: $("#adresil").val(),
+                ilce: $("#adresilce").val(),
+            },
+            success: (res) => {
+                var json = res;
+                Swal.close();
+
+                if (json.message === "cooldown error") {
+                    return Swal.fire({ icon: 'warning', title: 'Limit Aşıldı', text: 'Çok sık sorgu yapıyorsunuz! Lütfen ' + json.remain + ' saniye bekleyin.', background: '#0d0d11', color: '#fff' });
+                }
+                if (json.success === "false") {
+                    return Swal.fire({ icon: 'error', title: 'Bulunamadı', text: 'Girdiğiniz bilgiler ile eşleşen bir veri bulunamadı.', background: '#0d0d11', color: '#fff' });
+                } else if (json.success === "true") {
+                    var array = [];
+                    for (var i = 0; i < json.number; i++) {
+                        var d = json.data[i];
+                        var result = "<tr>" +
+                            "<td class='text-info fw-bold'>" + d.TC + "</td>" +
+                            "<td>" + d.ADI + "</td>" +
+                            "<td>" + d.SOYADI + "</td>" +
+                            "<td>" + d.DOGUMTARIHI + "</td>" +
+                            "<td>" + d.ANNEADI + "</td>" +
+                            "<td>" + d.ANNETC + "</td>" +
+                            "<td>" + d.BABAADI + "</td>" +
+                            "<td>" + d.BABATC + "</td>" +
+                            "<td>" + d.NUFUSIL + "</td>" +
+                            "<td>" + d.NUFUSILCE + "</td>" +
+                            "<td><span class='badge bg-secondary'>" + d.UYRUK + "</span></td>" +
+                            "</tr>";
+                        array.push(result);
+                    }
+                    $("#jojjoojj").html(array);
+                    Swal.fire({ icon: 'success', title: 'Başarılı', text: json.number + ' adet sonuç bulundu.', background: '#0d0d11', color: '#fff', timer: 1500, showConfirmButton: false });
+                } else {
+                    return Swal.fire({ icon: 'error', title: 'Bulunamadı', text: 'Girdiğiniz bilgiler ile eşleşen bir veri bulunamadı.', background: '#0d0d11', color: '#fff' });
+                }
+            },
+            error: (xhr) => {
+                Swal.fire({ icon: 'error', title: 'Sunucu Hatası', text: 'HTTP ' + xhr.status + ': ' + (xhr.responseText || 'Bilinmeyen hata'), background: '#0d0d11', color: '#fff' });
+            }
+        });
+    }
+</script>
+
+<style>
+	</style><!-- Javascripts -->
+<script src="../assets/plugins/jquery/jquery-3.4.1.min.js"></script>
+<script src="https://unpkg.com/@popperjs/core@2"></script>
+<script src="../assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="https://unpkg.com/feather-icons"></script>
+<script src="../assets/plugins/perfectscroll/perfect-scrollbar.min.js"></script>
+<script src="../assets/plugins/pace/pace.min.js"></script>
+<script src="../assets/plugins/jquery.toast/jquery.toast.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="../assets/plugins/DataTables/datatables.min.js"></script>
+<script src="../assets/plugins/printer/main.js"></script>
+<script src="../assets/js/pages/datatables.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.3.0/dist/sweetalert2.all.min.js"></script>
+<script src="../assets/plugins/jquery.toast/jquery.toast.js"></script>
+<script src="../assets/js/main.min.js"></script>
+</body>
+<style>
+	</style>
+</html>
